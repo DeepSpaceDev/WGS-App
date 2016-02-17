@@ -1,0 +1,122 @@
+package wgs.deepspace.onl.wgs;
+
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Created by Dennis on 17.02.2016.
+ */
+public class TimetableFragment extends Fragment {
+
+    public TimetableFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_timetable, container, false);
+    }
+
+    /**
+     * Set the lessons of the whole timetable
+     * Provide the date like this: {"monday": ["D", "E", ...], "tuesday": [...], ...}
+     * @param timetable The data of the timetable
+     */
+    public void setTimetable(JSONObject timetable) {
+        try {
+            JSONArray monday = timetable.getJSONArray("monday");
+            JSONArray tuesday = timetable.getJSONArray("tuesday");
+            JSONArray wednesday = timetable.getJSONArray("wednesday");
+            JSONArray thursday = timetable.getJSONArray("thursday");
+            JSONArray friday = timetable.getJSONArray("friday");
+
+            setDay("monday", monday);
+            setDay("tuesday", tuesday);
+            setDay("wednesday", wednesday);
+            setDay("thursday", thursday);
+            setDay("friday", friday);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Set the values for the specified day
+     * @param day The day to set the values for
+     * @param data The lessons on the specified day
+     */
+    public void setDay(String day, JSONArray data) {
+        try {
+            Class res = R.layout.class;
+            for (int i = 1; i <= 11; i++) {
+                String viewId = day.substring(0, 2) + i;
+                Field field = res.getField(viewId);
+                int identifier = field.getInt(null);
+                TextView lesson = (TextView) getActivity().findViewById(identifier);
+                int subjectId = getSubjectId(data.getString(i));
+                lesson.setText(subjectId == 0 ? data.getString(i): getString(subjectId));
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Get the text id for the specified subject
+     * @param subject The subject to get the id for
+     * @return The id of the string resource
+     */
+    public int getSubjectId(String subject) {
+        int id = 0;
+
+        subject = subject.toUpperCase();
+
+        switch(subject) {
+            case "D": id = R.string.german; break;
+            case "M": id = R.string.maths; break;
+            case "E": id = R.string.english; break;
+            case "L": id = R.string.latin; break;
+            case "PH": id = R.string.physics; break;
+            case "INF": id = R.string.informatics; break;
+            case "WR": id = R.string.economyNLaw; break;
+            case "SM/W": id = R.string.sports; break;
+            case "C": id = R.string.chemistry; break;
+            case "B": id = R.string.biology; break;
+            case "G": id = R.string.history; break;
+            case "SOZ": id = R.string.socialEdu; break;
+            case "RELIGION": id = R.string.religion; break;
+            case "F": id = R.string.french; break;
+            case "S": id = R.string.spain; break;
+            case "DRG": id = R.string.theatre; break;
+            case "CHOR": id = R.string.choir; break;
+            case "ORCH": id = R.string.orchestra; break;
+            case "NT": id = R.string.NT; break;
+            case "MU": id = R.string.music; break;
+            case "KU": id = R.string.arts; break;
+        }
+        return id;
+    }
+}

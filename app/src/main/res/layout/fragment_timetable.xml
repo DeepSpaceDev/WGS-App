@@ -79,17 +79,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di1"
+                        android:id="@+id/tu1"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi1"
+                        android:id="@+id/we1"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do1"
+                        android:id="@+id/th1"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -114,17 +114,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di2"
+                        android:id="@+id/tu2"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi2"
+                        android:id="@+id/we2"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do2"
+                        android:id="@+id/th2"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -148,17 +148,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di3"
+                        android:id="@+id/tu3"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi3"
+                        android:id="@+id/we3"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do3"
+                        android:id="@+id/th3"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -183,17 +183,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di4"
+                        android:id="@+id/tu4"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi4"
+                        android:id="@+id/we4"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do4"
+                        android:id="@+id/th4"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -217,17 +217,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di5"
+                        android:id="@+id/tu5"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi5"
+                        android:id="@+id/we5"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do5"
+                        android:id="@+id/th5"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -252,17 +252,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di6"
+                        android:id="@+id/tu6"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi6"
+                        android:id="@+id/we6"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do6"
+                        android:id="@+id/th6"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -286,17 +286,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di7"
+                        android:id="@+id/tu7"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi7"
+                        android:id="@+id/we7"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do7"
+                        android:id="@+id/th7"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -321,17 +321,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di8"
+                        android:id="@+id/tu8"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi8"
+                        android:id="@+id/we8"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do8"
+                        android:id="@+id/th8"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -355,17 +355,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di9"
+                        android:id="@+id/tu9"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi9"
+                        android:id="@+id/we9"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do9"
+                        android:id="@+id/th9"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -390,17 +390,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di10"
+                        android:id="@+id/tu10"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi10"
+                        android:id="@+id/we10"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do10"
+                        android:id="@+id/th10"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
@@ -424,17 +424,17 @@
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/di11"
+                        android:id="@+id/tu11"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/mi11"
+                        android:id="@+id/we11"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
                     <TextView
-                        android:id="@+id/do11"
+                        android:id="@+id/th11"
                         android:gravity="center"
                         android:padding="8dp"
                         android:layout_weight="2"/>
