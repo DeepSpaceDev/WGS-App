@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "wgs.deepspace.onl.wgs"
+        applicationId "onl.deepspace.wgs"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1

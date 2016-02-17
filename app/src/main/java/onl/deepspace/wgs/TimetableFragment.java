@@ -1,4 +1,4 @@
-package wgs.deepspace.onl.wgs;
+package onl.deepspace.wgs;
 
 import android.app.Fragment;
 import android.os.Bundle;
