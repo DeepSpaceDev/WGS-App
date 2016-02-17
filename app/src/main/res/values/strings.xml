@@ -10,6 +10,9 @@
     <string name="action_sign_in">Einloggen</string>
     <string name="keep_loggedin">Eingeloggt bleiben</string>
 
+    <string name="today">Heute (%1$s)</string>
+    <string name="tomorrow">Morgen (%1$s)</string>
+
     <string name="times">Stunde</string>
     <string name="time1">1</string>
     <string name="time2">2</string>
@@ -64,4 +67,8 @@
     <string name="intChemistry">IC</string>
     <string name="title_activity_portal">Portal</string>
     <string name="action_settings">Settings</string>
+    <string name="noRepresentation">Keine Vertretung</string>
+    <string name="lesson">Stunde</string>
+    <string name="subject">Fach</string>
+    <string name="room">Raum</string>
 </resources>
