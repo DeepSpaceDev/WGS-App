@@ -23,6 +23,8 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+
 public class PortalActivity extends AppCompatActivity {
 
     /**
@@ -36,7 +38,6 @@ public class PortalActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     JSONObject timetable, representation;
-    TimetableFragment ttf = new TimetableFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +58,19 @@ public class PortalActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         //EXTRAS verarbeitung
+        TimetableFragment.setActivity(this);
+        RepresentationFragment.setActivity(this);
 
         Bundle extras = getIntent().getExtras();
         try {
             timetable = new JSONObject(extras.getString("timetable"));
             representation = new JSONObject(extras.getString("representation"));
-
-            Log.d(LoginActivity.LOGTAG, timetable.toString());
         }
         catch (JSONException e) {
-            Log.e(LoginActivity.LOGTAG, e.getMessage());
+            Log.e(LoginActivity.LOGTAG, e.toString());
         }
-        ttf.setTimetable(timetable);
+        TimetableFragment.timetable = timetable;
+        RepresentationFragment.representation = representation;
     }
 
 
@@ -107,8 +109,8 @@ public class PortalActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: return new TimetableFragment();
-                case 1: return ttf;
+                case 0: return new RepresentationFragment();
+                case 1: return new TimetableFragment();
             }
             return null;
         }

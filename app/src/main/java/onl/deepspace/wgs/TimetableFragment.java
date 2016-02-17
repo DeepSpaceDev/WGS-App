@@ -1,6 +1,7 @@
 package onl.deepspace.wgs;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +22,9 @@ import java.lang.reflect.Field;
  */
 public class TimetableFragment extends Fragment {
 
-    public TimetableFragment() {
-        // Required empty public constructor
-    }
-
+    static JSONObject timetable;
     static Activity activity;
+    static View inflator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,9 @@ public class TimetableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        setActivity(getActivity());
-        return inflater.inflate(R.layout.fragment_timetable, container, false);
+        inflator = inflater.inflate(R.layout.fragment_timetable, container, false);
+        setTimetable(timetable);
+        return inflator;
     }
 
     public static void setActivity(Activity activity) {
@@ -51,8 +51,6 @@ public class TimetableFragment extends Fragment {
      */
     public static void setTimetable(JSONObject timetable) {
         try {
-            Log.d(LoginActivity.LOGTAG, timetable.toString());
-
             JSONArray monday = timetable.getJSONArray("monday");
             JSONArray tuesday = timetable.getJSONArray("tuesday");
             JSONArray wednesday = timetable.getJSONArray("wednesday");
@@ -66,7 +64,7 @@ public class TimetableFragment extends Fragment {
             setDay("friday", friday);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(LoginActivity.LOGTAG, e.toString());
         }
     }
 
@@ -77,21 +75,21 @@ public class TimetableFragment extends Fragment {
      */
     public static void setDay(String day, JSONArray data) {
         try {
-            Class res = R.layout.class;
+            Resources res = inflator.getResources();
             for (int i = 1; i <= 11; i++) {
                 String viewId = day.substring(0, 2) + i;
-                Field field = res.getField(viewId);
-                int identifier = field.getInt(null);
-                TextView lesson = (TextView) activity.findViewById(identifier);
-                int subjectId = getSubjectId(data.getString(i));
-                lesson.setText(subjectId == 0 ? data.getString(i): activity.getString(subjectId));
+
+                int identifier = res.getIdentifier(viewId, "id", activity.getPackageName());
+                int subjectId = getSubjectId(data.getString(i - 1));
+
+                View view = inflator.findViewById(identifier);
+                TextView lesson = (TextView) view;
+
+                lesson.setText(subjectId == 0 ? data.getString(i - 1): activity.getString(subjectId));
             }
-        } catch(JSONException e) {
-            Log.d(LoginActivity.LOGTAG, e.getMessage());
-        } catch (IllegalAccessException e) {
-            Log.d(LoginActivity.LOGTAG, e.getMessage());
-        } catch (NoSuchFieldException e) {
-            Log.d(LoginActivity.LOGTAG, e.getMessage());
+        } catch(Exception e) {
+            e.printStackTrace();
+            Log.e(LoginActivity.LOGTAG, e.getLocalizedMessage());
         }
     }
 
@@ -114,13 +112,13 @@ public class TimetableFragment extends Fragment {
             case "INF": id = R.string.informatics; break;
             case "WR": id = R.string.economyNLaw; break;
             case "GEO": id = R.string.geographie; break;
-            case "SM/W": id = R.string.sports; break;
+            case "SM/SW": id = R.string.sports; break;
             case "C": id = R.string.chemistry; break;
             case "B": id = R.string.biology; break;
             case "G": id = R.string.history; break;
             case "SOZ": id = R.string.socialEdu; break;
             case "SOG": id = R.string.socialBaseEdu; break;
-            case "RELIGION": id = R.string.religion; break;
+            case "ETH/EV/K": id = R.string.religion; break;
             case "F": id = R.string.french; break;
             case "S": id = R.string.spain; break;
             case "DRG": id = R.string.theatre; break;

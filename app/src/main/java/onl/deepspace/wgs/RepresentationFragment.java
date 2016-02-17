@@ -26,6 +26,8 @@ import java.lang.reflect.Field;
 public class RepresentationFragment extends Fragment {
 
     private static Activity activity;
+    static JSONObject representation;
+    static View inflator;
 
     public RepresentationFragment() {
         // Required empty public constructor
@@ -40,7 +42,9 @@ public class RepresentationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timetable, container, false);
+        inflator = inflater.inflate(R.layout.fragment_representation, container, false);
+        setRepesentations(representation);
+        return inflator;
     }
 
     /**
@@ -49,7 +53,7 @@ public class RepresentationFragment extends Fragment {
      *                                  {"date": "1.12.15", "data":
      *                                      [{"lesson": 1, "subject": "...", "room": "..."}, ...]},
      *                              "tomorrow": ... }
-     * @param repesentations The data of the timetable
+     * @param repesentations The data of the repesentations
      */
     public static void setRepesentations(JSONObject repesentations) {
         try {
@@ -76,8 +80,8 @@ public class RepresentationFragment extends Fragment {
     public static void addRepresentations(String day, JSONArray data) throws JSONException{
         TableLayout table = (TableLayout)
                 (day.equals("today") ?
-                        activity.findViewById(R.id.representationsToday) :
-                        activity.findViewById(R.id.representationsTomorrow));
+                        inflator.findViewById(R.id.representationsToday) :
+                        inflator.findViewById(R.id.representationsTomorrow));
         for(int i=0; i<data.length(); i++) {
             JSONObject representation = data.getJSONObject(i);
             int lesson = representation.getInt("lesson");
@@ -144,13 +148,13 @@ public class RepresentationFragment extends Fragment {
             case "INF": id = R.string.informatics; break;
             case "WR": id = R.string.economyNLaw; break;
             case "GEO": id = R.string.geographie; break;
-            case "SM/W": id = R.string.sports; break;
+            case "SM/SW": id = R.string.sports; break;
             case "C": id = R.string.chemistry; break;
             case "B": id = R.string.biology; break;
             case "G": id = R.string.history; break;
             case "SOZ": id = R.string.socialEdu; break;
             case "SOG": id = R.string.socialBaseEdu; break;
-            case "RELIGION": id = R.string.religion; break;
+            case "ETH/EV/K": id = R.string.religion; break;
             case "F": id = R.string.french; break;
             case "S": id = R.string.spain; break;
             case "DRG": id = R.string.theatre; break;
@@ -173,16 +177,16 @@ public class RepresentationFragment extends Fragment {
     }
 
     public static void clearRepesentations() {
-        TableLayout today = (TableLayout) activity.findViewById(R.id.representationsToday);
-        TableLayout tomorrow = (TableLayout) activity.findViewById(R.id.representationsTomorrow);
+        TableLayout today = (TableLayout) inflator.findViewById(R.id.representationsToday);
+        TableLayout tomorrow = (TableLayout) inflator.findViewById(R.id.representationsTomorrow);
 
         today.removeViews(1, today.getChildCount() - 1);
         tomorrow.removeViews(1, tomorrow.getChildCount() - 1);
     }
 
     public static void setDates(String today, String tomorrow) {
-        TextView todayView = (TextView) activity.findViewById(R.id.dateToday);
-        TextView tomorrowView = (TextView) activity.findViewById(R.id.dateTomorrow);
+        TextView todayView = (TextView) inflator.findViewById(R.id.dateToday);
+        TextView tomorrowView = (TextView) inflator.findViewById(R.id.dateTomorrow);
 
         String todayDate = activity.getString(R.string.today, today);
         String tomorrowDate = activity.getString(R.string.tomorrow, tomorrow);

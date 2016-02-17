@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             }
         }
         catch(JSONException e){
-            Log.e(LOGTAG, e.getMessage());
+            Log.e(LOGTAG, e.toString());
         }
     }
 
