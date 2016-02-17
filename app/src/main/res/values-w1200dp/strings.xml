@@ -25,6 +25,7 @@
     <string name="physics">Physik</string>
     <string name="informatics">Informatik</string>
     <string name="economyNLaw">Wirtschaft und Recht</string>
+    <string name="geographie">Geographie</string>
     <string name="sports">Sport</string>
     <string name="chemistry">Chemie</string>
     <string name="biology">Biologie</string>
@@ -40,6 +41,10 @@
     <string name="NT">Natur und Technik</string>
     <string name="music">Musik</string>
     <string name="arts">Kunst</string>
+    <string name="psychology">Psychology</string>
+    <string name="bioChemPrak">Biol. - chem. Praktikum</string>
+
+
     <string name="intMaths">Intensivierung Mathe</string>
     <string name="intGerman">Intensivierung Deutsch</string>
     <string name="intEnglish">Intensivierung Englisch</string>

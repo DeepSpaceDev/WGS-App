@@ -1,21 +1,18 @@
 package onl.deepspace.wgs;
 
-import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 new GetUserData(LoginActivity.this).execute(
                         ((TextView) findViewById(R.id.email)).getText().toString(),
                         ((TextView) findViewById(R.id.password)).getText().toString());
+
             }
         });
     }
