@@ -107,6 +107,7 @@ public class TimetableFragment extends Fragment {
             case "B": id = R.string.biology; break;
             case "G": id = R.string.history; break;
             case "SOZ": id = R.string.socialEdu; break;
+            case "SOG": id = R.string.socialBaseEdu; break;
             case "RELIGION": id = R.string.religion; break;
             case "F": id = R.string.french; break;
             case "S": id = R.string.spain; break;
@@ -116,6 +117,13 @@ public class TimetableFragment extends Fragment {
             case "NT": id = R.string.NT; break;
             case "MU": id = R.string.music; break;
             case "KU": id = R.string.arts; break;
+            case "IM": id = R.string.intMaths; break;
+            case "ID": id = R.string.intGerman; break;
+            case "IE": id = R.string.intEnglish; break;
+            case "IF": id = R.string.intFrench; break;
+            case "IL": id = R.string.intLatin; break;
+            case "IPH": id = R.string.intPhysics; break;
+            case "IC": id = R.string.intChemistry; break;
         }
         return id;
     }

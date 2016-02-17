@@ -45,6 +45,7 @@
     <string name="biology">B</string>
     <string name="history">G</string>
     <string name="socialEdu">Soz</string>
+    <string name="socialBaseEdu">SoG</string>
     <string name="religion">Reli</string>
     <string name="french">F</string>
     <string name="spain">S</string>
@@ -54,4 +55,12 @@
     <string name="NT">NT</string>
     <string name="music">Mu</string>
     <string name="arts">Ku</string>
+
+    <string name="intMaths">IM</string>
+    <string name="intGerman">ID</string>
+    <string name="intEnglish">IE</string>
+    <string name="intFrench">IF</string>
+    <string name="intLatin">IL</string>
+    <string name="intPhysics">IPh</string>
+    <string name="intChemistry">IC</string>
 </resources>
