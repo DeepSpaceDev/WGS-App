@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
               android:orientation="vertical"
-              tools:context="wgs.deepspace.onl.wgs.LoginActivity">
+              tools:context="onl.deepspace.wgs.LoginActivity">
 
     <ScrollView
         android:id="@+id/login_form"
