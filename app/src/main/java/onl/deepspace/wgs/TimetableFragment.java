@@ -1,7 +1,9 @@
 package onl.deepspace.wgs;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ public class TimetableFragment extends Fragment {
         // Required empty public constructor
     }
 
+    static Activity activity;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +36,12 @@ public class TimetableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setActivity(getActivity());
         return inflater.inflate(R.layout.fragment_timetable, container, false);
+    }
+
+    public static void setActivity(Activity activity) {
+        TimetableFragment.activity = activity;
     }
 
     /**
@@ -40,8 +49,10 @@ public class TimetableFragment extends Fragment {
      * Provide the date like this: {"monday": ["D", "E", ...], "tuesday": [...], ...}
      * @param timetable The data of the timetable
      */
-    public void setTimetable(JSONObject timetable) {
+    public static void setTimetable(JSONObject timetable) {
         try {
+            Log.d(LoginActivity.LOGTAG, timetable.toString());
+
             JSONArray monday = timetable.getJSONArray("monday");
             JSONArray tuesday = timetable.getJSONArray("tuesday");
             JSONArray wednesday = timetable.getJSONArray("wednesday");
@@ -64,23 +75,23 @@ public class TimetableFragment extends Fragment {
      * @param day The day to set the values for
      * @param data The lessons on the specified day
      */
-    public void setDay(String day, JSONArray data) {
+    public static void setDay(String day, JSONArray data) {
         try {
             Class res = R.layout.class;
             for (int i = 1; i <= 11; i++) {
                 String viewId = day.substring(0, 2) + i;
                 Field field = res.getField(viewId);
                 int identifier = field.getInt(null);
-                TextView lesson = (TextView) getActivity().findViewById(identifier);
+                TextView lesson = (TextView) activity.findViewById(identifier);
                 int subjectId = getSubjectId(data.getString(i));
-                lesson.setText(subjectId == 0 ? data.getString(i): getString(subjectId));
+                lesson.setText(subjectId == 0 ? data.getString(i): activity.getString(subjectId));
             }
         } catch(JSONException e) {
-            e.printStackTrace();
+            Log.d(LoginActivity.LOGTAG, e.getMessage());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Log.d(LoginActivity.LOGTAG, e.getMessage());
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            Log.d(LoginActivity.LOGTAG, e.getMessage());
         }
     }
 
@@ -89,7 +100,7 @@ public class TimetableFragment extends Fragment {
      * @param subject The subject to get the id for
      * @return The id of the string resource
      */
-    public int getSubjectId(String subject) {
+    public static int getSubjectId(String subject) {
         int id = 0;
 
         subject = subject.toUpperCase();

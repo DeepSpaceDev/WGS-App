@@ -1,7 +1,9 @@
 package onl.deepspace.wgs;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +24,7 @@ import java.io.InputStreamReader;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface{
 
-    final String LOGTAG = "DeepSpace";
+    final static String LOGTAG = "DeepSpace";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,10 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
             if(arr.getBoolean("login")) {
                 Log.d(LOGTAG, Boolean.toString(arr.getBoolean("login")));
-                //Intent intent = new Intent();
+                Intent intent = new Intent(this, PortalActivity.class);
+                intent.putExtra("timetable", arr.getJSONObject("timetable").toString());
+                intent.putExtra("representation", arr.getJSONObject("representation").toString());
+                startActivity(intent);
             }
             else{
                 Log.d(LOGTAG, Boolean.toString( arr.getBoolean("login") ));
