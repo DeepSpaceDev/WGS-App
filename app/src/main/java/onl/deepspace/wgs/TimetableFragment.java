@@ -1,6 +1,6 @@
 package onl.deepspace.wgs;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,6 +102,7 @@ public class TimetableFragment extends Fragment {
             case "PH": id = R.string.physics; break;
             case "INF": id = R.string.informatics; break;
             case "WR": id = R.string.economyNLaw; break;
+            case "GEO": id = R.string.geographie; break;
             case "SM/W": id = R.string.sports; break;
             case "C": id = R.string.chemistry; break;
             case "B": id = R.string.biology; break;
@@ -117,6 +118,8 @@ public class TimetableFragment extends Fragment {
             case "NT": id = R.string.NT; break;
             case "MU": id = R.string.music; break;
             case "KU": id = R.string.arts; break;
+            case "PSY": id = R.string.psychology; break;
+            case "BCP": id = R.string.bioChemPrak; break;
             case "IM": id = R.string.intMaths; break;
             case "ID": id = R.string.intGerman; break;
             case "IE": id = R.string.intEnglish; break;

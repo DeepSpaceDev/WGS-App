@@ -2,6 +2,7 @@
     <string name="app_name">WGS App</string>
 
     <!-- Strings related to login -->
+    <string name="app_login">WGS App - Login</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -40,6 +41,7 @@
     <string name="physics">Ph</string>
     <string name="informatics">Inf</string>
     <string name="economyNLaw">WR</string>
+    <string name="geographie">Geo</string>
     <string name="sports">S m/w</string>
     <string name="chemistry">C</string>
     <string name="biology">B</string>
@@ -55,6 +57,8 @@
     <string name="NT">NT</string>
     <string name="music">Mu</string>
     <string name="arts">Ku</string>
+    <string name="psychology">Psy</string>
+    <string name="bioChemPrak">BCP</string>
 
     <string name="intMaths">IM</string>
     <string name="intGerman">ID</string>
@@ -63,4 +67,6 @@
     <string name="intLatin">IL</string>
     <string name="intPhysics">IPh</string>
     <string name="intChemistry">IC</string>
+    <string name="title_activity_portal">Portal</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -14,13 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="onl.deepspace.wgs.LoginActivity"
-            android:label="@string/app_name">
+            android:name=".LoginActivity"
+            android:label="@string/app_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".PortalActivity"
+            android:label="@string/title_activity_portal"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
