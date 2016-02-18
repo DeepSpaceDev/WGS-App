@@ -152,7 +152,7 @@ public class RepresentationFragment extends Fragment {
             case "C": id = R.string.chemistry; break;
             case "B": id = R.string.biology; break;
             case "G": id = R.string.history; break;
-            case "SOZ": id = R.string.socialEdu; break;
+            case "SK": id = R.string.socialEdu; break;
             case "SOG": id = R.string.socialBaseEdu; break;
             case "ETH/EV/K": id = R.string.religion; break;
             case "F": id = R.string.french; break;
