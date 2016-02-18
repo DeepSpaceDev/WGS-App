@@ -97,7 +97,7 @@ public class RepresentationFragment extends Fragment {
             TextView subjectView = new TextView(activity);
             TextView roomView = new TextView(activity);
 
-            int subjectId = getSubjectId(subject);
+            int subjectId = Helper.getSubjectId(subject);
             String subjectString = subjectId == 0 ? subject : activity.getString(subjectId);
 
             lessonView.setText(String.valueOf(lesson));
@@ -126,59 +126,27 @@ public class RepresentationFragment extends Fragment {
             row.addView(roomView);
 
             table.addView(row);
+
         }
-    }
-
-    /**
-     * Get the text id for the specified subject
-     * @param subject The subject to get the id for
-     * @return The id of the string resource
-     */
-    public static int getSubjectId(String subject) {
-        int id = 0;
-
-        subject = subject.toUpperCase();
-
-        switch(subject) {
-            case "D": id = R.string.german; break;
-            case "M": id = R.string.maths; break;
-            case "E": id = R.string.english; break;
-            case "L": id = R.string.latin; break;
-            case "PH": id = R.string.physics; break;
-            case "INF": id = R.string.informatics; break;
-            case "WR": id = R.string.economyNLaw; break;
-            case "GEO": id = R.string.geographie; break;
-            case "SM/SW": id = R.string.sports; break;
-            case "C": id = R.string.chemistry; break;
-            case "B": id = R.string.biology; break;
-            case "G": id = R.string.history; break;
-            case "SK": id = R.string.socialEdu; break;
-            case "SOG": id = R.string.socialBaseEdu; break;
-            case "ETH/EV/K": id = R.string.religion; break;
-            case "F": id = R.string.french; break;
-            case "S": id = R.string.spain; break;
-            case "DRG": id = R.string.theatre; break;
-            case "CHOR": id = R.string.choir; break;
-            case "ORCH": id = R.string.orchestra; break;
-            case "NT": id = R.string.NT; break;
-            case "MU": id = R.string.music; break;
-            case "KU": id = R.string.arts; break;
-            case "PSY": id = R.string.psychology; break;
-            case "BCP": id = R.string.bioChemPrak; break;
-            case "IM": id = R.string.intMaths; break;
-            case "ID": id = R.string.intGerman; break;
-            case "IE": id = R.string.intEnglish; break;
-            case "IF": id = R.string.intFrench; break;
-            case "IL": id = R.string.intLatin; break;
-            case "IPH": id = R.string.intPhysics; break;
-            case "IC": id = R.string.intChemistry; break;
+        if(data.length() > 0) {
+            if(day.equals("today")) {
+                TextView noToday = (TextView) inflator.findViewById(R.id.noToday);
+                noToday.setVisibility(View.GONE);
+            } else {
+                TextView noTomorrow = (TextView) inflator.findViewById(R.id.noTomorrow);
+                noTomorrow.setVisibility(View.GONE);
+            }
         }
-        return id;
     }
 
     public static void clearRepesentations() {
         TableLayout today = (TableLayout) inflator.findViewById(R.id.representationsToday);
         TableLayout tomorrow = (TableLayout) inflator.findViewById(R.id.representationsTomorrow);
+        TextView noToday = (TextView) inflator.findViewById(R.id.noToday);
+        TextView noTomorrow = (TextView) inflator.findViewById(R.id.noTomorrow);
+
+        noToday.setVisibility(View.VISIBLE);
+        noTomorrow.setVisibility(View.VISIBLE);
 
         today.removeViews(1, today.getChildCount() - 1);
         tomorrow.removeViews(1, tomorrow.getChildCount() - 1);
