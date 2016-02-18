@@ -2,9 +2,13 @@
     <string name="app_name">WGS App</string>
 
     <string name="login_header">Login</string>
+    <string name="login_hint">Logge dich mit deinen offiziellen Eltern-Portal Zugansdaten ein. Dein Passwort wird nicht von uns gespeichert.\n\n
+        Klicke <a href="https://welfen.eltern-portal.org/registrieren">hier</a> um dich zu registrieren.\n\n
+        Mit dem Login akzeptierst du unsere <a href="https://deepspace.onl/law/privacy">Datenschutzbestimmungen</a>
+    </string>
 
     <!-- Strings related to login -->
-    <string name="app_login">WGS App - Login</string>
+    <string name="app_login">WGS App</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Passwort</string>
     <string name="action_sign_in">Einloggen</string>

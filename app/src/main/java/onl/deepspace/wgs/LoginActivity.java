@@ -21,6 +21,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +37,10 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        TextView loginhint = (TextView) findViewById(R.id.loginhint);
+        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+
 
         Button button = (Button) findViewById(R.id.email_sign_in_button);
         button.setOnClickListener(new View.OnClickListener() {
