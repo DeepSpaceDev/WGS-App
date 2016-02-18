@@ -43,7 +43,7 @@ public class RepresentationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         inflator = inflater.inflate(R.layout.fragment_representation, container, false);
-        setRepesentations(representation);
+        setRepresentations(representation);
         return inflator;
     }
 
@@ -55,23 +55,23 @@ public class RepresentationFragment extends Fragment {
      *                              "tomorrow": ... }
      * @param representations The data of the representations
      */
-    public static void setRepesentations(JSONObject representations) {
+    public static void setRepresentations(JSONObject representations) {
         try {
             JSONObject today = representations.getJSONObject("today");
             JSONObject tomorrow = representations.getJSONObject("tomorrow");
 
-            setDates(today.getString("date"), today.getString("date"));
+            setDates(today.getString("date"), tomorrow.getString("date"));
 
             clearRepesentations();
 
             String student = representations.getString("name");
+            student = student.substring(5);
             ((TextView) inflator.findViewById(R.id.studentName)).setText(student);
 
             String refresh = representations.getString("lastrefresh");
             refresh = refresh.trim();
-            String hour = refresh.substring(0, 34);
-            hour = hour.substring(5, hour.length() - 1);
-            ((TextView) inflator.findViewById(R.id.updated)).setText("aktualisiert um " + hour);
+            String hour = refresh.substring(34, 39);
+            ((TextView) inflator.findViewById(R.id.updated)).setText("Aktualisiert um " + hour);
 
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
@@ -101,7 +101,7 @@ public class RepresentationFragment extends Fragment {
             TableRow row = new TableRow(activity);
             if(i % 2 == 1) row.setBackgroundColor(ContextCompat.getColor(activity, R.color.grey));
             row.setGravity(Gravity.CENTER);
-            row.setWeightSum(3);
+            row.setWeightSum(4);
 
             TextView lessonView = new TextView(activity);
             TextView subjectView = new TextView(activity);
