@@ -40,6 +40,7 @@ public class Helper {
             case "KU": id = R.string.arts; break;
             case "PSY": id = R.string.psychology; break;
             case "BCP": id = R.string.bioChemPrak; break;
+            case "ROB": id = R.string.robotic; break;
             case "IM": id = R.string.intMaths; break;
             case "ID": id = R.string.intGerman; break;
             case "IE": id = R.string.intEnglish; break;

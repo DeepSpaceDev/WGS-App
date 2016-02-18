@@ -57,6 +57,7 @@
     <string name="arts">Ku</string>
     <string name="psychology">Psy</string>
     <string name="bioChemPrak">BCP</string>
+    <string name="robotic">Rob</string>
 
     <string name="intMaths">IM</string>
     <string name="intGerman">ID</string>
@@ -72,4 +73,5 @@
     <string name="lesson">Stunde</string>
     <string name="subject">Fach</string>
     <string name="room">Raum</string>
+    <string name="teacher">Lehrer</string>
 </resources>

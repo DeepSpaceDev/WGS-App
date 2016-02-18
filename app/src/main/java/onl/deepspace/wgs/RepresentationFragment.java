@@ -48,21 +48,30 @@ public class RepresentationFragment extends Fragment {
     }
 
     /**
-     * Set the repesentations of today and tomorrow
+     * Set the representations of today and tomorrow
      * Provide the date like this: {"today":
      *                                  {"date": "1.12.15", "data":
      *                                      [{"lesson": 1, "subject": "...", "room": "..."}, ...]},
      *                              "tomorrow": ... }
-     * @param repesentations The data of the repesentations
+     * @param representations The data of the representations
      */
-    public static void setRepesentations(JSONObject repesentations) {
+    public static void setRepesentations(JSONObject representations) {
         try {
-            JSONObject today = repesentations.getJSONObject("today");
-            JSONObject tomorrow = repesentations.getJSONObject("tomorrow");
+            JSONObject today = representations.getJSONObject("today");
+            JSONObject tomorrow = representations.getJSONObject("tomorrow");
 
             setDates(today.getString("date"), today.getString("date"));
 
             clearRepesentations();
+
+            String student = representations.getString("name");
+            ((TextView) inflator.findViewById(R.id.studentName)).setText(student);
+
+            String refresh = representations.getString("lastrefresh");
+            refresh = refresh.trim();
+            String hour = refresh.substring(0, 34);
+            hour = hour.substring(5, hour.length() - 1);
+            ((TextView) inflator.findViewById(R.id.updated)).setText(hour);
 
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
@@ -86,6 +95,7 @@ public class RepresentationFragment extends Fragment {
             JSONObject representation = data.getJSONObject(i);
             int lesson = representation.getInt("lesson");
             String subject = representation.getString("subject");
+            String teacher = representation.getString("teacher");
             String room = representation.getString("room");
 
             TableRow row = new TableRow(activity);
@@ -95,6 +105,7 @@ public class RepresentationFragment extends Fragment {
 
             TextView lessonView = new TextView(activity);
             TextView subjectView = new TextView(activity);
+            TextView teacherView = new TextView(activity);
             TextView roomView = new TextView(activity);
 
             int subjectId = Helper.getSubjectId(subject);
@@ -102,14 +113,17 @@ public class RepresentationFragment extends Fragment {
 
             lessonView.setText(String.valueOf(lesson));
             subjectView.setText(subjectString);
+            teacherView.setText(teacher);
             roomView.setText(room);
 
             lessonView.setPadding(8, 8, 8, 8);
             subjectView.setPadding(8, 8, 8, 8);
+            teacherView.setPadding(8, 8, 8, 8);
             roomView.setPadding(8, 8, 8, 8);
 
             lessonView.setGravity(Gravity.CENTER);
             subjectView.setGravity(Gravity.CENTER);
+            teacherView.setGravity(Gravity.CENTER);
             roomView.setGravity(Gravity.CENTER);
 
             TableRow.LayoutParams params = new TableRow.LayoutParams(
@@ -119,14 +133,15 @@ public class RepresentationFragment extends Fragment {
 
             lessonView.setLayoutParams(params);
             subjectView.setLayoutParams(params);
+            teacherView.setLayoutParams(params);
             roomView.setLayoutParams(params);
 
             row.addView(lessonView);
             row.addView(subjectView);
+            row.addView(teacherView);
             row.addView(roomView);
 
             table.addView(row);
-
         }
         if(data.length() > 0) {
             if(day.equals("today")) {

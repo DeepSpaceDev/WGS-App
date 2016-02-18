@@ -12,10 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_margin="@dimen/card_margin"
         android:orientation="vertical"
         android:paddingTop="8dp"
-        card_view:cardElevation="4">
+        android:paddingBottom="8dp"
+        card_view:cardElevation="4dp">
 
         <TableLayout
             android:id="@+id/timetable"
