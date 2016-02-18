@@ -71,7 +71,7 @@ public class RepresentationFragment extends Fragment {
             refresh = refresh.trim();
             String hour = refresh.substring(0, 34);
             hour = hour.substring(5, hour.length() - 1);
-            ((TextView) inflator.findViewById(R.id.updated)).setText(hour);
+            ((TextView) inflator.findViewById(R.id.updated)).setText("aktualisiert um " + hour);
 
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
