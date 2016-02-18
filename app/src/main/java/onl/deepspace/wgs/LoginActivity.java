@@ -12,15 +12,21 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface{
 
@@ -83,12 +89,18 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
         final String GetSomething(String username, String password)
         {
-            String url = "https://deepspace.onl/scripts/sites/wgs/eltern-portal.php?username=" + username + "&password=" + password;
+            String url = "https://deepspace.onl/scripts/sites/wgs/eltern-portal.php";
             Log.d(LOGTAG, url);
             BufferedReader inStream = null;
             try {
                 HttpClient httpClient = new DefaultHttpClient();
-                HttpGet httpRequest = new HttpGet(url);
+                HttpPost httpRequest = new HttpPost(url);
+                List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
+                nameValuePairList.add(new BasicNameValuePair("username", username));
+                nameValuePairList.add(new BasicNameValuePair("password", password));
+                nameValuePairList.add(new BasicNameValuePair("token", "fECO3Zv8BJQDPHJOO0avyTgvoYScIiOyDNEEzttNnrJqZcJa7pej42sByWVyFHtA"));
+
+                httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
                 HttpResponse response = httpClient.execute(httpRequest);
                 inStream = new BufferedReader(
                         new InputStreamReader(
