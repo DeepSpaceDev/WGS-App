@@ -100,7 +100,7 @@ public class RepresentationFragment extends Fragment {
             int subjectId = getSubjectId(subject);
             String subjectString = subjectId == 0 ? subject : activity.getString(subjectId);
 
-            lessonView.setText(lesson);
+            lessonView.setText(String.valueOf(lesson));
             subjectView.setText(subjectString);
             roomView.setText(room);
 
