@@ -79,4 +79,6 @@
     <string name="subject">Fach</string>
     <string name="room">Raum</string>
     <string name="teacher">Lehrer</string>
+    <string name="action_about">About</string>
+    <string name="action_logout">Abmelden</string>
 </resources>

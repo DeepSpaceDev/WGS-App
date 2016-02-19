@@ -1,5 +1,6 @@
 package onl.deepspace.wgs;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -91,6 +92,18 @@ public class PortalActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if(id == R.id.action_about) {
+            //TODO start About Activity
+            return true;
+        }
+
+        if(id == R.id.action_logout) {
+            Helper.setEmail(this, "");
+            Helper.setPw(this, "");
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
