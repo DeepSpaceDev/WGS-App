@@ -58,7 +58,7 @@ public class PortalActivity extends AppCompatActivity {
             representation = new JSONObject(extras.getString("representation"));
         }
         catch (JSONException e) {
-            Log.e(LoginActivity.LOGTAG, e.toString());
+            Log.e(Helper.LOGTAG, e.toString());
         }
         TimetableFragment.timetable = timetable;
         RepresentationFragment.representation = representation;

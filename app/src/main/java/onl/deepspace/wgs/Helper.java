@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
+    public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
 
