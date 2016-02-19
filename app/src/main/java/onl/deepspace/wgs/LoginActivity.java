@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -41,22 +42,38 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
         TextView loginhint = (TextView) findViewById(R.id.loginhint);
         loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
+        String savedPw = Helper.getPw(this);
+        String savedEmail = Helper.getEmail(this);
+
+        if(!(savedPw.equals("") && savedEmail.equals(""))) {
+            login(savedPw, savedEmail);
+        }
 
         Button button = (Button) findViewById(R.id.email_sign_in_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new GetUserData(LoginActivity.this).execute(
-                        ((TextView) findViewById(R.id.email)).getText().toString(),
-                        ((TextView) findViewById(R.id.password)).getText().toString());
-
+                String pw = ((TextView) findViewById(R.id.email)).getText().toString();
+                String email = ((TextView) findViewById(R.id.password)).getText().toString();
+                Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
+                if(saveLogin) {
+                    Helper.setPw(getParent(), pw);
+                    Helper.setEmail(getParent(), email);
+                }
+                login(pw, email);
             }
         });
+    }
+
+    public void login(String pw, String email) {
+        findViewById(R.id.login_progress).setVisibility(View.VISIBLE);
+        new GetUserData(LoginActivity.this).execute(pw, email);
     }
 
     @Override
     public void onTaskCompleted(String response) {
         Log.d(LOGTAG, response);
+        findViewById(R.id.login_progress).setVisibility(View.GONE);
         try{
             JSONObject arr = new JSONObject(response);
 
