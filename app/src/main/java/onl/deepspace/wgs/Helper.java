@@ -1,9 +1,43 @@
 package onl.deepspace.wgs;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 /**
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
+    public static String PW = "password";
+    public static String EMAIL = "userEmail";
+
+    public static String getPw(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(PW, "");
+    }
+
+    public static String getEmail(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(EMAIL, "");
+    }
+
+    public static void setPw(Context context, String pw) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(PW, pw);
+        editor.apply();
+    }
+
+    public static void setEmail(Context context, String email) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(EMAIL, email);
+        editor.apply();
+    }
+
     /**
      * Get the text id for the specified subject
      * @param subject The subject to get the id for

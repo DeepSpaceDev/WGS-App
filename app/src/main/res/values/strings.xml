@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">WGS App</string>
+    <string name="preference_file_key">onl.deepspace.wgs.PREFERENCE_FILE_KEY</string>
 
     <string name="login_header">Login</string>
     <string name="login_hint">Logge dich mit deinen offiziellen Eltern-Portal Zugansdaten ein. Dein Passwort wird nicht von uns gespeichert.\n\n
