@@ -27,24 +27,26 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface{
+import javax.security.auth.login.LoginException;
 
-    final static String LOGTAG = "DeepSpace";
+public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        TextView loginhint = (TextView) findViewById(R.id.loginhint);
-        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);
 
         if(!(savedPw.equals("") && savedEmail.equals(""))) {
-            login(savedPw, savedEmail);
+            new GetUserData(LoginActivity.this).execute(savedPw, savedEmail);
+            setContentView(R.layout.activity_loading);
+        } else {
+            setContentView(R.layout.activity_login);
         }
+
+        TextView loginhint = (TextView) findViewById(R.id.loginhint);
+        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
         Button button = (Button) findViewById(R.id.email_sign_in_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 String pw = ((TextView) findViewById(R.id.email)).getText().toString();
                 String email = ((TextView) findViewById(R.id.password)).getText().toString();
                 Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
-                if(saveLogin) {
+                if (saveLogin) {
                     Helper.setPw(getBaseContext(), pw);
                     Helper.setEmail(getBaseContext(), email);
                 }
@@ -69,24 +71,29 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
     @Override
     public void onTaskCompleted(String response) {
-        Log.d(LOGTAG, response);
+        Log.d(Helper.LOGTAG, response);
         try{
             JSONObject arr = new JSONObject(response);
 
             if(arr.getBoolean("login")) {
-                Log.d(LOGTAG, Boolean.toString(arr.getBoolean("login")));
+                Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
                 Intent intent = new Intent(this, PortalActivity.class);
                 intent.putExtra("timetable", arr.getJSONObject("timetable").toString());
                 intent.putExtra("representation", arr.getJSONObject("representation").toString());
                 startActivity(intent);
             }
             else{
-                Log.d(LOGTAG, Boolean.toString( arr.getBoolean("login") ));
-                Snackbar.make(findViewById(R.id.login_activity), arr.getString("error"), Snackbar.LENGTH_SHORT).show();
+                Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
+                setContentView(R.layout.activity_login);
+                Snackbar.make(
+                        findViewById(R.id.login_activity),
+                        arr.getString("error"),
+                        Snackbar.LENGTH_SHORT).show();
             }
         }
         catch(JSONException e){
-            Log.e(LOGTAG, e.toString());
+            setContentView(R.layout.activity_login);
+            Log.e(Helper.LOGTAG, e.toString());
         }
         findViewById(R.id.login_progress).setVisibility(View.GONE);
     }
@@ -102,14 +109,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             return GetSomething(params[0], params[1]);
         }
 
-        public GetUserData(OnTaskCompletedInterface activityContext){
+        public GetUserData(OnTaskCompletedInterface activityContext) {
             this.taskCompleted = activityContext;
         }
 
-        final String GetSomething(String username, String password)
-        {
+        final String GetSomething(String username, String password) {
             String url = "https://deepspace.onl/scripts/sites/wgs/eltern-portal.php";
-            Log.d(LOGTAG, url);
+            Log.d(Helper.LOGTAG, url);
             BufferedReader inStream = null;
             try {
                 HttpClient httpClient = new DefaultHttpClient();
@@ -135,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
                 result = buffer.toString();
             } catch (Exception e) {
-                Log.e(LOGTAG, e.toString());
+                Log.e(Helper.LOGTAG, e.toString());
                 e.printStackTrace();
             } finally {
                 if (inStream != null) {
@@ -149,10 +155,9 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             return result;
         }
 
-        protected void onPostExecute(String page)
-        {
+        protected void onPostExecute(String page) {
             taskCompleted.onTaskCompleted(page);
         }
-    }
 
+    }
 }
