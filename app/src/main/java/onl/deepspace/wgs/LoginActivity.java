@@ -27,8 +27,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 
     @Override
@@ -43,25 +41,25 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             setContentView(R.layout.activity_loading);
         } else {
             setContentView(R.layout.activity_login);
-        }
 
-        TextView loginhint = (TextView) findViewById(R.id.loginhint);
-        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+            TextView loginhint = (TextView) findViewById(R.id.loginhint);
+            loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
-        Button button = (Button) findViewById(R.id.email_sign_in_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String pw = ((TextView) findViewById(R.id.email)).getText().toString();
-                String email = ((TextView) findViewById(R.id.password)).getText().toString();
-                Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
-                if (saveLogin) {
-                    Helper.setPw(getBaseContext(), pw);
-                    Helper.setEmail(getBaseContext(), email);
+            Button button = (Button) findViewById(R.id.email_sign_in_button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String pw = ((TextView) findViewById(R.id.email)).getText().toString();
+                    String email = ((TextView) findViewById(R.id.password)).getText().toString();
+                    Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
+                    if (saveLogin) {
+                        Helper.setPw(getBaseContext(), pw);
+                        Helper.setEmail(getBaseContext(), email);
+                    }
+                    login(pw, email);
                 }
-                login(pw, email);
-            }
-        });
+            });
+        }
     }
 
     public void login(String pw, String email) {
@@ -79,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
                 Intent intent = new Intent(this, PortalActivity.class);
                 intent.putExtra("timetable", arr.getJSONObject("timetable").toString());
-                intent.putExtra("representation", arr.getJSONObject("representation").toString());
+
                 startActivity(intent);
             }
             else{
@@ -123,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
                 nameValuePairList.add(new BasicNameValuePair("username", username));
                 nameValuePairList.add(new BasicNameValuePair("password", password));
-                nameValuePairList.add(new BasicNameValuePair("token", "fECO3Zv8BJQDPHJOO0avyTgvoYScIiOyDNEEzttNnrJqZcJa7pej42sByWVyFHtA"));
+                nameValuePairList.add(new BasicNameValuePair("token", "WaoJrllHRkckNAhm4635MiVKgFhOpigmfV6EmvTt41xtTFbjkimUraFBQsOwS5Cj\n"));
 
                 httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
                 HttpResponse response = httpClient.execute(httpRequest);

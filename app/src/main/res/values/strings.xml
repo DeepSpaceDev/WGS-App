@@ -24,7 +24,7 @@
     <string name="prompt_password">Passwort</string>
     <string name="action_sign_in">Einloggen</string>
     <string name="keep_loggedin">Eingeloggt bleiben</string>
-    <string name="logging_in_message">Logging In</string>
+    <string name="logging_in_message">Logge ein</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
