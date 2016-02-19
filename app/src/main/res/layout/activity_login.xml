@@ -8,14 +8,6 @@
     android:id="@+id/login_activity"
     tools:context="onl.deepspace.wgs.LoginActivity">
 
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="gone"/>
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -31,6 +23,16 @@
             android:orientation="vertical"
             android:focusable="true"
             android:focusableInTouchMode="true"><!--focus to disable autofocus-->
+
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:indeterminate="true"
+                android:visibility="gone"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

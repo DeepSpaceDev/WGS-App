@@ -3,7 +3,6 @@ package onl.deepspace.wgs;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,13 +15,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 String email = ((TextView) findViewById(R.id.password)).getText().toString();
                 Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
                 if(saveLogin) {
-                    Helper.setPw(getParent(), pw);
-                    Helper.setEmail(getParent(), email);
+                    Helper.setPw(getBaseContext(), pw);
+                    Helper.setEmail(getBaseContext(), email);
                 }
                 login(pw, email);
             }
@@ -73,7 +70,6 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     @Override
     public void onTaskCompleted(String response) {
         Log.d(LOGTAG, response);
-        findViewById(R.id.login_progress).setVisibility(View.GONE);
         try{
             JSONObject arr = new JSONObject(response);
 
@@ -92,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
         catch(JSONException e){
             Log.e(LOGTAG, e.toString());
         }
+        findViewById(R.id.login_progress).setVisibility(View.GONE);
     }
 
     public class GetUserData extends AsyncTask<String, Void, String> {
