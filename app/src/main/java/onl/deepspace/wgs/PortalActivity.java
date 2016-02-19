@@ -28,6 +28,7 @@ public class PortalActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private JSONObject saved_timetable, saved_representation;
     JSONObject timetable, representation;
 
     @Override
@@ -54,8 +55,17 @@ public class PortalActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         try {
-            timetable = new JSONObject(extras.getString("timetable"));
-            representation = new JSONObject(extras.getString("representation"));
+            //incase of start via child activity
+            //if(extras != null){
+                timetable = new JSONObject(extras.getString("timetable"));
+                saved_timetable = timetable;
+                representation = new JSONObject(extras.getString("representation"));
+                saved_representation = representation;
+            /*}
+            else{
+               representation = saved_representation;
+               timetable = saved_timetable;
+            }*/
         }
         catch (JSONException e) {
             Log.e(LoginActivity.LOGTAG, e.toString());
@@ -85,7 +95,8 @@ public class PortalActivity extends AppCompatActivity {
         }*/
 
         if(id == R.id.action_about) {
-            //TODO start About Activity
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
             return true;
         }
 

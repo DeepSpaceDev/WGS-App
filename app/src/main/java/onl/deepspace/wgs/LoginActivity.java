@@ -29,7 +29,7 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface{
 
-    final static String LOGTAG = "DeepSpace";
+    final static String LOGTAG = "deepspace";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

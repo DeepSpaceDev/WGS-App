@@ -8,6 +8,12 @@
         Mit dem Login akzeptierst du unsere <a href="https://deepspace.onl/law/privacy">Datenschutzbestimmungen</a>
     </string>
 
+    <string name="about_header">DeepSpace Development</string>
+    <string name="about_authors">Entwickelt von:\n
+         <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> und <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a>
+    </string>
+    <string name="about_disclaimer">Dies ist keine Offizielle App des Welfen-Gymnasium-Schongau bzw. der art soft and more GmbH. Deepspace Development wird nicht vom Welfen-Gymnasium-Schongau oder der art soft and more GmbH unterstützt und spiegelt nicht deren Ansichten oder Meinungen dar. Deepspace ist nicht an der Entwicklung oder Verwaltung des Elternportals beteiligt.</string>
+
     <!-- Strings related to login -->
     <string name="app_login">WGS App</string>
     <string name="prompt_email">Email</string>
@@ -82,4 +88,6 @@
     <string name="subject">Fach</string>
     <string name="room">Raum</string>
     <string name="teacher">Lehrer</string>
+
+    <string name="wgs_assitance">Ohne freundliche Unterstützung des Welfen-Gymnasiums-Schongau</string>
 </resources>
