@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
                 Intent intent = new Intent(this, PortalActivity.class);
                 intent.putExtra("timetable", arr.getJSONObject("timetable").toString());
-
+                intent.putExtra("representation", arr.getJSONObject("representation").toString());
                 startActivity(intent);
             }
             else{
