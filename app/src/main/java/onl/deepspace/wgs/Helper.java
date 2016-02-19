@@ -46,6 +46,8 @@ public class Helper {
     public static int getSubjectId(String subject) {
         int id = 0;
 
+        subject = subject.replaceAll("[0-9]", "");
+
         subject = subject.toUpperCase();
 
         switch(subject) {
