@@ -19,7 +19,6 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -27,7 +26,11 @@
             android:name=".PortalActivity"
             android:label="@string/title_activity_portal"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AboutActivity"/>
+        <activity android:name=".AboutActivity">
+            <!--TODO Make this parent activity without crahsing -->
+            <!--<meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="onl.deepspace.wgs.PortalActivity"/>-->
+        </activity>
     </application>
-
 </manifest>
