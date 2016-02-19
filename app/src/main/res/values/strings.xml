@@ -12,7 +12,10 @@
     <string name="about_authors">Entwickelt von:\n
          <a href="https://deepspace.onl/about-us/">Dennis Kugelmann</a> und <a href="https://deepspace.onl/about-us/">Sebastian Schneider</a>
     </string>
-    <string name="about_disclaimer">Dies ist keine Offizielle App des Welfen-Gymnasium-Schongau bzw. der art soft and more GmbH. Deepspace Development wird nicht vom Welfen-Gymnasium-Schongau oder der art soft and more GmbH unterstützt und spiegelt nicht deren Ansichten oder Meinungen dar. Deepspace ist nicht an der Entwicklung oder Verwaltung des Elternportals beteiligt.</string>
+    <string name="about_disclaimer">Copyright 2016 DeepSpace Development \n\nDies ist keine Offizielle App des Welfen-Gymnasium-Schongau bzw. der art soft and more GmbH. Deepspace Development wird nicht vom Welfen-Gymnasium-Schongau oder der art soft and more GmbH unterstützt und spiegelt nicht deren Ansichten oder Meinungen dar. Deepspace ist nicht an der Entwicklung oder Verwaltung des Elternportals beteiligt.</string>
+
+    <string name="portal_representations_disclaimer">Teilweise werden Vertretungen aufgrund eines Portal-Bugs nicht gelistet.\n\nWir übernehmen keinerlei Garantie für die Korrektheit der Daten. Alle Angaben ohne Gewähr.</string>
+    <string name="portal_timetable_disclaimer">Teilweise werden Stundenpläne aufgrund eines Portal-Bugs nicht angezeitgt.\n\nWir übernehmen keinerlei Garantie für die Korrektheit der Daten. Alle Angaben ohne Gewähr.</string>
 
     <!-- Strings related to login -->
     <string name="app_login">WGS App</string>
