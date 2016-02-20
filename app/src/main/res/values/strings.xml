@@ -95,4 +95,7 @@
     <string name="room">Raum</string>
     <string name="teacher">Lehrer</string>
     <string name="connection_failed">Verbindung fehlgechlagen</string>
+
+    <!--Others-->
+    <string name="admob_id">ca-app-pub-3742245157994788/5610026757</string>
 </resources>

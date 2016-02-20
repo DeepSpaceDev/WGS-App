@@ -546,7 +546,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:paddingBottom="60dp"
+            android:paddingBottom="@dimen/padding_disclaimers"
             android:textColor="#aaa"
             android:textSize="13sp"
             android:text="@string/portal_timetable_disclaimer"/>
