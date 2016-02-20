@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        registerAlarmManger();
 
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);
@@ -78,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES/30,
+                SystemClock.elapsedRealtime() + 60 * 1000,
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES/30, updateIntent);
     }
 
