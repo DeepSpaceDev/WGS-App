@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
             Log.e(Helper.LOGTAG, e.toString());
         }
-        findViewById(R.id.login_progress).setVisibility(View.GONE);
+        //findViewById(R.id.login_progress).setVisibility(View.GONE);
     }
 
     public class GetUserData extends AsyncTask<String, Void, String> {
