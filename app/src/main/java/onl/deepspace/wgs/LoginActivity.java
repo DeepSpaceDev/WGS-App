@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -35,11 +36,13 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 
+    AlarmReceiver mAlarm = new AlarmReceiver();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        registerAlarmManger();
+        mAlarm.setAlarm(this);
 
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);
@@ -76,21 +79,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     }
 
     public void registerAlarmManger() {
-        Intent intent = new Intent(this, AlarmReceiver.class);
+        Intent intent = new Intent(this, PortalPullService.class);
         PendingIntent updateIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
                 SystemClock.elapsedRealtime() + 60 * 1000,
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES/30, updateIntent);
-    }
-
-    private class AlarmReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Helper.sendNotification(context, "Update", "App updated");
-        }
     }
 
     @Override
@@ -120,7 +115,6 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
             Log.e(Helper.LOGTAG, e.toString());
         }
-        findViewById(R.id.login_progress).setVisibility(View.GONE);
     }
 
     public class GetUserData extends AsyncTask<String, Void, String> {
