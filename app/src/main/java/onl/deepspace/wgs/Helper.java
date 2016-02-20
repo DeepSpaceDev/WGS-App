@@ -1,7 +1,11 @@
 package onl.deepspace.wgs;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.NotificationCompat;
 
 /**
  * Created by Dennis on 18.02.2016.
@@ -10,6 +14,23 @@ public class Helper {
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
+
+    public static void sendNotification(Context activity, String title, String message){
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(activity)
+                        .setSmallIcon(R.mipmap.appicon)
+                        .setContentTitle(title)
+                        .setContentText(message);
+        Intent resultIntent = new Intent(activity, LoginActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(activity, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setAutoCancel(true);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        int mNotificationId = 001;
+
+        NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }
 
     public static String getPw(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
