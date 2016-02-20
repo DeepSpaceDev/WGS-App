@@ -1,5 +1,9 @@
 package onl.deepspace.wgs;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,9 +38,6 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent update = new Intent(this, UpdateService.class);
-        startService(update);
-
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);
 
@@ -69,6 +70,24 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     public void login(String pw, String email) {
         findViewById(R.id.login_progress).setVisibility(View.VISIBLE);
         new GetUserData(LoginActivity.this).execute(pw, email);
+    }
+
+    public void registerAlarmManger() {
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent updateIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES/30,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES/30, updateIntent);
+    }
+
+    private class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Helper.sendNotification(context, "Update", "App updated");
+        }
     }
 
     @Override
