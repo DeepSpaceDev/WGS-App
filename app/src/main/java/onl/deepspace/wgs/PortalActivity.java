@@ -1,7 +1,11 @@
 package onl.deepspace.wgs;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -34,16 +39,37 @@ public class PortalActivity extends AppCompatActivity {
     private JSONObject saved_timetable, saved_representation;
     JSONObject timetable, representation;
 
+    static ServiceConnection mServiceConn;
+    static IInAppBillingService mService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portal);
 
         //Admob
-
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        //Inapp billing
+
+        mServiceConn = new ServiceConnection() {
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mService = null;
+            }
+
+            @Override
+            public void onServiceConnected(ComponentName name,
+                                           IBinder service) {
+                mService = IInAppBillingService.Stub.asInterface(service);
+            }
+        };
+        Intent serviceIntent =
+                new Intent("com.android.vending.billing.InAppBillingService.BIND");
+        serviceIntent.setPackage("com.android.vending");
+        bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,6 +110,14 @@ public class PortalActivity extends AppCompatActivity {
         RepresentationFragment.representation = representation;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mService != null) {
+            unbindService(mServiceConn);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,6 +149,11 @@ public class PortalActivity extends AppCompatActivity {
             Helper.setPw(this, "");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+        }
+
+        if(id == R.id.action_remads){
+            Helper.purchaseNoAd(this);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

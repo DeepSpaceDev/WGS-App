@@ -98,4 +98,5 @@
 
     <!--Others-->
     <string name="admob_id">ca-app-pub-3742245157994788/5610026757</string>
+    <string name="remove_ads">Werbung Entfernen</string>
 </resources>

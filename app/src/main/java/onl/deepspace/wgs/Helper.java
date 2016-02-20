@@ -1,11 +1,17 @@
 package onl.deepspace.wgs;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Dennis on 18.02.2016.
@@ -14,6 +20,25 @@ public class Helper {
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
+
+    public static void purchaseNoAd(Activity activity){
+        ArrayList<String> skuList = new ArrayList<String>();
+        skuList.add("wgs_app_remove_ads");;
+        Bundle querySkus = new Bundle();
+        querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+
+        Bundle skuDetails = new Bundle();
+
+        try {
+            skuDetails = PortalActivity.mService.getSkuDetails(3,
+                    activity.getPackageName(), "inapp", querySkus);
+        }
+        catch (RemoteException e){
+            Log.e(LOGTAG, e.getLocalizedMessage());
+        }
+
+        Log.v(LOGTAG, skuDetails.toString());
+    }
 
     public static void sendNotification(Context activity, String title, String message){
         NotificationCompat.Builder mBuilder =
