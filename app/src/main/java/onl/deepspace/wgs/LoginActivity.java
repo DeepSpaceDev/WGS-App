@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent update = new Intent(this, UpdateService.class);
+        startService(update);
+
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);
 
