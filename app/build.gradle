@@ -8,10 +8,13 @@ android {
         applicationId "onl.deepspace.wgs"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
-        versionName "0.2.0"
+        versionCode 5
+        versionName "0.2.1"
     }
     buildTypes {
+        debug{
+            debuggable true
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
