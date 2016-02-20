@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -91,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
         }
         catch(JSONException e){
             setContentView(R.layout.activity_login);
+            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
             Log.e(Helper.LOGTAG, e.toString());
         }
         findViewById(R.id.login_progress).setVisibility(View.GONE);
