@@ -1,7 +1,9 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.PortalUpdate;
 
 import android.app.IntentService;
 import android.content.Intent;
+
+import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 
 /**
  * Created by Dennis on 20.02.2016.

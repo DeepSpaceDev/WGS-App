@@ -16,6 +16,13 @@ import android.view.MenuItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import onl.deepspace.wgs.AboutActivity;
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.LoginActivity;
+import onl.deepspace.wgs.R;
+import onl.deepspace.wgs.RepresentationFragment;
+import onl.deepspace.wgs.TimetableFragment;
+
 public class PortalActivity extends AppCompatActivity {
 
     /**

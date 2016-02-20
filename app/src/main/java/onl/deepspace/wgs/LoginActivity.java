@@ -2,10 +2,8 @@ package onl.deepspace.wgs;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -33,6 +31,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
+import onl.deepspace.wgs.PortalUpdate.PortalPullService;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 

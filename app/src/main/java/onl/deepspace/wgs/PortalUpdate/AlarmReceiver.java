@@ -1,17 +1,15 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.PortalUpdate;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.R;
 
 /**
  * Created by Dennis on 20.02.2016.
