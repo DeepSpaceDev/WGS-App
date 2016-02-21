@@ -3,6 +3,7 @@ package onl.deepspace.wgs.PortalUpdate;
 import android.app.IntentService;
 import android.content.Intent;
 
+import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 
 /**
@@ -22,7 +23,7 @@ public class PortalPullService extends IntentService {
         String pw = intent.getStringExtra("pw");
 
         //TODO make request to eltern-portal.org, check if new Infos are available, then send notification
-
+        Helper.sendNotification(this, "Test", "test");
 
         AlarmReceiver.completeWakefulIntent(intent);
     }
