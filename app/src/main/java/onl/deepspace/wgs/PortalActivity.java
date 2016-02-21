@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
 import com.google.android.gms.ads.AdRequest;
@@ -48,9 +50,12 @@ public class PortalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_portal);
 
         //Admob
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        if(Helper.getHasNoAds(getBaseContext()) == false){
+            AdView mAdView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
 
         //Inapp billing
 
@@ -111,6 +116,31 @@ public class PortalActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1001) {
+            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    JSONObject jo = new JSONObject(purchaseData);
+                    String sku = jo.getString("productId");
+                    Helper.setHasNoAds(this, true);
+                    Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf. Bitte starte die App neu", Snackbar.LENGTH_LONG).show();
+                }
+                catch (JSONException e) {
+                    Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mService != null) {
@@ -137,7 +167,6 @@ public class PortalActivity extends AppCompatActivity {
         /*if (id == R.id.action_settings) {
             return true;
         }*/
-
         if(id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);

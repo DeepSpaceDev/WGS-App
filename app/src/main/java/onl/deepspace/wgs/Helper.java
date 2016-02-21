@@ -5,11 +5,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -20,6 +24,7 @@ public class Helper {
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
+    public static String HASADS = "hasDisabledAds";
 
     public static void purchaseNoAd(Activity activity){
         ArrayList<String> skuList = new ArrayList<String>();
@@ -30,10 +35,29 @@ public class Helper {
         Bundle skuDetails = new Bundle();
 
         try {
-            skuDetails = PortalActivity.mService.getSkuDetails(3,
-                    activity.getPackageName(), "inapp", querySkus);
-        }
-        catch (RemoteException e){
+            /*skuDetails = PortalActivity.mService.getSkuDetails(3, activity.getPackageName(), "inapp", querySkus);
+            int response = skuDetails.getInt("RESPONSE_CODE");
+            if (response == 0) {
+                ArrayList<String> responseList
+                        = skuDetails.getStringArrayList("DETAILS_LIST");
+
+                for (String thisResponse : responseList) {
+                    Log.v(LOGTAG, thisResponse);
+                    JSONObject object = new JSONObject(thisResponse);
+                    String sku = object.getString("productId");
+                }
+            }*/
+
+            Bundle buyIntentBundle = PortalActivity.mService.getBuyIntent(3, activity.getPackageName(), "wgs_app_remove_ads", "inapp", "");
+            PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
+
+            activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+
+        } catch (RemoteException e) {
+            Log.e(LOGTAG, e.getLocalizedMessage());
+        } catch (IntentSender.SendIntentException e) {
+            Log.e(LOGTAG, e.getLocalizedMessage());
+        } catch (NullPointerException e) {
             Log.e(LOGTAG, e.getLocalizedMessage());
         }
 
@@ -69,6 +93,12 @@ public class Helper {
         return sharedPref.getString(EMAIL, "");
     }
 
+    public static Boolean getHasNoAds(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getBoolean(HASADS, false);
+    }
+
     public static void setPw(Context context, String pw) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -82,6 +112,14 @@ public class Helper {
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(EMAIL, email);
+        editor.apply();
+    }
+
+    public static void setHasNoAds(Context context, Boolean ads) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(HASADS, ads);
         editor.apply();
     }
 
