@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 import onl.deepspace.wgs.Helper;
@@ -36,11 +37,11 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         Intent intent = new Intent(context, AlarmReceiver.class);
         mAlarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
-        int interval = R.integer.update_interval_in_mins * 60 * 1000;
+        int interval = context.getResources().getInteger(R.integer.update_interval_in_mins) * 60 * 1000;
 
         mAlarm.setInexactRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                interval,
+                SystemClock.elapsedRealtime() + interval,
                 interval,
                 mAlarmIntent);
 
