@@ -16,9 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.awt.font.TextAttribute;
-import java.lang.reflect.Field;
-
 /**
  * A simple {@link Fragment} subclass.
  * Created by Dennis on 17.02.2016.
@@ -171,8 +168,8 @@ public class RepresentationFragment extends Fragment {
         TextView todayView = (TextView) inflator.findViewById(R.id.dateToday);
         TextView tomorrowView = (TextView) inflator.findViewById(R.id.dateTomorrow);
 
-        String todayDate = activity.getString(R.string.today, today);
-        String tomorrowDate = activity.getString(R.string.tomorrow, tomorrow);
+        String todayDate = activity.getString(R.string.today, today.substring(0, today.length() - 8));
+        String tomorrowDate = activity.getString(R.string.tomorrow, tomorrow.substring(0, tomorrow.length() - 8));
 
         todayView.setText(todayDate);
         tomorrowView.setText(tomorrowDate);

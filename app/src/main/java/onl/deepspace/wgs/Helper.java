@@ -1,9 +1,90 @@
 package onl.deepspace.wgs;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+
+import java.util.ArrayList;
+
 /**
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
+    public static String LOGTAG = "Deepspace";
+    public static String PW = "password";
+    public static String EMAIL = "userEmail";
+
+    public static void purchaseNoAd(Activity activity){
+        ArrayList<String> skuList = new ArrayList<String>();
+        skuList.add("wgs_app_remove_ads");;
+        Bundle querySkus = new Bundle();
+        querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+
+        Bundle skuDetails = new Bundle();
+
+        try {
+            skuDetails = PortalActivity.mService.getSkuDetails(3,
+                    activity.getPackageName(), "inapp", querySkus);
+        }
+        catch (RemoteException e){
+            Log.e(LOGTAG, e.getLocalizedMessage());
+        }
+
+        Log.v(LOGTAG, skuDetails.toString());
+    }
+
+    public static void sendNotification(Context activity, String title, String message){
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(activity)
+                        .setSmallIcon(R.mipmap.appicon)
+                        .setContentTitle(title)
+                        .setContentText(message);
+        Intent resultIntent = new Intent(activity, LoginActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(activity, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setAutoCancel(true);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        int mNotificationId = 001;
+
+        NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }
+
+    public static String getPw(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(PW, "");
+    }
+
+    public static String getEmail(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(EMAIL, "");
+    }
+
+    public static void setPw(Context context, String pw) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(PW, pw);
+        editor.apply();
+    }
+
+    public static void setEmail(Context context, String email) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(EMAIL, email);
+        editor.apply();
+    }
+
     /**
      * Get the text id for the specified subject
      * @param subject The subject to get the id for
@@ -11,6 +92,8 @@ public class Helper {
      */
     public static int getSubjectId(String subject) {
         int id = 0;
+
+        subject = subject.replaceAll("[0-9]", "");
 
         subject = subject.toUpperCase();
 

@@ -64,7 +64,7 @@ public class TimetableFragment extends Fragment {
             setDay("friday", friday);
 
         } catch (JSONException e) {
-            Log.e(LoginActivity.LOGTAG, e.toString());
+            Log.e(Helper.LOGTAG, e.toString());
         }
     }
 
@@ -89,7 +89,7 @@ public class TimetableFragment extends Fragment {
             }
         } catch(Exception e) {
             e.printStackTrace();
-            Log.e(LoginActivity.LOGTAG, e.getLocalizedMessage());
+            Log.e(Helper.LOGTAG, e.getLocalizedMessage());
         }
     }
 

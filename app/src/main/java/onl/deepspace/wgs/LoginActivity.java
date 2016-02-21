@@ -3,25 +3,24 @@ package onl.deepspace.wgs;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,52 +28,74 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface{
-
-    final static String LOGTAG = "DeepSpace";
+public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        TextView loginhint = (TextView) findViewById(R.id.loginhint);
-        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+        String savedPw = Helper.getPw(this);
+        String savedEmail = Helper.getEmail(this);
 
+        if(!(savedPw.equals("") && savedEmail.equals(""))) {
+            new GetUserData(LoginActivity.this).execute(savedPw, savedEmail);
+            setContentView(R.layout.activity_loading);
+        } else {
+            setContentView(R.layout.activity_login);
 
-        Button button = (Button) findViewById(R.id.email_sign_in_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new GetUserData(LoginActivity.this).execute(
-                        ((TextView) findViewById(R.id.email)).getText().toString(),
-                        ((TextView) findViewById(R.id.password)).getText().toString());
+            TextView loginhint = (TextView) findViewById(R.id.loginhint);
+            loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
-            }
-        });
+            Button button = (Button) findViewById(R.id.email_sign_in_button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String pw = ((TextView) findViewById(R.id.email)).getText().toString();
+                    String email = ((TextView) findViewById(R.id.password)).getText().toString();
+                    Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
+                    if (saveLogin) {
+                        Helper.setPw(getBaseContext(), pw);
+                        Helper.setEmail(getBaseContext(), email);
+                    }
+                    login(pw, email);
+                }
+            });
+        }
+    }
+
+    public void login(String pw, String email) {
+        findViewById(R.id.login_progress).setVisibility(View.VISIBLE);
+        new GetUserData(LoginActivity.this).execute(pw, email);
     }
 
     @Override
     public void onTaskCompleted(String response) {
-        Log.d(LOGTAG, response);
+        Log.d(Helper.LOGTAG, response);
         try{
             JSONObject arr = new JSONObject(response);
 
             if(arr.getBoolean("login")) {
-                Log.d(LOGTAG, Boolean.toString(arr.getBoolean("login")));
+                Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
                 Intent intent = new Intent(this, PortalActivity.class);
                 intent.putExtra("timetable", arr.getJSONObject("timetable").toString());
                 intent.putExtra("representation", arr.getJSONObject("representation").toString());
                 startActivity(intent);
             }
             else{
-                Log.d(LOGTAG, Boolean.toString( arr.getBoolean("login") ));
-                Snackbar.make(findViewById(R.id.login_activity), arr.getString("error"), Snackbar.LENGTH_SHORT).show();
+                Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
+                setContentView(R.layout.activity_login);
+                Snackbar.make(
+                        findViewById(R.id.login_activity),
+                        arr.getString("error"),
+                        Snackbar.LENGTH_SHORT).show();
             }
         }
         catch(JSONException e){
-            Log.e(LOGTAG, e.toString());
+            setContentView(R.layout.activity_login);
+            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
+            Log.e(Helper.LOGTAG, e.toString());
         }
+        //findViewById(R.id.login_progress).setVisibility(View.GONE);
     }
 
     public class GetUserData extends AsyncTask<String, Void, String> {
@@ -88,14 +109,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             return GetSomething(params[0], params[1]);
         }
 
-        public GetUserData(OnTaskCompletedInterface activityContext){
+        public GetUserData(OnTaskCompletedInterface activityContext) {
             this.taskCompleted = activityContext;
         }
 
-        final String GetSomething(String username, String password)
-        {
+        final String GetSomething(String username, String password) {
             String url = "https://deepspace.onl/scripts/sites/wgs/eltern-portal.php";
-            Log.d(LOGTAG, url);
+            Log.d(Helper.LOGTAG, url);
             BufferedReader inStream = null;
             try {
                 HttpClient httpClient = new DefaultHttpClient();
@@ -103,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
                 nameValuePairList.add(new BasicNameValuePair("username", username));
                 nameValuePairList.add(new BasicNameValuePair("password", password));
-                nameValuePairList.add(new BasicNameValuePair("token", "fECO3Zv8BJQDPHJOO0avyTgvoYScIiOyDNEEzttNnrJqZcJa7pej42sByWVyFHtA"));
+                nameValuePairList.add(new BasicNameValuePair("token", "WaoJrllHRkckNAhm4635MiVKgFhOpigmfV6EmvTt41xtTFbjkimUraFBQsOwS5Cj\n"));
 
                 httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
                 HttpResponse response = httpClient.execute(httpRequest);
@@ -121,7 +141,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
                 result = buffer.toString();
             } catch (Exception e) {
-                Log.e(LOGTAG, e.toString());
+                Log.e(Helper.LOGTAG, e.toString());
                 e.printStackTrace();
             } finally {
                 if (inStream != null) {
@@ -135,10 +155,9 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             return result;
         }
 
-        protected void onPostExecute(String page)
-        {
+        protected void onPostExecute(String page) {
             taskCompleted.onTaskCompleted(page);
         }
-    }
 
+    }
 }

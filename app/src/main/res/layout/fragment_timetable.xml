@@ -1,455 +1,556 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_form"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="onl.deepspace.wgs.TimetableFragment">
 
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/card_margin"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        card_view:cardElevation="4dp">
+        android:orientation="vertical">
 
-        <TableLayout
-            android:id="@+id/timetable"
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="6"
-            android:gravity="center">
-            <TableRow
-                android:background="@color/darkergrey"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/card_margin"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            card_view:cardElevation="4dp">
+
+            <TableLayout
+                android:id="@+id/timetable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/times"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:text="@string/monday"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:text="@string/tuesday"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:text="@string/wednesday"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:text="@string/thursday"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:text="@string/friday"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr1"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:background="@color/grey"
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time2"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo2"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu2"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we2"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th2"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr2"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time3"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo3"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu3"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we3"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th3"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr3"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:background="@color/grey"
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time4"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo4"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu4"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we4"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th4"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr4"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:background="@color/grey"
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time6"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo6"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu6"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we6"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th6"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr6"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time7"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo7"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu7"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we7"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th7"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr7"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:background="@color/grey"
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time8"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo8"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu8"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we8"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th8"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr8"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time9"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo9"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu9"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we9"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th9"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr9"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:background="@color/grey"
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time10"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo10"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu10"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we10"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th10"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr10"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow
-                android:gravity="center"
-                android:weightSum="11">
-                <TextView
-                    android:text="@string/time11"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/mo11"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/tu11"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/we11"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/th11"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/fr11"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:layout_weight="2"/>
-            </TableRow>
-        </TableLayout>
-    </android.support.v7.widget.CardView>
+                android:stretchColumns="6">
+
+                <TableRow
+                    android:background="@color/darkergrey"
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/times"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/monday"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/tuesday"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/wednesday"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/thursday"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/friday"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time1" />
+
+                    <TextView
+                        android:id="@+id/mo1"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu1"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we1"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th1"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr1"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@color/grey"
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time2" />
+
+                    <TextView
+                        android:id="@+id/mo2"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu2"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we2"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th2"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr2"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time3" />
+
+                    <TextView
+                        android:id="@+id/mo3"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu3"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we3"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th3"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr3"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@color/grey"
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time4" />
+
+                    <TextView
+                        android:id="@+id/mo4"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu4"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we4"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th4"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr4"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time5" />
+
+                    <TextView
+                        android:id="@+id/mo5"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu5"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we5"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th5"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr5"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@color/grey"
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time6" />
+
+                    <TextView
+                        android:id="@+id/mo6"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu6"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we6"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th6"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr6"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time7" />
+
+                    <TextView
+                        android:id="@+id/mo7"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu7"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we7"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th7"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr7"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@color/grey"
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time8" />
+
+                    <TextView
+                        android:id="@+id/mo8"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu8"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we8"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th8"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr8"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time9" />
+
+                    <TextView
+                        android:id="@+id/mo9"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu9"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we9"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th9"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr9"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:background="@color/grey"
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time10" />
+
+                    <TextView
+                        android:id="@+id/mo10"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu10"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we10"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th10"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr10"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center"
+                    android:weightSum="11">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/time11" />
+
+                    <TextView
+                        android:id="@+id/mo11"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/tu11"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/we11"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/th11"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/fr11"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:padding="8dp" />
+                </TableRow>
+            </TableLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <TextView
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingBottom="@dimen/padding_disclaimers"
+            android:textColor="#aaa"
+            android:textSize="13sp"
+            android:text="@string/portal_timetable_disclaimer"/>
+
+    </LinearLayout>
+
 </ScrollView>
