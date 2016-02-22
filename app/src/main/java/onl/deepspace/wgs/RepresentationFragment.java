@@ -41,6 +41,12 @@ public class RepresentationFragment extends Fragment {
         // Inflate the layout for this fragment
         inflator = inflater.inflate(R.layout.fragment_representation, container, false);
         setRepresentations(representation);
+
+        if(Helper.getHasNoAds(getContext())){
+            TextView representations = (TextView) inflator.findViewById(R.id.representations_disclaimer);
+            representations.setPadding(representations.getPaddingLeft(), representations.getPaddingTop(), representations.getPaddingRight(), 8);
+        }
+
         return inflator;
     }
 

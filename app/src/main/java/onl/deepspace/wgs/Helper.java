@@ -48,6 +48,8 @@ public class Helper {
                 }
             }*/
 
+            //Testing with android.test.purchased
+
             Bundle buyIntentBundle = PortalActivity.mService.getBuyIntent(3, activity.getPackageName(), "wgs_app_remove_ads", "inapp", "");
             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 

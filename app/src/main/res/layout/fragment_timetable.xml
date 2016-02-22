@@ -542,6 +542,7 @@
 
 
         <TextView
+            android:id="@+id/timetable_disclaimer"
             android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

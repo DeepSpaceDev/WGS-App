@@ -37,6 +37,12 @@ public class TimetableFragment extends Fragment {
         // Inflate the layout for this fragment
         inflator = inflater.inflate(R.layout.fragment_timetable, container, false);
         setTimetable(timetable);
+
+        if(Helper.getHasNoAds(getContext())){
+            TextView timetable = (TextView) inflator.findViewById(R.id.timetable_disclaimer);
+            timetable.setPadding(timetable.getPaddingLeft(), timetable.getPaddingTop(), timetable.getPaddingRight(), 8);
+        }
+
         return inflator;
     }
 

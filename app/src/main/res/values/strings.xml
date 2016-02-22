@@ -5,7 +5,7 @@
     <string name="login_header">Login</string>
     <string name="login_hint">Logge dich mit deinen offiziellen Eltern-Portal Zugansdaten ein. Dein Passwort wird nicht von uns gespeichert.\n\n
         Klicke <a href="https://welfen.eltern-portal.org/registrieren">hier</a> um dich zu registrieren.\n\n
-        Mit dem Login akzeptierst du unsere <a href="https://deepspace.onl/law/privacy">Datenschutzbestimmungen</a>
+        Mit dem Login akzeptierst du unsere <a href="https://deepspace.onl/law/privacy">Datenschutzbestimmungen</a> und die <a href="https://welfen.eltern-portal.org/">Datenschutzbestimmungen</a> des Elternportals.
     </string>
 
     <string name="about_header">DeepSpace Development</string>
