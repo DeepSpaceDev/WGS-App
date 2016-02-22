@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import onl.deepspace.wgs.Helper;
-import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 
 /**
  * Created by Dennis on 20.02.2016.
