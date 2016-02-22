@@ -125,6 +125,23 @@ public class Helper {
         editor.apply();
     }
 
+    public static int getLessonId(int lesson) {
+        switch (lesson) {
+            case 1:  return R.string.time1;
+            case 2:  return R.string.time2;
+            case 3:  return R.string.time3;
+            case 4:  return R.string.time4;
+            case 5:  return R.string.time5;
+            case 6:  return R.string.time6;
+            case 7:  return R.string.time7;
+            case 8:  return R.string.time8;
+            case 9:  return R.string.time9;
+            case 10: return R.string.time10;
+            case 11: return R.string.time11;
+            default: return 0;
+        }
+    }
+
     /**
      * Get the text id for the specified subject
      * @param subject The subject to get the id for
