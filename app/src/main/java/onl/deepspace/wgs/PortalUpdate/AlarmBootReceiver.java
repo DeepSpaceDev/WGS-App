@@ -13,9 +13,9 @@ public class AlarmBootReceiver extends BroadcastReceiver {
     AlarmReceiver mAlarm = new AlarmReceiver();
     @Override
     public void onReceive(Context context, Intent intent) {
-        Helper.sendNotification(context, "Booted", intent.getAction());
         if(intent.getAction().equals("android.intent.action.BOOT_COMPLETE")) {
-            mAlarm.setAlarm(context);
+            if(Helper.getEmail(context) != null && Helper.getPw(context) != null)
+                mAlarm.setAlarm(context);
         }
     }
 }

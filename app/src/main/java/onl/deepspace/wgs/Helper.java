@@ -19,6 +19,7 @@ public class Helper {
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
+    public static String API_RESULT = "onl.deepspace.wgs.api_result";
     public static String CONTENT_AUTORITY = "onl.deepspace.wgs.syncadapter";
     private static final String PREF_SETUP_COMPLETE = "setup_complete";
 
@@ -35,7 +36,7 @@ public class Helper {
         }
     }
 
-    public static void sendNotification(Context activity, String title, String message){
+    public static void sendNotification(Context activity, int notificationId, String title, String message){
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(activity)
                         .setSmallIcon(R.mipmap.appicon)
@@ -46,7 +47,7 @@ public class Helper {
         mBuilder.setAutoCancel(true);
         mBuilder.setContentIntent(resultPendingIntent);
 
-        int mNotificationId = 001;
+        int mNotificationId = notificationId;
 
         NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
@@ -64,6 +65,12 @@ public class Helper {
         return sharedPref.getString(EMAIL, "");
     }
 
+    public static String getApiResult(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(API_RESULT, "");
+    }
+
     public static void setPw(Context context, String pw) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -77,6 +84,14 @@ public class Helper {
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(EMAIL, email);
+        editor.apply();
+    }
+
+    public static void setApiResult(Context context, String result) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(API_RESULT, result);
         editor.apply();
     }
 

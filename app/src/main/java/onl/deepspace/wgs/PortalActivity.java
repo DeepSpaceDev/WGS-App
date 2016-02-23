@@ -61,7 +61,8 @@ public class PortalActivity extends AppCompatActivity {
 
 
         //Alarm Manager
-        mAlarm.setAlarm(this);
+        if(Helper.getEmail(this) != null & Helper.getPw(this) != null)
+            mAlarm.setAlarm(this);
 
         //EXTRAS verarbeitung
         TimetableFragment.setActivity(this);

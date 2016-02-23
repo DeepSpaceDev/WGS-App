@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     @Override
     public void onTaskCompleted(String response) {
         Log.d(Helper.LOGTAG, response);
+        Helper.setApiResult(this, response);
         try{
             JSONObject arr = new JSONObject(response);
 
