@@ -2,8 +2,8 @@ package onl.deepspace.wgs;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +13,6 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Field;
 
 /**
  * A simple {@link Fragment} subclass.
