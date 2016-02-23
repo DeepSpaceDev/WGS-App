@@ -56,11 +56,11 @@ public class Helper {
             activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
 
         } catch (RemoteException e) {
-            Log.e(LOGTAG, e.getLocalizedMessage());
+            Log.e(LOGTAG, e.getMessage());
         } catch (IntentSender.SendIntentException e) {
-            Log.e(LOGTAG, e.getLocalizedMessage());
+            Log.e(LOGTAG, e.getMessage());
         } catch (NullPointerException e) {
-            Log.e(LOGTAG, e.getLocalizedMessage());
+            Log.e(LOGTAG, e.getMessage());
         }
 
         Log.v(LOGTAG, skuDetails.toString());

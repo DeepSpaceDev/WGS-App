@@ -129,8 +129,13 @@ public class PortalActivity extends AppCompatActivity {
                 try {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
-                    Helper.setHasNoAds(this, true);
-                    Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf. Bitte starte die App neu", Snackbar.LENGTH_LONG).show();
+                    if(sku.equalsIgnoreCase("wgs_app_remove_ads")) {
+                        Helper.setHasNoAds(this, true);
+                        Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf. Bitte starte die App neu", Snackbar.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(PortalActivity.this, "Your request was not set. Please contact the developer!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 catch (JSONException e) {
                     Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
