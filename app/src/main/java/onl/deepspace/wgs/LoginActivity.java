@@ -38,13 +38,9 @@ import onl.deepspace.wgs.PortalUpdate.PortalPullService;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 
-    AlarmReceiver mAlarm = new AlarmReceiver();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAlarm.setAlarm(this);
 
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);

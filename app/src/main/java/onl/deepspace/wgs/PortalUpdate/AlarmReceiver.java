@@ -41,7 +41,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
         mAlarm.setInexactRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + interval,
+                SystemClock.elapsedRealtime()/* + interval*/,
                 interval,
                 mAlarmIntent);
 

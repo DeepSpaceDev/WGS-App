@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import onl.deepspace.wgs.AboutActivity;
 import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.LoginActivity;
+import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 import onl.deepspace.wgs.R;
 import onl.deepspace.wgs.RepresentationFragment;
 import onl.deepspace.wgs.TimetableFragment;
@@ -36,6 +37,8 @@ public class PortalActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private JSONObject saved_timetable, saved_representation;
+
+    AlarmReceiver mAlarm = new AlarmReceiver();
     JSONObject timetable, representation;
 
     @Override
@@ -55,6 +58,10 @@ public class PortalActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+
+        //Alarm Manager
+        mAlarm.setAlarm(this);
 
         //EXTRAS verarbeitung
         TimetableFragment.setActivity(this);
