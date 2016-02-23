@@ -45,10 +45,10 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 interval,
                 mAlarmIntent);
 
-        ComponentName reciever = new ComponentName(context, AlarmBootReceiver.class);
+        ComponentName receiver = new ComponentName(context, AlarmBootReceiver.class);
         PackageManager pm = context.getPackageManager();
 
-        pm.setComponentEnabledSetting(reciever,
+        pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
     }

@@ -37,7 +37,8 @@ public class PortalPullService extends IntentService {
         String pw = intent.getStringExtra("pw");
 
         //TODO make request to eltern-portal.org, check if new Infos are available, then send notification
-        Helper.sendNotification(this, "Test", GetSomething(email, pw));
+        String JsonResult = GetSomething(email, pw);
+        Helper.sendNotification(this, "Test",JsonResult);
 
         AlarmReceiver.completeWakefulIntent(intent);
     }

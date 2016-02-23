@@ -58,32 +58,22 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String pw = ((TextView) findViewById(R.id.email)).getText().toString();
-                    String email = ((TextView) findViewById(R.id.password)).getText().toString();
+                    String email = ((TextView) findViewById(R.id.email)).getText().toString();
+                    String pw = ((TextView) findViewById(R.id.password)).getText().toString();
                     Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
                     if (saveLogin) {
                         Helper.setPw(getBaseContext(), pw);
                         Helper.setEmail(getBaseContext(), email);
                     }
-                    login(pw, email);
+                    login(email, pw);
                 }
             });
         }
     }
 
-    public void login(String pw, String email) {
+    public void login(String email, String pw) {
         findViewById(R.id.login_progress).setVisibility(View.VISIBLE);
-        new GetUserData(LoginActivity.this).execute(pw, email);
-    }
-
-    public void registerAlarmManger() {
-        Intent intent = new Intent(this, PortalPullService.class);
-        PendingIntent updateIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime() + 60 * 1000,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES/30, updateIntent);
+        new GetUserData(LoginActivity.this).execute(email, pw);
     }
 
     @Override
@@ -132,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
         final String GetSomething(String username, String password) {
             String url = "https://deepspace.onl/scripts/sites/wgs/eltern-portal.php";
-            Log.d(Helper.LOGTAG, url);
+
             BufferedReader inStream = null;
             try {
                 HttpClient httpClient = new DefaultHttpClient();
