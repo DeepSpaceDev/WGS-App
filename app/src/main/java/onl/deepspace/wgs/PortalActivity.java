@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
@@ -40,6 +41,7 @@ public class PortalActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private JSONObject saved_timetable, saved_representation;
     JSONObject timetable, representation;
+    AdView mAdView;
 
     static ServiceConnection mServiceConn;
     static IInAppBillingService mService;
@@ -54,7 +56,7 @@ public class PortalActivity extends AppCompatActivity {
 
         //Admob
         if(Helper.getHasNoAds(getBaseContext()) == false){
-            AdView mAdView = (AdView) findViewById(R.id.adView);
+            mAdView = (AdView) findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
         }
@@ -129,7 +131,8 @@ public class PortalActivity extends AppCompatActivity {
                     String sku = jo.getString("productId");
                     if(sku.equalsIgnoreCase("wgs_app_remove_ads")) {
                         Helper.setHasNoAds(this, true);
-                        Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf. Bitte starte die App neu", Snackbar.LENGTH_LONG).show();
+                        mAdView.setVisibility(View.INVISIBLE);
+                        Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf.", Snackbar.LENGTH_LONG).show();
                     }
                     else{
                         Toast.makeText(PortalActivity.this, "Your request was not set. Please contact the developer!", Toast.LENGTH_SHORT).show();
@@ -165,7 +168,7 @@ public class PortalActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if(Helper.getHasNoAds(getBaseContext()) == true) {
-            MenuItem mi = (MenuItem) menu.findItem(R.id.action_remads);
+            MenuItem mi = menu.findItem(R.id.action_remads);
             mi.setVisible(false);
         }
         return super.onPrepareOptionsMenu(menu);

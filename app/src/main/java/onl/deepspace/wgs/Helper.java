@@ -9,8 +9,12 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
+
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -18,6 +22,7 @@ import java.util.ArrayList;
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
+
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
@@ -50,7 +55,22 @@ public class Helper {
             Bundle buyIntentBundle = PortalActivity.mService.getBuyIntent(3, activity.getPackageName(), "wgs_app_remove_ads", "inapp", "");
             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 
-            activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+            if(pendingIntent != null){ //Item is not bought
+                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+            }
+            else{ //Item is bought by user
+                Bundle ownedItems = PortalActivity.mService.getPurchases(3, activity.getPackageName(), "inapp", "");
+                ArrayList myPurchases = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+
+                for(int i = 0; i < myPurchases.size(); i++){
+                    if (myPurchases.get(i).equals("wgs_app_remove_ads")) {
+                        activity.findViewById(R.id.adView).setVisibility(View.INVISIBLE);
+                        setHasNoAds(activity, true);
+                        Snackbar.make(activity.findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf.", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+
+            }
 
         } catch (RemoteException e) {
             Log.e(LOGTAG, e.getMessage());
@@ -59,8 +79,6 @@ public class Helper {
         } catch (NullPointerException e) {
             Log.e(LOGTAG, e.getMessage());
         }
-
-        Log.v(LOGTAG, skuDetails.toString());
     }
 
     public static void sendNotification(Context activity, String title, String message){
@@ -120,6 +138,18 @@ public class Helper {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(HASADS, ads);
         editor.apply();
+    }
+
+    public static String bundle2string(Bundle bundle) {
+        if (bundle == null) {
+            return null;
+        }
+        String string = "Bundle{";
+        for (String key : bundle.keySet()) {
+            string += " " + key + " => " + bundle.get(key) + ";";
+        }
+        string += " }Bundle";
+        return string;
     }
 
     public static int getLessonId(int lesson) {
