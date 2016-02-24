@@ -22,6 +22,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import onl.deepspace.wgs.BuildConfig;
 import onl.deepspace.wgs.Helper;
 
 /**
@@ -136,6 +137,7 @@ public class PortalPullService extends IntentService {
             nameValuePairList.add(new BasicNameValuePair("username", username));
             nameValuePairList.add(new BasicNameValuePair("password", password));
             nameValuePairList.add(new BasicNameValuePair("token", "WaoJrllHRkckNAhm4635MiVKgFhOpigmfV6EmvTt41xtTFbjkimUraFBQsOwS5Cj\n"));
+            nameValuePairList.add(new BasicNameValuePair("version", BuildConfig.VERSION_CODE + ""));
 
             httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
             HttpResponse response = httpClient.execute(httpRequest);

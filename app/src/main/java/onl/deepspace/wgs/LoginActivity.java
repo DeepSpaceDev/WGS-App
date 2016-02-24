@@ -138,6 +138,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 nameValuePairList.add(new BasicNameValuePair("username", username));
                 nameValuePairList.add(new BasicNameValuePair("password", password));
                 nameValuePairList.add(new BasicNameValuePair("token", "WaoJrllHRkckNAhm4635MiVKgFhOpigmfV6EmvTt41xtTFbjkimUraFBQsOwS5Cj\n"));
+                nameValuePairList.add(new BasicNameValuePair("version", BuildConfig.VERSION_CODE + ""));
 
                 httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
                 HttpResponse response = httpClient.execute(httpRequest);
