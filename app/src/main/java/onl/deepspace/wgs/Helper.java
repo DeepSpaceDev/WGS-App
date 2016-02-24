@@ -1,15 +1,10 @@
 package onl.deepspace.wgs;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 /**
@@ -20,21 +15,6 @@ public class Helper {
     public static String PW = "password";
     public static String EMAIL = "userEmail";
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
-    public static String CONTENT_AUTORITY = "onl.deepspace.wgs.syncadapter";
-    private static final String PREF_SETUP_COMPLETE = "setup_complete";
-
-    public static void SyncAccount(Context context, String email, String pw) {
-
-        Account account = new Account(email, "wgs.deepspace.onl");
-        AccountManager manager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
-        if(manager.addAccountExplicitly(account, pw, null)) {
-            ContentResolver.setIsSyncable(account, CONTENT_AUTORITY, 1);
-            ContentResolver.setSyncAutomatically(account, CONTENT_AUTORITY, true);
-            long frequency =
-                    context.getResources().getInteger(R.integer.update_interval_in_mins) * 60;
-            ContentResolver.addPeriodicSync(account, CONTENT_AUTORITY, new Bundle(), frequency);
-        }
-    }
 
     public static void sendNotification(Context activity, int notificationId, String title, String message){
         NotificationCompat.Builder mBuilder =
