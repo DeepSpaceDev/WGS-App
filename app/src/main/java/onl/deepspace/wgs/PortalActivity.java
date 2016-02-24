@@ -27,6 +27,8 @@ import com.google.android.gms.ads.AdView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
+
 public class PortalActivity extends AppCompatActivity {
 
     /**
@@ -40,6 +42,8 @@ public class PortalActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private JSONObject saved_timetable, saved_representation;
+
+    AlarmReceiver mAlarm = new AlarmReceiver();
     JSONObject timetable, representation;
     AdView mAdView;
 
@@ -94,8 +98,17 @@ public class PortalActivity extends AppCompatActivity {
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
         if(tabLayout != null && mViewPager != null)
             tabLayout.setupWithViewPager(mViewPager);
+
+        //Alarm Manager
+        if(Helper.getEmail(this) != null & Helper.getPw(this) != null)
+            mAlarm.setAlarm(this);
+
+        //EXTRAS verarbeitung
+        TimetableFragment.setActivity(this);
+        RepresentationFragment.setActivity(this);
 
         Bundle extras = getIntent().getExtras();
         try {
