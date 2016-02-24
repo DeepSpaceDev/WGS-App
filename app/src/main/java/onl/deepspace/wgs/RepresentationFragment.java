@@ -74,7 +74,9 @@ public class RepresentationFragment extends Fragment {
             String refresh = representations.getString("lastrefresh");
             refresh = refresh.trim();
             String hour = refresh.substring(34, 39);
-            ((TextView) inflator.findViewById(R.id.updated)).setText("Aktualisiert um " + hour);
+            String date = refresh.substring(22, 29);
+
+            ((TextView) inflator.findViewById(R.id.updated)).setText("Aktualisiert am "+ date + " " + hour);
 
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
