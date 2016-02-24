@@ -82,10 +82,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             if(arr.getBoolean("login")) {
                 Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
 
-                Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
-                if (saveLogin) {
-                    Helper.setPw(getBaseContext(), ((TextView) findViewById(R.id.password)).getText().toString());
-                    Helper.setEmail(getBaseContext(), ((TextView) findViewById(R.id.email)).getText().toString());
+                CheckBox saveLoginBox = (CheckBox) findViewById(R.id.saveLogin);
+                if(saveLoginBox != null) {
+                    Boolean saveLogin = saveLoginBox.isChecked();
+                    if (saveLogin) {
+                        Helper.setPw(getBaseContext(), ((TextView) findViewById(R.id.password)).getText().toString());
+                        Helper.setEmail(getBaseContext(), ((TextView) findViewById(R.id.email)).getText().toString());
+                    }
                 }
 
                 Intent intent = new Intent(this, PortalActivity.class);
