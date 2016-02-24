@@ -58,14 +58,10 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String email = ((TextView) findViewById(R.id.email)).getText().toString();
-                    String pw = ((TextView) findViewById(R.id.password)).getText().toString();
-                    Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
-                    if (saveLogin) {
-                        Helper.setPw(getBaseContext(), pw);
-                        Helper.setEmail(getBaseContext(), email);
-                    }
-                    login(email, pw);
+                String email = ((TextView) findViewById(R.id.email)).getText().toString();
+                String pw = ((TextView) findViewById(R.id.password)).getText().toString();
+
+                login(email, pw);
                 }
             });
         }
@@ -85,6 +81,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
             if(arr.getBoolean("login")) {
                 Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean("login")));
+
+                Boolean saveLogin = ((CheckBox) findViewById(R.id.saveLogin)).isChecked();
+                if (saveLogin) {
+                    Helper.setPw(getBaseContext(), ((TextView) findViewById(R.id.password)).getText().toString());
+                    Helper.setEmail(getBaseContext(), ((TextView) findViewById(R.id.email)).getText().toString());
+                }
+
                 Intent intent = new Intent(this, PortalActivity.class);
                 intent.putExtra("timetable", arr.getJSONObject("timetable").toString());
                 intent.putExtra("representation", arr.getJSONObject("representation").toString());
