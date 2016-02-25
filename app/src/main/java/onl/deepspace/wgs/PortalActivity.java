@@ -24,28 +24,22 @@ import com.android.vending.billing.IInAppBillingService;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 
 public class PortalActivity extends AppCompatActivity {
 
     public static final int PICK_CHILD_REQUEST = 1;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
-    private JSONObject saved_timetable, saved_representation;
 
     AlarmReceiver mAlarm = new AlarmReceiver();
     JSONObject timetable, representation;
+    JSONArray mChildren;
     AdView mAdView;
 
     static ServiceConnection mServiceConn;
@@ -60,7 +54,7 @@ public class PortalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_portal);
 
         //Admob
-        if(Helper.getHasNoAds(getBaseContext()) == false){
+        if(!Helper.getHasNoAds(getBaseContext())){
             mAdView = (AdView) findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
@@ -90,12 +84,20 @@ public class PortalActivity extends AppCompatActivity {
         if(toolbar != null)
             setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        // primary sections of the mActivity.
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        if(mViewPager != null && mSectionsPagerAdapter != null)
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
+        if(mViewPager != null)
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -113,23 +115,15 @@ public class PortalActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         try {
-            //incase of start via child activity
-            //if(extras != null){
-                timetable = new JSONObject(extras.getString("timetable"));
-                saved_timetable = timetable;
-                representation = new JSONObject(extras.getString("representation"));
-                saved_representation = representation;
-            /*}
-            else{
-               representation = saved_representation;
-               timetable = saved_timetable;
-            }*/
+            mChildren = new JSONArray(extras.getString(Helper.API_RESULT_CHILDREN));
+
+            int childIndex = Helper.getChildIndex(this);
+            selectChild(childIndex);
+
         }
         catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.toString());
         }
-        TimetableFragment.timetable = timetable;
-        RepresentationFragment.representation = representation;
     }
 
     @Override
@@ -163,7 +157,26 @@ public class PortalActivity extends AppCompatActivity {
         }
         if (requestCode == PICK_CHILD_REQUEST) {
             int childIndex = data.getIntExtra(Helper.CHILD_INDEX, 0);
+
             //TODO switch user
+            Helper.setChildIndex(this, childIndex);
+            selectChild(childIndex);
+        }
+    }
+
+    private void selectChild(int index) {
+        try {
+            JSONObject child = mChildren.getJSONObject(index);
+
+            JSONObject timetable = child.getJSONObject(Helper.API_RESULT_TIMETABLE);
+            JSONObject representations = child.getJSONObject(Helper.API_RESULT_REPRESENTATION);
+
+            TimetableFragment.timetable = timetable;
+            RepresentationFragment.representation = representations;
+            TimetableFragment.setTimetable(timetable);
+            RepresentationFragment.setRepresentations(representations);
+        } catch(JSONException e) {
+            Log.e(Helper.LOGTAG, e.getMessage());
         }
     }
 
@@ -184,7 +197,7 @@ public class PortalActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(Helper.getHasNoAds(getBaseContext()) == true) {
+        if(Helper.getHasNoAds(getBaseContext())) {
             MenuItem mi = menu.findItem(R.id.action_remads);
             mi.setVisible(false);
         }
@@ -205,7 +218,18 @@ public class PortalActivity extends AppCompatActivity {
         if (id == R.id.action_select_child) {
             Intent intent = new Intent(this, SelectChildActivity.class);
             //TODO put String array extra with names of the children
-            intent.putExtra(Helper.CHILDREN, new String[0]);
+            ArrayList<String> childrenNames = new ArrayList<>();
+
+            try {
+                for (int i = 0; i < mChildren.length(); i++) {
+                    String name = mChildren.getString(i);
+                    childrenNames.add(name);
+                }
+            } catch (JSONException e) {
+                Log.e(Helper.LOGTAG, e.getMessage());
+            }
+
+            intent.putExtra(Helper.CHILDREN, childrenNames);
             startActivityForResult(intent, PICK_CHILD_REQUEST);
         }
         if(id == R.id.action_about) {

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class SelectChildActivity extends AppCompatActivity {
 
     @Override
@@ -19,12 +21,12 @@ public class SelectChildActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_child);
 
         Intent intent = getIntent();
-        String[] children = intent.getStringArrayExtra(Helper.CHILDREN);
+        ArrayList<String> children = intent.getStringArrayListExtra(Helper.CHILDREN);
 
         setupChildrenList(children);
     }
 
-    private void setupChildrenList(final String[] children) {
+    private void setupChildrenList(final ArrayList<String> children) {
         LinearLayout container = (LinearLayout) findViewById(R.id.select_children_container);
         container.removeAllViews();
 
@@ -53,9 +55,9 @@ public class SelectChildActivity extends AppCompatActivity {
         }
     }
 
-    private int findIndex(String[] children, String name) {
-        for (int i = 0; i < children.length; i++) {
-            if(children[i].equals(name)) return i;
+    private int findIndex(ArrayList<String> children, String name) {
+        for (int i = 0; i < children.size(); i++) {
+            if(children.get(i).equals(name)) return i;
         }
         return -1;
     }

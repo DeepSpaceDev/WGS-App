@@ -22,9 +22,9 @@ import org.json.JSONObject;
  */
 public class RepresentationFragment extends Fragment {
 
-    private static Activity activity;
+    private static Activity mActivity;
     static JSONObject representation;
-    static View inflator;
+    static View mInflater;
 
     public RepresentationFragment() {
         // Required empty public constructor
@@ -39,15 +39,15 @@ public class RepresentationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflator = inflater.inflate(R.layout.fragment_representation, container, false);
+        mInflater = inflater.inflate(R.layout.fragment_representation, container, false);
         setRepresentations(representation);
 
         if(Helper.getHasNoAds(getContext())){
-            TextView representations = (TextView) inflator.findViewById(R.id.representations_disclaimer);
+            TextView representations = (TextView) mInflater.findViewById(R.id.representations_disclaimer);
             representations.setPadding(representations.getPaddingLeft(), representations.getPaddingTop(), representations.getPaddingRight(), 8);
         }
 
-        return inflator;
+        return mInflater;
     }
 
     /**
@@ -69,14 +69,14 @@ public class RepresentationFragment extends Fragment {
 
             String student = representations.getString("name");
             student = student.substring(5);
-            ((TextView) inflator.findViewById(R.id.studentName)).setText(student);
+            ((TextView) mInflater.findViewById(R.id.studentName)).setText(student);
 
             String refresh = representations.getString("lastrefresh");
             refresh = refresh.trim();
             String hour = refresh.substring(34, 39);
             String date = refresh.substring(22, 29);
 
-            ((TextView) inflator.findViewById(R.id.updated)).setText("Aktualisiert am "+ date + " " + hour);
+            ((TextView) mInflater.findViewById(R.id.updated)).setText(String.format("%s %s %s", mActivity.getString(R.string.updated_at), date, hour));
 
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
@@ -94,8 +94,8 @@ public class RepresentationFragment extends Fragment {
     public static void addRepresentations(String day, JSONArray data) throws JSONException{
         TableLayout table = (TableLayout)
                 (day.equals("today") ?
-                        inflator.findViewById(R.id.representationsToday) :
-                        inflator.findViewById(R.id.representationsTomorrow));
+                        mInflater.findViewById(R.id.representationsToday) :
+                        mInflater.findViewById(R.id.representationsTomorrow));
         for(int i=0; i<data.length(); i++) {
             JSONObject representation = data.getJSONObject(i);
             int lesson = representation.getInt("lesson");
@@ -103,20 +103,20 @@ public class RepresentationFragment extends Fragment {
             String teacher = representation.getString("teacher");
             String room = representation.getString("room");
 
-            TableRow row = new TableRow(activity);
-            if(i % 2 == 1) row.setBackgroundColor(ContextCompat.getColor(activity, R.color.grey));
+            TableRow row = new TableRow(mActivity);
+            if(i % 2 == 1) row.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.grey));
             row.setGravity(Gravity.CENTER);
             row.setWeightSum(4);
 
-            TextView lessonView = new TextView(activity);
-            TextView subjectView = new TextView(activity);
-            TextView teacherView = new TextView(activity);
-            TextView roomView = new TextView(activity);
+            TextView lessonView = new TextView(mActivity);
+            TextView subjectView = new TextView(mActivity);
+            TextView teacherView = new TextView(mActivity);
+            TextView roomView = new TextView(mActivity);
 
             int subjectId = Helper.getSubjectId(subject);
-            String subjectString = subjectId == 0 ? subject : activity.getString(subjectId);
+            String subjectString = subjectId == 0 ? subject : mActivity.getString(subjectId);
 
-            lessonView.setText(activity.getString(Helper.getLessonId(lesson)));
+            lessonView.setText(mActivity.getString(Helper.getLessonId(lesson)));
             subjectView.setText(subjectString);
             teacherView.setText(teacher);
             roomView.setText(room);
@@ -150,20 +150,20 @@ public class RepresentationFragment extends Fragment {
         }
         if(data.length() > 0) {
             if(day.equals("today")) {
-                TextView noToday = (TextView) inflator.findViewById(R.id.noToday);
+                TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
                 noToday.setVisibility(View.GONE);
             } else {
-                TextView noTomorrow = (TextView) inflator.findViewById(R.id.noTomorrow);
+                TextView noTomorrow = (TextView) mInflater.findViewById(R.id.noTomorrow);
                 noTomorrow.setVisibility(View.GONE);
             }
         }
     }
 
     public static void clearRepesentations() {
-        TableLayout today = (TableLayout) inflator.findViewById(R.id.representationsToday);
-        TableLayout tomorrow = (TableLayout) inflator.findViewById(R.id.representationsTomorrow);
-        TextView noToday = (TextView) inflator.findViewById(R.id.noToday);
-        TextView noTomorrow = (TextView) inflator.findViewById(R.id.noTomorrow);
+        TableLayout today = (TableLayout) mInflater.findViewById(R.id.representationsToday);
+        TableLayout tomorrow = (TableLayout) mInflater.findViewById(R.id.representationsTomorrow);
+        TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
+        TextView noTomorrow = (TextView) mInflater.findViewById(R.id.noTomorrow);
 
         noToday.setVisibility(View.VISIBLE);
         noTomorrow.setVisibility(View.VISIBLE);
@@ -173,17 +173,17 @@ public class RepresentationFragment extends Fragment {
     }
 
     public static void setDates(String today, String tomorrow) {
-        TextView todayView = (TextView) inflator.findViewById(R.id.dateToday);
-        TextView tomorrowView = (TextView) inflator.findViewById(R.id.dateTomorrow);
+        TextView todayView = (TextView) mInflater.findViewById(R.id.dateToday);
+        TextView tomorrowView = (TextView) mInflater.findViewById(R.id.dateTomorrow);
 
-        String todayDate = activity.getString(R.string.today, today.substring(0, today.length() - 8));
-        String tomorrowDate = activity.getString(R.string.tomorrow, tomorrow.substring(0, tomorrow.length() - 8));
+        String todayDate = mActivity.getString(R.string.today, today.substring(0, today.length() - 8));
+        String tomorrowDate = mActivity.getString(R.string.tomorrow, tomorrow.substring(0, tomorrow.length() - 8));
 
         todayView.setText(todayDate);
         tomorrowView.setText(tomorrowDate);
     }
 
-    public static void setActivity(Activity activity) {
-        RepresentationFragment.activity = activity;
+    public static void setActivity(Activity mActivity) {
+        RepresentationFragment.mActivity = mActivity;
     }
 }

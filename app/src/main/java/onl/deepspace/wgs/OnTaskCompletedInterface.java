@@ -2,6 +2,7 @@ package onl.deepspace.wgs;
 
 /**
  * Created by Sese on 06.02.2016.
+ * Interface for calling method when AsyncTask is completed
  */
 public interface OnTaskCompletedInterface {
 
