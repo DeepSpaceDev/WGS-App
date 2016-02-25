@@ -117,6 +117,12 @@ public class PortalActivity extends AppCompatActivity {
         try {
             mChildren = new JSONArray(extras.getString(Helper.API_RESULT_CHILDREN));
 
+            MenuItem selectChild = (MenuItem) findViewById(R.id.action_select_child);
+            if (mChildren.length() < 2) {
+            } else {
+                selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
+
             int childIndex = Helper.getChildIndex(this);
             selectChild(childIndex);
 
