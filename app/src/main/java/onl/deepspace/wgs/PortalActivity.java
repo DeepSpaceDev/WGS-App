@@ -119,6 +119,7 @@ public class PortalActivity extends AppCompatActivity {
 
             MenuItem selectChild = (MenuItem) findViewById(R.id.action_select_child);
             if (mChildren.length() < 2) {
+                selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
             } else {
                 selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
