@@ -21,6 +21,8 @@ import java.util.ArrayList;
  */
 public class Helper {
 
+    public static final String CHILD_INDEX = "childIndex";
+    public static final String CHILDREN = "children";
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";

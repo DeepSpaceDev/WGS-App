@@ -31,6 +31,7 @@ import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 
 public class PortalActivity extends AppCompatActivity {
 
+    public static final int PICK_CHILD_REQUEST = 1;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -160,6 +161,10 @@ public class PortalActivity extends AppCompatActivity {
                 Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
             }
         }
+        if (requestCode == PICK_CHILD_REQUEST) {
+            int childIndex = data.getIntExtra(Helper.CHILD_INDEX, 0);
+            //TODO switch user
+        }
     }
 
     @Override
@@ -169,7 +174,6 @@ public class PortalActivity extends AppCompatActivity {
             unbindService(mServiceConn);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -198,6 +202,12 @@ public class PortalActivity extends AppCompatActivity {
         /*if (id == R.id.action_settings) {
             return true;
         }*/
+        if (id == R.id.action_select_child) {
+            Intent intent = new Intent(this, SelectChildActivity.class);
+            //TODO put String array extra with names of the children
+            intent.putExtra(Helper.CHILDREN, new String[0]);
+            startActivityForResult(intent, PICK_CHILD_REQUEST);
+        }
         if(id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
