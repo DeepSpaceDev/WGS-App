@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class PortalActivity extends AppCompatActivity {
 
     static ServiceConnection mServiceConn;
     static IInAppBillingService mService;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +119,6 @@ public class PortalActivity extends AppCompatActivity {
         try {
             mChildren = new JSONArray(extras.getString(Helper.API_RESULT_CHILDREN));
 
-            MenuItem selectChild = (MenuItem) findViewById(R.id.action_select_child);
-            if (mChildren.length() < 2) {
-                selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            } else {
-                selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
-
             int childIndex = Helper.getChildIndex(this);
             selectChild(childIndex);
 
@@ -172,9 +167,18 @@ public class PortalActivity extends AppCompatActivity {
     }
 
     private void selectChild(int index) {
+        MenuItem selectChild = mMenu.findItem(R.id.action_select_child);
+        if (mChildren.length() < 2) {
+            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        } else {
+            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
         try {
             JSONObject child = mChildren.getJSONObject(index);
 
+            String name = child.getString(Helper.API_RESULT_NAME);
+            ActionBar bar = getSupportActionBar();
+            if(bar != null) bar.setTitle(name);
             JSONObject timetable = child.getJSONObject(Helper.API_RESULT_TIMETABLE);
             JSONObject representations = child.getJSONObject(Helper.API_RESULT_REPRESENTATION);
 
@@ -198,6 +202,7 @@ public class PortalActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        mMenu = menu;
         getMenuInflater().inflate(R.menu.menu_portal, menu);
         return true;
     }
