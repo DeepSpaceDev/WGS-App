@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     @Override
     public void onTaskCompleted(String response) {
         Helper.setApiResult(this, response);
+        Log.d(Helper.LOGTAG, response);
         try{
             JSONObject arr = new JSONObject(response);
 
@@ -89,8 +90,6 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     }
 
     public class GetUserData extends AsyncTask<String, Void, String> {
-
-
 
         private OnTaskCompletedInterface taskCompleted;
 
