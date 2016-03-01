@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,10 +27,15 @@ public class SelectChildActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ArrayList<String> children = intent.getStringArrayListExtra(Helper.CHILDREN);
 
-        setupChildrenList(children);
+        try{
+            setupChildrenList(children);
+        }
+        catch(JSONException e){
+            Log.e(Helper.LOGTAG, e.toString());
+        }
     }
 
-    private void setupChildrenList(final ArrayList<String> children) {
+    private void setupChildrenList(final ArrayList<String> children) throws JSONException {
         LinearLayout container = (LinearLayout) findViewById(R.id.select_children_container);
         container.removeAllViews();
 
@@ -38,29 +47,23 @@ public class SelectChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ViewGroup parent = (ViewGroup) v.getParent();
                 int index = parent.indexOfChild(v);
-                setResult(index);
+
+                setResult(RESULT_OK, new Intent().putExtra(Helper.CHILD_INDEX, index));
                 finish();
             }
         };
         for (String aChildren : children) {
+            String childName = new JSONObject(aChildren).getString("name");
+
             TextView name = new TextView(this);
             name.setLayoutParams(layoutParams);
-            name.setText(aChildren);
-            name.setHeight(48);
+            name.setText(childName);
+            name.setHeight(150);
             name.setTypeface(Typeface.DEFAULT_BOLD);
-            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
             name.setGravity(Gravity.CENTER_VERTICAL);
             name.setOnClickListener(clickListener);
             container.addView(name);
         }
     }
-
-    private int findIndex(ArrayList<String> children, String name) {
-        for (int i = 0; i < children.size(); i++) {
-            if(children.get(i).equals(name)) return i;
-        }
-        return -1;
-    }
-
-
 }
