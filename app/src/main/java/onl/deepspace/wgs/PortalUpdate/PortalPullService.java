@@ -47,41 +47,21 @@ public class PortalPullService extends IntentService {
                 JSONObject fetched = new JSONObject(fetchedResult);
                 JSONObject cached = new JSONObject(cachedResult);
 
-                JSONObject fRepresentations = fetched.getJSONObject(REPRESENTATIONS);
-                JSONObject cRepresentations = cached.getJSONObject(REPRESENTATIONS);
+                JSONArray fChildren = fetched.getJSONArray(Helper.API_RESULT_CHILDREN);
+                JSONArray cChildren = cached.getJSONArray(Helper.API_RESULT_CHILDREN);
 
-                JSONObject fToday = fRepresentations.getJSONObject(TODAY);
-                JSONObject fTomorrow = fRepresentations.getJSONObject(TOMORROW);
-                JSONObject cToday = cRepresentations.getJSONObject(TODAY);
-                JSONObject cTomorrow = cRepresentations.getJSONObject(TOMORROW);
+                ArrayList<String> updatedNames = new ArrayList<>();
 
-                String fTodayDate = fToday.getString(DATE);
-                String fTomorrowDate = fTomorrow.getString(DATE);
-                String cTodayDate = cToday.getString(DATE);
-                String cTomorrowDate = cTomorrow.getString(DATE);
+                for(int i=0; i<fChildren.length(); i++) {
+                    String name = fChildren.getJSONObject(i).getString(Helper.API_RESULT_NAME);
+                    JSONObject fRepresentations = fChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
+                    JSONObject cRepresentations = cChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
 
-
-                if(fTodayDate.equals(cTodayDate) && fTomorrowDate.equals(cTomorrowDate)) {
-                    JSONArray fTodayRep = fToday.getJSONArray(DATA);
-                    JSONArray fTomorrowRep = fTomorrow.getJSONArray(DATA);
-                    JSONArray cTodayRep = cToday.getJSONArray(DATA);
-                    JSONArray cTomorrowRep = cTomorrow.getJSONArray(DATA);
-
-                    ArrayList<String> newToday = getNewRepresentations(fTodayRep, cTodayRep);
-                    ArrayList<String> newTomorrow = getNewRepresentations(fTomorrowRep, cTomorrowRep);
-
-                    if(newToday.size() > 0 || newTomorrow.size() > 0)
-                        showNewRepresentation();
-                } else if (fTodayDate.equals(cTomorrowDate)) {
-                    JSONArray fetchedRep = fToday.getJSONArray(DATA);
-                    JSONArray cachedRep = cTomorrow.getJSONArray(DATA);
-
-                    ArrayList<String> newRep = getNewRepresentations(fetchedRep, cachedRep);
-
-                    if (newRep.size() > 0 || fTomorrow.getJSONArray(DATA).length() > 0) {
-                        showNewRepresentation();
-                    }
+                    if(checkForChanges(fRepresentations, cRepresentations)) updatedNames.add(name);
                 }
+
+                if (updatedNames.size() > 0) showNewRepresentation(updatedNames);
+
             } catch (JSONException e) {
                 Log.e(Helper.LOGTAG, e.getMessage());
             }
@@ -92,8 +72,47 @@ public class PortalPullService extends IntentService {
         AlarmReceiver.completeWakefulIntent(intent);
     }
 
-    private void showNewRepresentation() {
-        Helper.sendNotification(this, 202, "Neue Vertretung", "Hier klicken um sie anzuzeigen");
+    private boolean checkForChanges(JSONObject fRepresentations, JSONObject cRepresentations) throws JSONException{
+        JSONObject fToday = fRepresentations.getJSONObject(TODAY);
+        JSONObject fTomorrow = fRepresentations.getJSONObject(TOMORROW);
+        JSONObject cToday = cRepresentations.getJSONObject(TODAY);
+        JSONObject cTomorrow = cRepresentations.getJSONObject(TOMORROW);
+
+        String fTodayDate = fToday.getString(DATE);
+        String fTomorrowDate = fTomorrow.getString(DATE);
+        String cTodayDate = cToday.getString(DATE);
+        String cTomorrowDate = cTomorrow.getString(DATE);
+
+
+        if(fTodayDate.equals(cTodayDate) && fTomorrowDate.equals(cTomorrowDate)) {
+            JSONArray fTodayRep = fToday.getJSONArray(DATA);
+            JSONArray fTomorrowRep = fTomorrow.getJSONArray(DATA);
+            JSONArray cTodayRep = cToday.getJSONArray(DATA);
+            JSONArray cTomorrowRep = cTomorrow.getJSONArray(DATA);
+
+            ArrayList<String> newToday = getNewRepresentations(fTodayRep, cTodayRep);
+            ArrayList<String> newTomorrow = getNewRepresentations(fTomorrowRep, cTomorrowRep);
+
+            if(newToday.size() > 0 || newTomorrow.size() > 0) return true;
+        } else if (fTodayDate.equals(cTomorrowDate)) {
+            JSONArray fetchedRep = fToday.getJSONArray(DATA);
+            JSONArray cachedRep = cTomorrow.getJSONArray(DATA);
+
+            ArrayList<String> newRep = getNewRepresentations(fetchedRep, cachedRep);
+
+            if (newRep.size() > 0 || fTomorrow.getJSONArray(DATA).length() > 0) return true;
+        }
+        return false;
+    }
+
+    private void showNewRepresentation(ArrayList<String> children) {
+        String representation = "Neue Vertretung für:";
+        representation += " " + children.get(0);
+        for (int i = 1; i < children.size(); i++) {
+            representation += ", " + children.get(i);
+        }
+
+        Helper.sendNotification(this, 202, representation, "Hier klicken um sie anzuzeigen");
     }
 
     private ArrayList<String> getNewRepresentations(JSONArray fetched, JSONArray cached) throws JSONException{
