@@ -170,6 +170,7 @@ public class PortalActivity extends AppCompatActivity {
 
     private void selectChild(int index, boolean... update) {
         try {
+            if(index + 1 > mChildren.length()){
                 index = 0;
             }
             JSONObject child = mChildren.getJSONObject(index);
