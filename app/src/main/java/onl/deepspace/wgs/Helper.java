@@ -14,23 +14,62 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
 
+
+    public static final String CHILD_INDEX = "childIndex";
+    public static final String CHILDREN = "children";
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
-
     public static String HASADS = "hasDisabledAds";
+
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
 
+    public static final String WGSPortalAPI = "https://deepspace.onl/scripts/sites/wgs/eltern-portal_v2.php";
+    public static final String WGSPortalAPI_USERNAME = "username";
+    public static final String WGSPortalAPI_PASSWORD = "password";
+    public static final String WGSPortalAPI_TOKEN = "token";
+    public static final String WGSPortalAPI_AUTOREFRESH = "autorefresh";
+    public static final String WGSPortalAPI_VERSION = "version";
+    public static final String API_TOKEN = "gt4D3YFHynOycAS2YWAjIrcd65idPJXwqhfi18uKZZRN7b6DLcBldpjhY4rSJ8Me";
+
+    public static final String API_RESULT_LOGIN = "login";
+    public static final String API_RESULT_CHILDREN = "children";
+    public static final String API_RESULT_NAME = "name";
+    public static final String API_RESULT_TIMETABLE = "timetable";
+    public static final String API_RESULT_MONDAY = "monday";
+    public static final String API_RESULT_TUESDAY = "tuesday";
+    public static final String API_RESULT_THURSDAY = "thursday";
+    public static final String API_RESULT_WEDNESDAY = "wednesday";
+    public static final String API_RESULT_FRIDAY = "friday";
+    public static final String API_RESULT_REPRESENTATION = "representation";
+    public static final String API_RESULT_TODAY = "today";
+    public static final String API_RESULT_TOMORROW = "tomorrow";
+    public static final String API_RESULT_DATE = "date";
+    public static final String API_RESULT_DATA = "data";
+    public static final String API_RESULT_LAST_REFRESH = "lastrefresh";
+
     public static void purchaseNoAd(Activity activity){
-        ArrayList<String> skuList = new ArrayList<String>();
-        skuList.add("wgs_app_remove_ads");;
+        ArrayList<String> skuList = new ArrayList<>();
+        skuList.add("wgs_app_remove_ads");
         Bundle querySkus = new Bundle();
         querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
 
@@ -56,12 +95,13 @@ public class Helper {
             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 
             if(pendingIntent != null){ //Item is not bought
-                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), 0, 0, 0);
             }
             else{ //Item is bought by user
                 Bundle ownedItems = PortalActivity.mService.getPurchases(3, activity.getPackageName(), "inapp", "");
                 ArrayList myPurchases = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
 
+                assert myPurchases != null;
                 for(int i = 0; i < myPurchases.size(); i++){
                     if (myPurchases.get(i).equals("wgs_app_remove_ads")) {
                         activity.findViewById(R.id.adView).setVisibility(View.INVISIBLE);
@@ -72,11 +112,7 @@ public class Helper {
 
             }
 
-        } catch (RemoteException e) {
-            Log.e(LOGTAG, e.getMessage());
-        } catch (IntentSender.SendIntentException e) {
-            Log.e(LOGTAG, e.getMessage());
-        } catch (NullPointerException e) {
+        } catch (RemoteException | NullPointerException | IntentSender.SendIntentException e) {
             Log.e(LOGTAG, e.getMessage());
         }
     }
@@ -93,34 +129,8 @@ public class Helper {
         mBuilder.setAutoCancel(true);
         mBuilder.setContentIntent(resultPendingIntent);
 
-        int mNotificationId = notificationId;
-
-        NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
-    }
-
-    public static String getPw(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getString(PW, "");
-    }
-
-    public static String getEmail(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getString(EMAIL, "");
-    }
-
-    public static Boolean getHasNoAds(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getBoolean(HASADS, false);
-    }
-
-    public static String getApiResult(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getString(API_RESULT, "");
+        NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(notificationId, mBuilder.build());
     }
 
     public static void setPw(Context context, String pw) {
@@ -131,6 +141,12 @@ public class Helper {
         editor.apply();
     }
 
+    public static String getPw(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(PW, "");
+    }
+
     public static void setEmail(Context context, String email) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -139,12 +155,52 @@ public class Helper {
         editor.apply();
     }
 
+    public static String getEmail(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(EMAIL, "");
+    }
+
     public static void setHasNoAds(Context context, Boolean ads) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(HASADS, ads);
         editor.apply();
+    }
+
+    public static Boolean getHasNoAds(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getBoolean(HASADS, false);
+    }
+
+    public static void setApiResult(Context context, String result) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(API_RESULT, result);
+        editor.apply();
+    }
+
+    public static String getApiResult(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(API_RESULT, "");
+    }
+
+    public static void setChildIndex(Context context, int index) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(CHILD_INDEX, index);
+        editor.apply();
+    }
+
+    public static int getChildIndex(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getInt(CHILD_INDEX, 0);
     }
 
     public static int getLessonId(int lesson) {
@@ -162,14 +218,6 @@ public class Helper {
             case 11: return R.string.time11;
             default: return 0;
         }
-    }
-
-    public static void setApiResult(Context context, String result) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(API_RESULT, result);
-        editor.apply();
     }
 
     /**
@@ -220,5 +268,49 @@ public class Helper {
             case "IC": id = R.string.intChemistry; break;
         }
         return id;
+    }
+
+    public static String GetSomething(String username, String password, boolean autorefresh) {
+        String url = WGSPortalAPI;
+        String result = "";
+        BufferedReader inStream = null;
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpRequest = new HttpPost(url);
+            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_USERNAME, username));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_PASSWORD, password));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_TOKEN, API_TOKEN));
+            if(autorefresh) nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_AUTOREFRESH, "1"));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_VERSION, BuildConfig.VERSION_CODE + ""));
+
+            httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
+            HttpResponse response = httpClient.execute(httpRequest);
+            inStream = new BufferedReader(
+                    new InputStreamReader(
+                            response.getEntity().getContent()));
+
+            StringBuilder buffer = new StringBuilder("");
+            String line;
+            String NL = System.getProperty("line.separator");
+            while ((line = inStream.readLine()) != null) {
+                buffer.append(line).append(NL);
+            }
+            inStream.close();
+
+            result = buffer.toString();
+        } catch (Exception e) {
+            Log.e(Helper.LOGTAG, e.toString());
+            e.printStackTrace();
+        } finally {
+            if (inStream != null) {
+                try {
+                    inStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 }

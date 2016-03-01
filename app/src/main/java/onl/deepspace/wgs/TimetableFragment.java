@@ -21,8 +21,8 @@ import org.json.JSONObject;
 public class TimetableFragment extends Fragment {
 
     static JSONObject timetable;
-    static Activity activity;
-    static View inflator;
+    static Activity mActivity;
+    static View mInflater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,19 +33,19 @@ public class TimetableFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        inflator = inflater.inflate(R.layout.fragment_timetable, container, false);
+        mInflater = inflater.inflate(R.layout.fragment_timetable, container, false);
         setTimetable(timetable);
 
         if(Helper.getHasNoAds(getContext())){
-            TextView timetable = (TextView) inflator.findViewById(R.id.timetable_disclaimer);
+            TextView timetable = (TextView) mInflater.findViewById(R.id.timetable_disclaimer);
             timetable.setPadding(timetable.getPaddingLeft(), timetable.getPaddingTop(), timetable.getPaddingRight(), 8);
         }
 
-        return inflator;
+        return mInflater;
     }
 
     public static void setActivity(Activity activity) {
-        TimetableFragment.activity = activity;
+        TimetableFragment.mActivity = activity;
     }
 
     /**
@@ -79,17 +79,17 @@ public class TimetableFragment extends Fragment {
      */
     public static void setDay(String day, JSONArray data) {
         try {
-            Resources res = inflator.getResources();
+            Resources res = mInflater.getResources();
             for (int i = 1; i <= 11; i++) {
                 String viewId = day.substring(0, 2) + i;
 
-                int identifier = res.getIdentifier(viewId, "id", activity.getPackageName());
+                int identifier = res.getIdentifier(viewId, "id", mActivity.getPackageName());
                 int subjectId = Helper.getSubjectId(data.getString(i - 1));
 
-                View view = inflator.findViewById(identifier);
+                View view = mInflater.findViewById(identifier);
                 TextView lesson = (TextView) view;
 
-                lesson.setText(subjectId == 0 ? data.getString(i - 1): activity.getString(subjectId));
+                lesson.setText(subjectId == 0 ? data.getString(i - 1): mActivity.getString(subjectId));
             }
         } catch(Exception e) {
             e.printStackTrace();
