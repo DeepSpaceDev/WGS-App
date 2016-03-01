@@ -163,25 +163,34 @@ public class PortalActivity extends AppCompatActivity {
         if (requestCode == PICK_CHILD_REQUEST) {
             int childIndex = data.getIntExtra(Helper.CHILD_INDEX, 0);
 
-            //TODO switch user
             Helper.setChildIndex(this, childIndex);
-            selectChild(childIndex);
+            selectChild(childIndex, true);
         }
     }
 
-    private void selectChild(int index) {
+    private void selectChild(int index, boolean... update) {
         try {
+                index = 0;
+            }
             JSONObject child = mChildren.getJSONObject(index);
             Log.d(Helper.LOGTAG, child.toString());
 
             String name = child.getString(Helper.API_RESULT_NAME);
             ActionBar bar = getSupportActionBar();
-            if(bar != null) bar.setTitle(name);
+            if (bar != null) bar.setTitle(name);
             JSONObject timetable = child.getJSONObject(Helper.API_RESULT_TIMETABLE);
             JSONObject representations = child.getJSONObject(Helper.API_RESULT_REPRESENTATION);
 
             TimetableFragment.timetable = timetable;
             RepresentationFragment.representation = representations;
+
+            if(update.length > 0) { //Array out of bounds if launched via onCreate
+                if (update[0]) {
+                    TimetableFragment.setTimetable(TimetableFragment.timetable);
+                    RepresentationFragment.setRepresentations(RepresentationFragment.representation);
+                }
+            }
+
         } catch(JSONException e) {
             Log.e(Helper.LOGTAG, e.getMessage());
         }
@@ -211,7 +220,7 @@ public class PortalActivity extends AppCompatActivity {
 
         MenuItem selectChild = menu.findItem(R.id.action_select_child);
         if (mChildren.length() < 2) {
-            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            selectChild.setVisible(false);
         } else {
             selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
