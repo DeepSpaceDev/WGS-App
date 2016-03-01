@@ -67,10 +67,6 @@ public class RepresentationFragment extends Fragment {
 
             clearRepesentations();
 
-            String student = representations.getString("name");
-            student = student.substring(5);
-            ((TextView) mInflater.findViewById(R.id.studentName)).setText(student);
-
             String refresh = representations.getString("lastrefresh");
             refresh = refresh.trim();
             String hour = refresh.substring(34, 39);

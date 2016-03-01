@@ -29,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
@@ -37,15 +36,16 @@ import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 public class PortalActivity extends AppCompatActivity {
 
     public static final int PICK_CHILD_REQUEST = 1;
+    private static final String INAPP_PURCHASE_DATA = "INAPP_PURCHASE_DATA";
+    //private static final String INAPP_DATA_SIGNATURE = "INAPP_DATA_SIGNATURE";
+    //private static final String RESPONSE_CODE = "RESPONSE_CODE";
 
     AlarmReceiver mAlarm = new AlarmReceiver();
-    JSONObject timetable, representation;
     JSONArray mChildren;
     AdView mAdView;
 
     static ServiceConnection mServiceConn;
     static IInAppBillingService mService;
-    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +115,8 @@ public class PortalActivity extends AppCompatActivity {
         TimetableFragment.setActivity(this);
         RepresentationFragment.setActivity(this);
 
+
+        //Handle multiple childs
         Bundle extras = getIntent().getExtras();
         try {
             mChildren = new JSONArray(extras.getString(Helper.API_RESULT_CHILDREN));
@@ -126,14 +128,15 @@ public class PortalActivity extends AppCompatActivity {
         catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.toString());
         }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001) {
-            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
-            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
-            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+            //int responseCode = data.getIntExtra(RESPONSE_CODE, 0);
+            String purchaseData = data.getStringExtra(INAPP_PURCHASE_DATA);
+            //String dataSignature = data.getStringExtra(INAPP_DATA_SIGNATURE);
 
             if (resultCode == RESULT_OK) {
                 try {
@@ -167,14 +170,9 @@ public class PortalActivity extends AppCompatActivity {
     }
 
     private void selectChild(int index) {
-        MenuItem selectChild = mMenu.findItem(R.id.action_select_child);
-        if (mChildren.length() < 2) {
-            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-        } else {
-            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        }
         try {
             JSONObject child = mChildren.getJSONObject(index);
+            Log.d(Helper.LOGTAG, child.toString());
 
             String name = child.getString(Helper.API_RESULT_NAME);
             ActionBar bar = getSupportActionBar();
@@ -184,8 +182,6 @@ public class PortalActivity extends AppCompatActivity {
 
             TimetableFragment.timetable = timetable;
             RepresentationFragment.representation = representations;
-            TimetableFragment.setTimetable(timetable);
-            RepresentationFragment.setRepresentations(representations);
         } catch(JSONException e) {
             Log.e(Helper.LOGTAG, e.getMessage());
         }
@@ -202,7 +198,6 @@ public class PortalActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        mMenu = menu;
         getMenuInflater().inflate(R.menu.menu_portal, menu);
         return true;
     }
@@ -213,6 +208,14 @@ public class PortalActivity extends AppCompatActivity {
             MenuItem mi = menu.findItem(R.id.action_remads);
             mi.setVisible(false);
         }
+
+        MenuItem selectChild = menu.findItem(R.id.action_select_child);
+        if (mChildren.length() < 2) {
+            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        } else {
+            selectChild.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
