@@ -52,7 +52,7 @@ public class PortalPullService extends IntentService {
 
                 ArrayList<String> updatedNames = new ArrayList<>();
 
-                for(int i=0; i<fChildren.length(); i++) {
+                for(int i=0; i<cChildren.length(); i++) {
                     String name = fChildren.getJSONObject(i).getString(Helper.API_RESULT_NAME);
                     JSONObject fRepresentations = fChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
                     JSONObject cRepresentations = cChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
@@ -93,7 +93,11 @@ public class PortalPullService extends IntentService {
             ArrayList<String> newToday = getNewRepresentations(fTodayRep, cTodayRep);
             ArrayList<String> newTomorrow = getNewRepresentations(fTomorrowRep, cTomorrowRep);
 
-            if(newToday.size() > 0 || newTomorrow.size() > 0) return true;
+            boolean bnewToday = newToday.size() > 0;
+            boolean bnewTomorrow = newTomorrow.size() > 0;
+
+            if(bnewToday || bnewTomorrow) return true;
+
         } else if (fTodayDate.equals(cTomorrowDate)) {
             JSONArray fetchedRep = fToday.getJSONArray(DATA);
             JSONArray cachedRep = cTomorrow.getJSONArray(DATA);
