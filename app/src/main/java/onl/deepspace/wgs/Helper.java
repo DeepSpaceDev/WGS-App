@@ -43,7 +43,7 @@ public class Helper {
 
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
 
-    public static final String WGSPortalAPI = "https://deepspace.onl/scripts/sites/wgs/eltern-portal_v2.php";
+    public static final String WGSPortalAPI = "http://deepspace.onl/scripts/sites/wgs/eltern-portal_v2.php";
     public static final String WGSPortalAPI_USERNAME = "username";
     public static final String WGSPortalAPI_PASSWORD = "password";
     public static final String WGSPortalAPI_TOKEN = "token";
