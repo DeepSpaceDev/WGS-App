@@ -7,12 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,18 +25,21 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
-
+    public static final int MILLIS_TO_DAYS = 1/(1000 * 60 * 60 * 24);
 
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
@@ -40,6 +47,13 @@ public class Helper {
     public static String PW = "password";
     public static String EMAIL = "userEmail";
     public static String HASADS = "hasDisabledAds";
+    public static String LAST_BOTTOM_ACTION = "lastBottomAction";
+    public static String NEXT_BOTTOM_ACTION = "nextBottomAction";
+    public static String BOTTOM_ACTION_ACTION = "action";
+    public static String BOTTOM_ACTION_TYPE = "type";
+    public static String BOTTOM_ACTION_HINT = "hint";
+    public static String BOTTOM_ACTION_ADDITIONAL = "additional";
+    public static String BOTTOM_ACTION_DAYS_AFTER = "daysAfter";
 
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
 
@@ -66,6 +80,102 @@ public class Helper {
     public static final String API_RESULT_DATE = "date";
     public static final String API_RESULT_DATA = "data";
     public static final String API_RESULT_LAST_REFRESH = "lastrefresh";
+
+    public static void fixLayout(Activity activity) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            View decorView = activity.getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
+    public static long getLastBottomAction(Context context) {
+        PackageManager pm = context.getPackageManager();
+        long firstInstallTime = 0;
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
+            firstInstallTime = packageInfo.firstInstallTime;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(LOGTAG, e.getMessage());
+        }
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getLong(LAST_BOTTOM_ACTION, firstInstallTime);
+    }
+
+    public static void setLastBottomAction(Context context, long millis) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(LAST_BOTTOM_ACTION, millis);
+        editor.apply();
+    }
+
+    public static JSONObject nextBottomAction(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        int index = sharedPref.getInt(NEXT_BOTTOM_ACTION, 0);
+        JSONObject bottomAction = new JSONObject();
+        String action = null;
+        String type = null;
+        String hint = null;
+        String additional = null;
+        int daysAfter = 1;
+        switch (index) {
+            case 0:
+                action = "https://twitter.com/deepspace_dev";
+                type = BottomAction.TYPE_URL;
+                hint = "Aktuelle Infos auf Twitter";
+                additional = "twitter";
+                daysAfter = 1;
+                break;
+            case 1:
+                action = "https://deepspace.onl/scripts/sites/wgs/feedback.php";
+                type = BottomAction.TYPE_RATING;
+                hint = "Wie gefällt dir unser Design?";
+                additional = "UI";
+                daysAfter = 1;
+                break;
+            case 2:
+                action = "https://deepspace.onl/scripts/sites/wgs/feedback.php";
+                type = BottomAction.TYPE_RATING;
+                hint = "Wie gut ist die App zu bedienen?";
+                additional = "UX";
+                daysAfter = 3;
+                break;
+            case 3:
+                action = BottomAction.getActivityName(FeatureRequestActivity.class);
+                type = BottomAction.TYPE_ACTIVITY;
+                hint = "Vermisst du ein Feature?";
+                additional = "ic_feedback_24dp";
+                daysAfter = 2;
+                break;
+        }
+        if (action == null) return null;
+        try {
+            bottomAction.put(BOTTOM_ACTION_ACTION, action);
+            bottomAction.put(BOTTOM_ACTION_TYPE, type);
+            bottomAction.put(BOTTOM_ACTION_HINT, hint);
+            bottomAction.put(BOTTOM_ACTION_ADDITIONAL, additional);
+            bottomAction.put(BOTTOM_ACTION_DAYS_AFTER, daysAfter);
+        } catch (JSONException e) {
+            Log.e(LOGTAG, e.getMessage());
+            return null;
+        }
+        return bottomAction;
+    }
+
+    public static void incrementNextAction(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        int index = sharedPref.getInt(NEXT_BOTTOM_ACTION, 0);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(NEXT_BOTTOM_ACTION, ++index);
+        editor.apply();
+    }
 
     public static void purchaseNoAd(Activity activity){
         ArrayList<String> skuList = new ArrayList<>();
@@ -116,7 +226,6 @@ public class Helper {
             Log.e(LOGTAG, e.getMessage());
         }
     }
-
 
     public static void sendNotification(Context activity, int notificationId, String title, String message){
         NotificationCompat.Builder mBuilder =

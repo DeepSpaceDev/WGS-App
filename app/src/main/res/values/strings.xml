@@ -102,4 +102,7 @@
     <string name="select_child">Kind auswählen</string>
     <string name="title_activity_select_child">Kind auswählen</string>
     <string name="updated_at">Aktualisiert am</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

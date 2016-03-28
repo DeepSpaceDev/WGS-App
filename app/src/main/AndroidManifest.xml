@@ -58,6 +58,8 @@
             android:name=".PortalUpdate.PortalPullService"
             android:exported="false"/>
 
+        <activity android:name=".FeatureRequestActivity">
+        </activity>
     </application>
 
 </manifest>

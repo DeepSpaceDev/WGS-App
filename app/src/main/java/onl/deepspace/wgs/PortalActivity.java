@@ -4,6 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.Snackbar;
@@ -33,7 +37,7 @@ import java.util.ArrayList;
 
 import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
 
-public class PortalActivity extends AppCompatActivity {
+public class PortalActivity extends AppCompatActivity implements BottomAction.OnFragmentInteractionListener {
 
     public static final int PICK_CHILD_REQUEST = 1;
     private static final String INAPP_PURCHASE_DATA = "INAPP_PURCHASE_DATA";
@@ -55,15 +59,43 @@ public class PortalActivity extends AppCompatActivity {
         RepresentationFragment.setActivity(this);
         setContentView(R.layout.activity_portal);
 
-        //Admob
+
+        // AdMob
         if(!Helper.getHasNoAds(getBaseContext())){
             mAdView = (AdView) findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
         }
 
-        //Inapp billing
+        // Bottom Action
+        BottomAction.setObjectForActivity(PortalActivity.class, this); // Setup of Bottom Action
+        BottomAction.showBottomSheet(PortalActivity.class, R.id.main_content, BottomAction.TYPE_URL, "https://play.google.com/store/apps/details?id=onl.deepspace.wgs", "Rate on Play Store", "playstore");
+        /*try {
+            long lastTime = Helper.getLastBottomAction(this);
+            long currentTime = System.currentTimeMillis();
+            JSONObject nextAction = Helper.nextBottomAction(this);
+            assert nextAction != null;
+            String action = nextAction.getString(Helper.BOTTOM_ACTION_ACTION);
+            String type = nextAction.getString(Helper.BOTTOM_ACTION_TYPE);
+            String hint = nextAction.getString(Helper.BOTTOM_ACTION_HINT);
+            String additional = nextAction.getString(Helper.BOTTOM_ACTION_ADDITIONAL);
+            int daysAfter = nextAction.getInt(Helper.BOTTOM_ACTION_DAYS_AFTER);
 
+            long diff = currentTime - lastTime;
+            diff *= Helper.MILLIS_TO_DAYS;
+
+            if (diff > daysAfter) {
+                BottomAction.showBottomSheet(PortalActivity.class, R.id.main_content,
+                        type, action, hint, additional);
+                Helper.incrementNextAction(this);
+                Helper.setLastBottomAction(this, currentTime);
+            }
+
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, e.getMessage());
+        }*/
+
+        // In App billing
         mServiceConn = new ServiceConnection() {
             @Override
             public void onServiceDisconnected(ComponentName name) {
@@ -198,6 +230,11 @@ public class PortalActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onFragmentInteraction() {
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mService != null) {
@@ -242,7 +279,6 @@ public class PortalActivity extends AppCompatActivity {
         }*/
         if (id == R.id.action_select_child) {
             Intent intent = new Intent(this, SelectChildActivity.class);
-            //TODO put String array extra with names of the children
             ArrayList<String> childrenNames = new ArrayList<>();
 
             try {
