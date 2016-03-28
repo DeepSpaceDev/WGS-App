@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/bottom_action_rating"
+             android:layout_width="@dimen/bottom_action_width"
+             android:layout_height="@dimen/bottom_action_rating_height"
+             android:elevation="@dimen/bottom_action_elevation"
+             android:background="@drawable/bottom_action_bg"
+             android:layout_margin="8dp"
+             android:layout_gravity="bottom"
+             android:visibility="visible"
+             tools:context="onl.deepspace.wgs.BottomAction">
+
+    <!-- Maximum 43 characters for the text -->
+    <TextView
+        android:id="@+id/bottom_action_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="16sp"
+        android:text="Wie gefällt dir unser Design, so ansich her?"/>
+
+    <ImageView
+        android:id="@+id/bottom_action_5s"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:tint="#9B9B9B"
+        android:src="@drawable/ic_star_border_black_24dp"/>
+
+    <ImageView
+        android:id="@+id/bottom_action_4s"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/bottom_action_5s"
+        android:layout_toLeftOf="@id/bottom_action_5s"
+        android:tint="#9B9B9B"
+        android:src="@drawable/ic_star_border_black_24dp"/>
+    <ImageView
+        android:id="@+id/bottom_action_3s"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/bottom_action_4s"
+        android:layout_toLeftOf="@id/bottom_action_4s"
+        android:tint="#9B9B9B"
+        android:src="@drawable/ic_star_border_black_24dp"/>
+    <ImageView
+        android:id="@+id/bottom_action_2s"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/bottom_action_3s"
+        android:layout_toLeftOf="@id/bottom_action_3s"
+        android:tint="#9B9B9B"
+        android:src="@drawable/ic_star_border_black_24dp"/>
+    <ImageView
+        android:id="@+id/bottom_action_1s"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/bottom_action_2s"
+        android:layout_toLeftOf="@id/bottom_action_2s"
+        android:tint="#9B9B9B"
+        android:src="@drawable/ic_star_border_black_24dp"/>
+</RelativeLayout>

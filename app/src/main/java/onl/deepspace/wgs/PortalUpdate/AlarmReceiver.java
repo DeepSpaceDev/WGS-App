@@ -14,6 +14,8 @@ import onl.deepspace.wgs.R;
 
 /**
  * Created by Dennis on 20.02.2016.
+ *
+ * Enables repeated updates of the users data
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
@@ -53,6 +55,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
                 PackageManager.DONT_KILL_APP);
     }
 
+    @SuppressWarnings("unused")
     public void cancelAlarm(Context context) {
         if(mAlarm != null) {
             mAlarm.cancel(mAlarmIntent);

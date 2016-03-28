@@ -99,4 +99,10 @@
     <!--Others-->
     <string name="admob_id">ca-app-pub-3742245157994788/5610026757</string>
     <string name="remove_ads">Werbung Entfernen</string>
+    <string name="select_child">Kind auswählen</string>
+    <string name="title_activity_select_child">Kind auswählen</string>
+    <string name="updated_at">Aktualisiert am</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

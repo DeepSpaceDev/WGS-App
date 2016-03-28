@@ -7,30 +7,179 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Dennis on 18.02.2016.
  */
 public class Helper {
+    public static final int MILLIS_TO_DAYS = 1/(1000 * 60 * 60 * 24);
 
+    public static final String CHILD_INDEX = "childIndex";
+    public static final String CHILDREN = "children";
     public static String LOGTAG = "Deepspace";
     public static String PW = "password";
     public static String EMAIL = "userEmail";
-
     public static String HASADS = "hasDisabledAds";
+    public static String LAST_BOTTOM_ACTION = "lastBottomAction";
+    public static String NEXT_BOTTOM_ACTION = "nextBottomAction";
+    public static String BOTTOM_ACTION_ACTION = "action";
+    public static String BOTTOM_ACTION_TYPE = "type";
+    public static String BOTTOM_ACTION_HINT = "hint";
+    public static String BOTTOM_ACTION_ADDITIONAL = "additional";
+    public static String BOTTOM_ACTION_DAYS_AFTER = "daysAfter";
+
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
 
+    public static final String WGSPortalAPI = "https://deepspace.onl/scripts/sites/wgs/eltern-portal_v2.php";
+    public static final String WGSPortalAPI_USERNAME = "username";
+    public static final String WGSPortalAPI_PASSWORD = "password";
+    public static final String WGSPortalAPI_TOKEN = "token";
+    public static final String WGSPortalAPI_AUTOREFRESH = "autorefresh";
+    public static final String WGSPortalAPI_VERSION = "version";
+    public static final String API_TOKEN = "gt4D3YFHynOycAS2YWAjIrcd65idPJXwqhfi18uKZZRN7b6DLcBldpjhY4rSJ8Me";
+
+    public static final String API_RESULT_LOGIN = "login";
+    public static final String API_RESULT_CHILDREN = "children";
+    public static final String API_RESULT_NAME = "name";
+    public static final String API_RESULT_TIMETABLE = "timetable";
+    public static final String API_RESULT_MONDAY = "monday";
+    public static final String API_RESULT_TUESDAY = "tuesday";
+    public static final String API_RESULT_THURSDAY = "thursday";
+    public static final String API_RESULT_WEDNESDAY = "wednesday";
+    public static final String API_RESULT_FRIDAY = "friday";
+    public static final String API_RESULT_REPRESENTATION = "representation";
+    public static final String API_RESULT_TODAY = "today";
+    public static final String API_RESULT_TOMORROW = "tomorrow";
+    public static final String API_RESULT_DATE = "date";
+    public static final String API_RESULT_DATA = "data";
+    public static final String API_RESULT_LAST_REFRESH = "lastrefresh";
+
+    public static void fixLayout(Activity activity) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            View decorView = activity.getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
+
+    public static long getLastBottomAction(Context context) {
+        PackageManager pm = context.getPackageManager();
+        long firstInstallTime = 0;
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
+            firstInstallTime = packageInfo.firstInstallTime;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(LOGTAG, e.getMessage());
+        }
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getLong(LAST_BOTTOM_ACTION, firstInstallTime);
+    }
+
+    public static void setLastBottomAction(Context context, long millis) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(LAST_BOTTOM_ACTION, millis);
+        editor.apply();
+    }
+
+    public static JSONObject nextBottomAction(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        int index = sharedPref.getInt(NEXT_BOTTOM_ACTION, 0);
+        JSONObject bottomAction = new JSONObject();
+        String action = null;
+        String type = null;
+        String hint = null;
+        String additional = null;
+        int daysAfter = 1;
+        switch (index) {
+            case 0:
+                action = "https://twitter.com/deepspace_dev";
+                type = BottomAction.TYPE_URL;
+                hint = "Aktuelle Infos auf Twitter";
+                additional = "twitter";
+                daysAfter = 1;
+                break;
+            case 1:
+                action = "https://deepspace.onl/scripts/sites/wgs/feedback.php";
+                type = BottomAction.TYPE_RATING;
+                hint = "Wie gefällt dir unser Design?";
+                additional = "UI";
+                daysAfter = 1;
+                break;
+            case 2:
+                action = "https://deepspace.onl/scripts/sites/wgs/feedback.php";
+                type = BottomAction.TYPE_RATING;
+                hint = "Wie gut ist die App zu bedienen?";
+                additional = "UX";
+                daysAfter = 3;
+                break;
+            case 3:
+                action = BottomAction.getActivityName(FeatureRequestActivity.class);
+                type = BottomAction.TYPE_ACTIVITY;
+                hint = "Vermisst du ein Feature?";
+                additional = "ic_feedback_24dp";
+                daysAfter = 2;
+                break;
+        }
+        if (action == null) return null;
+        try {
+            bottomAction.put(BOTTOM_ACTION_ACTION, action);
+            bottomAction.put(BOTTOM_ACTION_TYPE, type);
+            bottomAction.put(BOTTOM_ACTION_HINT, hint);
+            bottomAction.put(BOTTOM_ACTION_ADDITIONAL, additional);
+            bottomAction.put(BOTTOM_ACTION_DAYS_AFTER, daysAfter);
+        } catch (JSONException e) {
+            Log.e(LOGTAG, e.getMessage());
+            return null;
+        }
+        return bottomAction;
+    }
+
+    public static void incrementNextAction(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        int index = sharedPref.getInt(NEXT_BOTTOM_ACTION, 0);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(NEXT_BOTTOM_ACTION, ++index);
+        editor.apply();
+    }
+
     public static void purchaseNoAd(Activity activity){
-        ArrayList<String> skuList = new ArrayList<String>();
-        skuList.add("wgs_app_remove_ads");;
+        ArrayList<String> skuList = new ArrayList<>();
+        skuList.add("wgs_app_remove_ads");
         Bundle querySkus = new Bundle();
         querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
 
@@ -56,12 +205,13 @@ public class Helper {
             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 
             if(pendingIntent != null){ //Item is not bought
-                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0));
+                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), 0, 0, 0);
             }
             else{ //Item is bought by user
                 Bundle ownedItems = PortalActivity.mService.getPurchases(3, activity.getPackageName(), "inapp", "");
                 ArrayList myPurchases = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
 
+                assert myPurchases != null;
                 for(int i = 0; i < myPurchases.size(); i++){
                     if (myPurchases.get(i).equals("wgs_app_remove_ads")) {
                         activity.findViewById(R.id.adView).setVisibility(View.INVISIBLE);
@@ -72,15 +222,10 @@ public class Helper {
 
             }
 
-        } catch (RemoteException e) {
-            Log.e(LOGTAG, e.getMessage());
-        } catch (IntentSender.SendIntentException e) {
-            Log.e(LOGTAG, e.getMessage());
-        } catch (NullPointerException e) {
+        } catch (RemoteException | NullPointerException | IntentSender.SendIntentException e) {
             Log.e(LOGTAG, e.getMessage());
         }
     }
-
 
     public static void sendNotification(Context activity, int notificationId, String title, String message){
         NotificationCompat.Builder mBuilder =
@@ -93,34 +238,8 @@ public class Helper {
         mBuilder.setAutoCancel(true);
         mBuilder.setContentIntent(resultPendingIntent);
 
-        int mNotificationId = notificationId;
-
-        NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
-    }
-
-    public static String getPw(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getString(PW, "");
-    }
-
-    public static String getEmail(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getString(EMAIL, "");
-    }
-
-    public static Boolean getHasNoAds(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getBoolean(HASADS, false);
-    }
-
-    public static String getApiResult(Context context) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        return sharedPref.getString(API_RESULT, "");
+        NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(notificationId, mBuilder.build());
     }
 
     public static void setPw(Context context, String pw) {
@@ -131,6 +250,12 @@ public class Helper {
         editor.apply();
     }
 
+    public static String getPw(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(PW, "");
+    }
+
     public static void setEmail(Context context, String email) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -139,12 +264,52 @@ public class Helper {
         editor.apply();
     }
 
+    public static String getEmail(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(EMAIL, "");
+    }
+
     public static void setHasNoAds(Context context, Boolean ads) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(HASADS, ads);
         editor.apply();
+    }
+
+    public static Boolean getHasNoAds(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getBoolean(HASADS, false);
+    }
+
+    public static void setApiResult(Context context, String result) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(API_RESULT, result);
+        editor.apply();
+    }
+
+    public static String getApiResult(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getString(API_RESULT, "");
+    }
+
+    public static void setChildIndex(Context context, int index) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(CHILD_INDEX, index);
+        editor.apply();
+    }
+
+    public static int getChildIndex(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        return sharedPref.getInt(CHILD_INDEX, 0);
     }
 
     public static int getLessonId(int lesson) {
@@ -162,14 +327,6 @@ public class Helper {
             case 11: return R.string.time11;
             default: return 0;
         }
-    }
-
-    public static void setApiResult(Context context, String result) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(API_RESULT, result);
-        editor.apply();
     }
 
     /**
@@ -220,5 +377,49 @@ public class Helper {
             case "IC": id = R.string.intChemistry; break;
         }
         return id;
+    }
+
+    public static String GetSomething(String username, String password, boolean autorefresh) {
+        String url = WGSPortalAPI;
+        String result = "";
+        BufferedReader inStream = null;
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpRequest = new HttpPost(url);
+            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_USERNAME, username));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_PASSWORD, password));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_TOKEN, API_TOKEN));
+            if(autorefresh) nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_AUTOREFRESH, "1"));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_VERSION, BuildConfig.VERSION_CODE + ""));
+
+            httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
+            HttpResponse response = httpClient.execute(httpRequest);
+            inStream = new BufferedReader(
+                    new InputStreamReader(
+                            response.getEntity().getContent()));
+
+            StringBuilder buffer = new StringBuilder("");
+            String line;
+            String NL = System.getProperty("line.separator");
+            while ((line = inStream.readLine()) != null) {
+                buffer.append(line).append(NL);
+            }
+            inStream.close();
+
+            result = buffer.toString();
+        } catch (Exception e) {
+            Log.e(Helper.LOGTAG, e.toString());
+            e.printStackTrace();
+        } finally {
+            if (inStream != null) {
+                try {
+                    inStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 }

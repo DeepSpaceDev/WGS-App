@@ -6,4 +6,7 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="padding_disclaimers">40dp</dimen>
+    <dimen name="bottom_action_elevation">6dp</dimen>
+    <dimen name="bottom_action_width">-1dp</dimen>
+    <dimen name="bottom_action_rating_height">72dp</dimen>
 </resources>

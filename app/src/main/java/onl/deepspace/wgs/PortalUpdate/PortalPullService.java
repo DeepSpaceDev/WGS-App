@@ -4,29 +4,19 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
-import onl.deepspace.wgs.BuildConfig;
 import onl.deepspace.wgs.Helper;
 
 /**
  * Created by Dennis on 20.02.2016.
+ *
+ * PortalPullService is invoked for pulling data in the background,
+ * check for changes and notify the user if the data changed
  */
 public class PortalPullService extends IntentService {
 
@@ -36,6 +26,8 @@ public class PortalPullService extends IntentService {
     private static final String TOMORROW = "tomorrow";
     private static final String DATE = "date";
     private static final String DATA = "data";
+    public static final String EMAIL = "email";
+    public static final String PW = "pw";
 
     public PortalPullService() {
         super(LOG_TAG);
@@ -43,68 +35,88 @@ public class PortalPullService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String email = intent.getStringExtra("email");
-        String pw = intent.getStringExtra("pw");
+        String email = intent.getStringExtra(EMAIL);
+        String pw = intent.getStringExtra(PW);
 
-        //TODO make request to eltern-portal.org, check if new Infos are available, then send notification
-        String fetchedResult = GetSomething(email, pw);
+        String fetchedResult = Helper.GetSomething(email, pw, true);
         String cachedResult = Helper.getApiResult(this);
 
+        //TODO rewrite for new API version
         if(!fetchedResult.equals(cachedResult)) {
             try {
                 JSONObject fetched = new JSONObject(fetchedResult);
                 JSONObject cached = new JSONObject(cachedResult);
 
-                JSONObject fRepresentations = fetched.getJSONObject(REPRESENTATIONS);
-                JSONObject cRepresentations = cached.getJSONObject(REPRESENTATIONS);
+                JSONArray fChildren = fetched.getJSONArray(Helper.API_RESULT_CHILDREN);
+                JSONArray cChildren = cached.getJSONArray(Helper.API_RESULT_CHILDREN);
 
-                JSONObject fToday = fRepresentations.getJSONObject(TODAY);
-                JSONObject fTomorrow = fRepresentations.getJSONObject(TOMORROW);
-                JSONObject cToday = cRepresentations.getJSONObject(TODAY);
-                JSONObject cTomorrow = cRepresentations.getJSONObject(TOMORROW);
+                ArrayList<String> updatedNames = new ArrayList<>();
 
-                String fTodayDate = fToday.getString(DATE);
-                String fTomorrowDate = fTomorrow.getString(DATE);
-                String cTodayDate = cToday.getString(DATE);
-                String cTomorrowDate = cTomorrow.getString(DATE);
+                for(int i=0; i<cChildren.length(); i++) {
+                    String name = fChildren.getJSONObject(i).getString(Helper.API_RESULT_NAME);
+                    JSONObject fRepresentations = fChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
+                    JSONObject cRepresentations = cChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
 
-
-                if(fTodayDate.equals(cTodayDate) && fTomorrowDate.equals(cTomorrowDate)) {
-                    JSONArray fTodayRep = fToday.getJSONArray(DATA);
-                    JSONArray fTomorrowRep = fTomorrow.getJSONArray(DATA);
-                    JSONArray cTodayRep = cToday.getJSONArray(DATA);
-                    JSONArray cTomorrowRep = cTomorrow.getJSONArray(DATA);
-
-                    ArrayList<String> newToday = getNewRepresentations(fTodayRep, cTodayRep);
-                    ArrayList<String> newTomorrow = getNewRepresentations(fTomorrowRep, cTomorrowRep);
-
-                    if(newToday.size() > 0 || newTomorrow.size() > 0)
-                        showNewRepresentation();
-                } else if (fTodayDate.equals(cTomorrowDate)) {
-                    JSONArray fetchedRep = fToday.getJSONArray(DATA);
-                    JSONArray cachedRep = cTomorrow.getJSONArray(DATA);
-
-                    ArrayList<String> newRep = getNewRepresentations(fetchedRep, cachedRep);
-
-                    if (newRep.size() > 0 || fTomorrow.getJSONArray(DATA).length() > 0) {
-                        showNewRepresentation();
-                    }
+                    if(checkForChanges(fRepresentations, cRepresentations)) updatedNames.add(name);
                 }
+
+                if (updatedNames.size() > 0) showNewRepresentation(updatedNames);
+
             } catch (JSONException e) {
                 Log.e(Helper.LOGTAG, e.getMessage());
             }
 
-            //TODO set fetched to new cached
             Helper.setApiResult(this, fetchedResult);
         }
 
-
-        // Helper.sendNotification(this, "Test", fetchedResult);
         AlarmReceiver.completeWakefulIntent(intent);
     }
 
-    private void showNewRepresentation() {
-        Helper.sendNotification(this, 202, "Neue Vertretung", "Hier klicken um sie anzuzeigen");
+    private boolean checkForChanges(JSONObject fRepresentations, JSONObject cRepresentations) throws JSONException{
+        JSONObject fToday = fRepresentations.getJSONObject(TODAY);
+        JSONObject fTomorrow = fRepresentations.getJSONObject(TOMORROW);
+        JSONObject cToday = cRepresentations.getJSONObject(TODAY);
+        JSONObject cTomorrow = cRepresentations.getJSONObject(TOMORROW);
+
+        String fTodayDate = fToday.getString(DATE);
+        String fTomorrowDate = fTomorrow.getString(DATE);
+        String cTodayDate = cToday.getString(DATE);
+        String cTomorrowDate = cTomorrow.getString(DATE);
+
+
+        if(fTodayDate.equals(cTodayDate) && fTomorrowDate.equals(cTomorrowDate)) {
+            JSONArray fTodayRep = fToday.getJSONArray(DATA);
+            JSONArray fTomorrowRep = fTomorrow.getJSONArray(DATA);
+            JSONArray cTodayRep = cToday.getJSONArray(DATA);
+            JSONArray cTomorrowRep = cTomorrow.getJSONArray(DATA);
+
+            ArrayList<String> newToday = getNewRepresentations(fTodayRep, cTodayRep);
+            ArrayList<String> newTomorrow = getNewRepresentations(fTomorrowRep, cTomorrowRep);
+
+            boolean bnewToday = newToday.size() > 0;
+            boolean bnewTomorrow = newTomorrow.size() > 0;
+
+            if(bnewToday || bnewTomorrow) return true;
+
+        } else if (fTodayDate.equals(cTomorrowDate)) {
+            JSONArray fetchedRep = fToday.getJSONArray(DATA);
+            JSONArray cachedRep = cTomorrow.getJSONArray(DATA);
+
+            ArrayList<String> newRep = getNewRepresentations(fetchedRep, cachedRep);
+
+            if (newRep.size() > 0 || fTomorrow.getJSONArray(DATA).length() > 0) return true;
+        }
+        return false;
+    }
+
+    private void showNewRepresentation(ArrayList<String> children) {
+        String representation = "Neue Vertretung für:";
+        representation += " " + children.get(0);
+        for (int i = 1; i < children.size(); i++) {
+            representation += ", " + children.get(i);
+        }
+
+        Helper.sendNotification(this, 202, representation, "Hier klicken um sie anzuzeigen");
     }
 
     private ArrayList<String> getNewRepresentations(JSONArray fetched, JSONArray cached) throws JSONException{
@@ -123,50 +135,4 @@ public class PortalPullService extends IntentService {
 
         return result;
     }
-
-
-    private static String GetSomething(String username, String password) {
-        String url = "https://deepspace.onl/scripts/sites/wgs/eltern-portal.php";
-        String result = "";
-        Log.d(Helper.LOGTAG, url);
-        BufferedReader inStream = null;
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpRequest = new HttpPost(url);
-            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
-            nameValuePairList.add(new BasicNameValuePair("username", username));
-            nameValuePairList.add(new BasicNameValuePair("password", password));
-            nameValuePairList.add(new BasicNameValuePair("token", "WaoJrllHRkckNAhm4635MiVKgFhOpigmfV6EmvTt41xtTFbjkimUraFBQsOwS5Cj\n"));
-            nameValuePairList.add(new BasicNameValuePair("version", BuildConfig.VERSION_CODE + ""));
-
-            httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
-            HttpResponse response = httpClient.execute(httpRequest);
-            inStream = new BufferedReader(
-                    new InputStreamReader(
-                            response.getEntity().getContent()));
-
-            StringBuffer buffer = new StringBuffer("");
-            String line = "";
-            String NL = System.getProperty("line.separator");
-            while ((line = inStream.readLine()) != null) {
-                buffer.append(line + NL);
-            }
-            inStream.close();
-
-            result = buffer.toString();
-        } catch (Exception e) {
-            Log.e(Helper.LOGTAG, e.toString());
-            e.printStackTrace();
-        } finally {
-            if (inStream != null) {
-                try {
-                    inStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
-    }
-
 }
