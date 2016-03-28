@@ -44,8 +44,8 @@ public class Helper {
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
     public static String LOGTAG = "Deepspace";
-    public static String PW = "password";
-    public static String EMAIL = "userEmail";
+    public static String PW = "password_v2";
+    public static String EMAIL = "userEmail_v2";
     public static String HASADS = "hasDisabledAds";
     public static String LAST_BOTTOM_ACTION = "lastBottomAction";
     public static String NEXT_BOTTOM_ACTION = "nextBottomAction";
@@ -57,7 +57,7 @@ public class Helper {
 
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
 
-    public static final String WGSPortalAPI = "https://deepspace.onl/scripts/sites/wgs/eltern-portal_v2.php";
+    public static final String WGSPortalAPI = "http://62.75.208.57/scripts/sites/wgs/eltern-portal_v2.php";
     public static final String WGSPortalAPI_USERNAME = "username";
     public static final String WGSPortalAPI_PASSWORD = "password";
     public static final String WGSPortalAPI_TOKEN = "token";
