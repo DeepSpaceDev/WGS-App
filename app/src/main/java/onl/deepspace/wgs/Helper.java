@@ -9,6 +9,8 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -78,6 +80,13 @@ public class Helper {
     public static final String API_RESULT_DATE = "date";
     public static final String API_RESULT_DATA = "data";
     public static final String API_RESULT_LAST_REFRESH = "lastrefresh";
+
+    public static boolean isNetworkAvailable(Activity activity) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     public static void fixLayout(Activity activity) {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP &&

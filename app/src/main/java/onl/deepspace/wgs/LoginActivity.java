@@ -1,5 +1,6 @@
 package onl.deepspace.wgs;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,21 +31,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
             setContentView(R.layout.activity_loading);
         } else {
-            setContentView(R.layout.activity_login);
-
-            TextView loginhint = (TextView) findViewById(R.id.loginhint);
-            loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
-
-            Button button = (Button) findViewById(R.id.email_sign_in_button);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                String email = ((TextView) findViewById(R.id.email)).getText().toString();
-                String pw = ((TextView) findViewById(R.id.password)).getText().toString();
-
-                login(email, pw);
-                }
-            });
+            setUpLogin();
         }
     }
 
@@ -77,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 startActivity(intent);
             }
             else{
+                setUpLogin();
                 findViewById(R.id.login_progress).setVisibility(View.GONE);
                 Snackbar.make(
                         findViewById(R.id.login_activity),
@@ -85,10 +73,49 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             }
         }
         catch(JSONException e){
-            findViewById(R.id.login_progress).setVisibility(View.GONE);
-            Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
-            Log.e(Helper.LOGTAG, e.toString());
+
+            if(Helper.isNetworkAvailable(this)){
+                setUpLogin();
+                findViewById(R.id.login_progress).setVisibility(View.GONE);
+                Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
+                Log.e(Helper.LOGTAG, e.toString());
+            }
+            else{
+                setUpTryAgain();
+            }
         }
+    }
+
+    private void setUpTryAgain(){
+        setContentView(R.layout.activity_try_again);
+        final Activity activity = this;
+
+        findViewById(R.id.try_again_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String savedPw = Helper.getPw(activity);
+                String savedEmail = Helper.getEmail(activity);
+                new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
+                setContentView(R.layout.activity_loading);
+            }
+        });
+    }
+
+    private void setUpLogin(){
+        setContentView(R.layout.activity_login);
+
+        TextView loginhint = (TextView) findViewById(R.id.loginhint);
+        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+
+        findViewById(R.id.email_sign_in_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = ((TextView) findViewById(R.id.email)).getText().toString();
+                String pw = ((TextView) findViewById(R.id.password)).getText().toString();
+
+                login(email, pw);
+            }
+        });
     }
 
     public class GetUserData extends AsyncTask<String, Void, String> {
