@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
         String savedPw = Helper.getPw(this);
         String savedEmail = Helper.getEmail(this);
 
-        Helper.fixLayout(this);
+        // Helper.fixLayout(this);
 
         if(!(savedPw.equals("") && savedEmail.equals(""))) {
             new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 startActivity(intent);
             }
             else{
-                setContentView(R.layout.activity_login);
+                findViewById(R.id.login_progress).setVisibility(View.GONE);
                 Snackbar.make(
                         findViewById(R.id.login_activity),
                         arr.getString("error"),
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             }
         }
         catch(JSONException e){
-            setContentView(R.layout.activity_login);
+            findViewById(R.id.login_progress).setVisibility(View.GONE);
             Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
             Log.e(Helper.LOGTAG, e.toString());
         }

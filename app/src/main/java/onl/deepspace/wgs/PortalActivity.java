@@ -4,10 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.Snackbar;
@@ -68,8 +64,8 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         }
 
         // Bottom Action
-        BottomAction.setObjectForActivity(PortalActivity.class, this); // Setup of Bottom Action
-        BottomAction.showBottomSheet(PortalActivity.class, R.id.main_content, BottomAction.TYPE_URL, "https://play.google.com/store/apps/details?id=onl.deepspace.wgs", "Rate on Play Store", "playstore");
+        // BottomAction.setObjectForActivity(PortalActivity.class, this); // Setup of Bottom Action
+        // BottomAction.showBottomSheet(PortalActivity.class, R.id.main_content, BottomAction.TYPE_URL, "https://play.google.com/store/apps/details?id=onl.deepspace.wgs", "Rate on Play Store", "playstore");
         /*try {
             long lastTime = Helper.getLastBottomAction(this);
             long currentTime = System.currentTimeMillis();
@@ -300,8 +296,8 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         }
 
         if(id == R.id.action_logout) {
-            Helper.setEmail(this, "");
-            Helper.setPw(this, "");
+            Helper.setEmail(this, null);
+            Helper.setPw(this, null);
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }

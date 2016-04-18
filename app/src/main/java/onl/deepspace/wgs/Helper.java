@@ -16,7 +16,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -32,7 +31,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -246,7 +244,8 @@ public class Helper {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(PW, pw);
+        if (pw == null) editor.remove(PW);
+        else editor.putString(PW, pw);
         editor.apply();
     }
 
@@ -260,7 +259,8 @@ public class Helper {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(EMAIL, email);
+        if (email == null) editor.remove(EMAIL);
+        else editor.putString(EMAIL, email);
         editor.apply();
     }
 
