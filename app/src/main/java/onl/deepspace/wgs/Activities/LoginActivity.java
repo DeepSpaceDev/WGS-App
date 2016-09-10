@@ -19,7 +19,7 @@ import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.Interfaces.OnTaskCompletedInterface;
 import onl.deepspace.wgs.R;
 
-public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
+public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface<String> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,14 +123,14 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
     public class GetUserData extends AsyncTask<String, Void, String> {
 
-        private OnTaskCompletedInterface taskCompleted;
+        private OnTaskCompletedInterface<String> taskCompleted;
 
         @Override
         protected String doInBackground(String... params) {
             return Helper.GetSomething(params[0], params[1], false);
         }
 
-        public GetUserData(OnTaskCompletedInterface activityContext) {
+        public GetUserData(OnTaskCompletedInterface<String> activityContext) {
             this.taskCompleted = activityContext;
         }
 

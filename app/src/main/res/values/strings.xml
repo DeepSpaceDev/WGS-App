@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WGS App</string>
-    <string name="preference_file_key">onl.deepspace.wgs.PREFERENCE_FILE_KEY</string>
+    <string name="preference_file_key" translatable="false">onl.deepspace.wgs.PREFERENCE_FILE_KEY</string>
 
     <string name="login_header">Login</string>
     <string name="login_hint">Logge dich mit deinen offiziellen Eltern-Portal Zugansdaten ein. Dein Passwort wird nicht von uns gespeichert.\n\n
@@ -97,7 +97,7 @@
     <string name="connection_failed">Verbindung fehlgechlagen oder falsches Passwort</string>
 
     <!--Others-->
-    <string name="admob_id">ca-app-pub-3742245157994788/5610026757</string>
+    <string name="admob_id" translatable="false">ca-app-pub-3742245157994788/5610026757</string>
     <string name="remove_ads">Werbung Entfernen</string>
     <string name="select_child">Kind auswählen</string>
     <string name="title_activity_select_child">Kind auswählen</string>
@@ -106,4 +106,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="try_again">Erneut Versuchen</string>
+    <string name="portal_foodmenu_disclaimer">Wir übernehemen keinerlei Garantie für die Korrektheit der Daten. Alle Angaben ohne Gewähr.</string>
 </resources>

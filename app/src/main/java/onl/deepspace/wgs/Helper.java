@@ -49,7 +49,7 @@ public class Helper {
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
 
-    public static String LOGTAG = "Deepspace";
+    public static String LOGTAG = "WGS-App";
     public static String PW = "password_v2";
     public static String EMAIL = "userEmail_v2";
     public static String HASADS = "hasDisabledAds";

@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import onl.deepspace.wgs.Bottom.BottomAction;
+import onl.deepspace.wgs.Fragments.FoodMenuFragment;
 import onl.deepspace.wgs.Fragments.RepresentationFragment;
 import onl.deepspace.wgs.Fragments.TimetableFragment;
 import onl.deepspace.wgs.Helper;
@@ -231,11 +232,6 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
     }
 
     @Override
-    public void onFragmentInteraction() {
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mService != null) {
@@ -315,6 +311,11 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction() {
+
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -329,23 +330,26 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: return new RepresentationFragment();
-                case 1: return new TimetableFragment();
+                case 1: return new FoodMenuFragment();
+                case 2: return new TimetableFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
-            return 2;
+            // Show 3 total pages.
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Vertretungsplan";
+                    return "Vertretungen";
                 case 1:
+                    return "Speiseplan";
+                case 2:
                     return "Stundenplan";
             }
             return null;
