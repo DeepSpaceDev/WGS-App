@@ -69,9 +69,9 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         }
 
         // Bottom Action
-        // BottomAction.setObjectForActivity(PortalActivity.class, this); // Setup of Bottom Action
-        // BottomAction.showBottomSheet(PortalActivity.class, R.id.main_content, BottomAction.TYPE_URL, "https://play.google.com/store/apps/details?id=onl.deepspace.wgs", "Rate on Play Store", "playstore");
-        /*try {
+        BottomAction.setObjectForActivity(PortalActivity.class, this); // Setup of Bottom Action
+        BottomAction.showBottomSheet(PortalActivity.class, R.id.main_content, BottomAction.TYPE_URL, "https://play.google.com/store/apps/details?id=onl.deepspace.wgs", "Rate on Play Store", "playstore");
+        try {
             long lastTime = Helper.getLastBottomAction(this);
             long currentTime = System.currentTimeMillis();
             JSONObject nextAction = Helper.nextBottomAction(this);
@@ -94,7 +94,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
         } catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.getMessage());
-        }*/
+        }
 
         // In App billing
         mServiceConn = new ServiceConnection() {

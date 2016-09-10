@@ -64,13 +64,15 @@ public class Helper {
 
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
 
-    public static final String WGSPortalAPI = "http://62.75.208.57/scripts/sites/wgs/eltern-portal_v2.php";
+    public static final String WGSPortalAPI = "http://api.deepspace.onl/wgs/v3";
     public static final String WGSPortalAPI_USERNAME = "username";
     public static final String WGSPortalAPI_PASSWORD = "password";
     public static final String WGSPortalAPI_TOKEN = "token";
     public static final String WGSPortalAPI_AUTOREFRESH = "autorefresh";
     public static final String WGSPortalAPI_VERSION = "version";
     public static final String API_TOKEN = "gt4D3YFHynOycAS2YWAjIrcd65idPJXwqhfi18uKZZRN7b6DLcBldpjhY4rSJ8Me";
+
+    public static final String FeedbackAPI = "http://api.deepspace.onl/wgs/feedback";
 
     public static final String API_RESULT_LOGIN = "login";
     public static final String API_RESULT_CHILDREN = "children";
@@ -149,14 +151,14 @@ public class Helper {
                 daysAfter = 1;
                 break;
             case 1:
-                action = "https://deepspace.onl/scripts/sites/wgs/feedback.php";
+                action = FeedbackAPI;
                 type = BottomAction.TYPE_RATING;
                 hint = "Wie gefällt dir unser Design?";
                 additional = "UI";
                 daysAfter = 1;
                 break;
             case 2:
-                action = "https://deepspace.onl/scripts/sites/wgs/feedback.php";
+                action = FeedbackAPI;
                 type = BottomAction.TYPE_RATING;
                 hint = "Wie gut ist die App zu bedienen?";
                 additional = "UX";
