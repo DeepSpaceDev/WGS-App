@@ -1,6 +1,4 @@
-package onl.deepspace.wgs.BottomAction;
-
-import android.app.Activity;
+package onl.deepspace.wgs.Bottom;
 
 /**
  * Created by Dennis on 25.03.2016.

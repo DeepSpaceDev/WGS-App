@@ -38,7 +38,7 @@ import java.util.List;
 import onl.deepspace.wgs.Activities.FeatureRequestActivity;
 import onl.deepspace.wgs.Activities.LoginActivity;
 import onl.deepspace.wgs.Activities.PortalActivity;
-import onl.deepspace.wgs.BottomAction.BottomAction;
+import onl.deepspace.wgs.Bottom.BottomAction;
 
 /**
  * Created by Dennis on 18.02.2016.

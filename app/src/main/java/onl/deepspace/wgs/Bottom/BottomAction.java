@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.BottomAction;
+package onl.deepspace.wgs.Bottom;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -233,7 +233,6 @@ public class BottomAction extends Fragment {
             @Override
             public void run() {
                 mDelay -= INTERVAL;
-                Log.i(Helper.LOGTAG, mDelay + "");
 
                 if(mDelay < 0) closeBottomSheet();
                 else handler.postDelayed(this, INTERVAL);
@@ -319,7 +318,6 @@ public class BottomAction extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.i(Helper.LOGTAG, "Attached");
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -332,7 +330,6 @@ public class BottomAction extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        Log.i(Helper.LOGTAG, "Detached");
     }
 
     /**

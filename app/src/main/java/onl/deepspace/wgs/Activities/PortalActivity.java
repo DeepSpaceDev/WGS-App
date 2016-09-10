@@ -31,7 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import onl.deepspace.wgs.BottomAction.BottomAction;
+import onl.deepspace.wgs.Bottom.BottomAction;
 import onl.deepspace.wgs.Fragments.RepresentationFragment;
 import onl.deepspace.wgs.Fragments.TimetableFragment;
 import onl.deepspace.wgs.Helper;

@@ -8,7 +8,7 @@
              android:layout_margin="8dp"
              android:layout_gravity="bottom"
              android:visibility="visible"
-             tools:context="onl.deepspace.wgs.BottomAction.BottomAction">
+             tools:context="onl.deepspace.wgs.Bottom.BottomAction">
 
     <!-- Maximum 43 characters for the text -->
     <TextView
