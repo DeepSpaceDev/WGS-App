@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.Fragments;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -14,13 +14,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Created by Dennis on 17.02.2016.
  */
 public class TimetableFragment extends Fragment {
 
-    static JSONObject timetable;
+    public static JSONObject timetable;
     static Activity mActivity;
     static View mInflater;
 

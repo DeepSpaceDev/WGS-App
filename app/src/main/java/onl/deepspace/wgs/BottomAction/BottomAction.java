@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.BottomAction;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,24 +18,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.net.ssl.HttpsURLConnection;
+import onl.deepspace.wgs.Activities.FeatureRequestActivity;
+import onl.deepspace.wgs.AsyncTasks.FeedbackSender;
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.R;
 
 
 /**

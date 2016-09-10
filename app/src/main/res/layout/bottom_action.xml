@@ -9,7 +9,7 @@
              android:layout_margin="8dp"
              android:layout_gravity="bottom"
              android:visibility="invisible"
-             tools:context="onl.deepspace.wgs.BottomAction">
+             tools:context="onl.deepspace.wgs.BottomAction.BottomAction">
 
     <TextView
         android:id="@+id/bottom_action_hint"

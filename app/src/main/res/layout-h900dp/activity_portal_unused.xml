@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="onl.deepspace.wgs.PortalActivity">
+    tools:context="onl.deepspace.wgs.Activities.PortalActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -42,7 +42,7 @@
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="onl.deepspace.wgs.RepresentationFragment" />
+                class="onl.deepspace.wgs.Fragments.RepresentationFragment" />
             <TextView
                 android:text="Stundenplan"
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="onl.deepspace.wgs.TimetableFragment" />
+                class="onl.deepspace.wgs.Fragments.TimetableFragment" />
 
         </LinearLayout>
     </ScrollView>

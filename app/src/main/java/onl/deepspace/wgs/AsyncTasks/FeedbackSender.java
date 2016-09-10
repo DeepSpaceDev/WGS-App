@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.AsyncTasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -14,6 +14,9 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import onl.deepspace.wgs.BuildConfig;
+import onl.deepspace.wgs.Helper;
 
 /**
  * Created by Dennis on 26.03.2016.

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="onl.deepspace.wgs.RepresentationFragment">
+    tools:context="onl.deepspace.wgs.Fragments.RepresentationFragment">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

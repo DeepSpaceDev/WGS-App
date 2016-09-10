@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,13 +8,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.Interfaces.OnTaskCompletedInterface;
+import onl.deepspace.wgs.R;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface {
 

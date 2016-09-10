@@ -35,6 +35,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import onl.deepspace.wgs.Activities.FeatureRequestActivity;
+import onl.deepspace.wgs.Activities.LoginActivity;
+import onl.deepspace.wgs.Activities.PortalActivity;
+import onl.deepspace.wgs.BottomAction.BottomAction;
+
 /**
  * Created by Dennis on 18.02.2016.
  */
@@ -43,10 +48,12 @@ public class Helper {
 
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
+
     public static String LOGTAG = "Deepspace";
     public static String PW = "password_v2";
     public static String EMAIL = "userEmail_v2";
     public static String HASADS = "hasDisabledAds";
+
     public static String LAST_BOTTOM_ACTION = "lastBottomAction";
     public static String NEXT_BOTTOM_ACTION = "nextBottomAction";
     public static String BOTTOM_ACTION_ACTION = "action";
@@ -69,12 +76,15 @@ public class Helper {
     public static final String API_RESULT_CHILDREN = "children";
     public static final String API_RESULT_NAME = "name";
     public static final String API_RESULT_TIMETABLE = "timetable";
+
     public static final String API_RESULT_MONDAY = "monday";
     public static final String API_RESULT_TUESDAY = "tuesday";
     public static final String API_RESULT_THURSDAY = "thursday";
     public static final String API_RESULT_WEDNESDAY = "wednesday";
     public static final String API_RESULT_FRIDAY = "friday";
+
     public static final String API_RESULT_REPRESENTATION = "representation";
+
     public static final String API_RESULT_TODAY = "today";
     public static final String API_RESULT_TOMORROW = "tomorrow";
     public static final String API_RESULT_DATE = "date";

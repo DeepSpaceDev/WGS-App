@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:label="@string/app_login"
             android:noHistory="true">
             <intent-filter>
@@ -26,21 +26,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PortalActivity"
+            android:name=".Activities.PortalActivity"
             android:label="@string/title_activity_portal"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".SelectChildActivity"
+            android:name=".Activities.SelectChildActivity"
             android:label="@string/title_activity_select_child"
             android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".AboutActivity">
+        <activity android:name=".Activities.AboutActivity">
 
             <!-- TODO Make this parent activity without crahsing -->
             <!--
                 <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="onl.deepspace.wgs.PortalActivity"/>
+                android:value="onl.deepspace.wgs.Activities.PortalActivity"/>
             -->
         </activity>
 
@@ -58,7 +58,7 @@
             android:name=".PortalUpdate.PortalPullService"
             android:exported="false"/>
 
-        <activity android:name=".FeatureRequestActivity">
+        <activity android:name=".Activities.FeatureRequestActivity">
         </activity>
     </application>
 

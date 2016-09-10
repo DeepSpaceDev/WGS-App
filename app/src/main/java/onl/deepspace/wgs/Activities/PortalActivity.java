@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.Activities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,7 +31,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import onl.deepspace.wgs.BottomAction.BottomAction;
+import onl.deepspace.wgs.Fragments.RepresentationFragment;
+import onl.deepspace.wgs.Fragments.TimetableFragment;
+import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
+import onl.deepspace.wgs.R;
 
 public class PortalActivity extends AppCompatActivity implements BottomAction.OnFragmentInteractionListener {
 
@@ -45,7 +50,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
     AdView mAdView;
 
     static ServiceConnection mServiceConn;
-    static IInAppBillingService mService;
+    public static IInAppBillingService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

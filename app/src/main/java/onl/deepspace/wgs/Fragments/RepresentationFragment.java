@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Created by Dennis on 17.02.2016.
@@ -23,7 +26,7 @@ import org.json.JSONObject;
 public class RepresentationFragment extends Fragment {
 
     private static Activity mActivity;
-    static JSONObject representation;
+    public static JSONObject representation;
     static View mInflater;
 
     public RepresentationFragment() {

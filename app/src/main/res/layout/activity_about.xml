@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/about_activity"
-    tools:context="onl.deepspace.wgs.AboutActivity">
+    tools:context="onl.deepspace.wgs.Activities.AboutActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

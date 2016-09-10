@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.Activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -16,6 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.R;
 
 public class SelectChildActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package onl.deepspace.wgs;
+package onl.deepspace.wgs.BottomAction;
 
 import android.app.Activity;
 
