@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,24 +18,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.net.ssl.HttpsURLConnection;
 
 
 /**
@@ -242,7 +228,6 @@ public class BottomAction extends Fragment {
             @Override
             public void run() {
                 mDelay -= INTERVAL;
-                Log.i(Helper.LOGTAG, mDelay + "");
 
                 if(mDelay < 0) closeBottomSheet();
                 else handler.postDelayed(this, INTERVAL);
@@ -328,7 +313,6 @@ public class BottomAction extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.i(Helper.LOGTAG, "Attached");
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -341,7 +325,6 @@ public class BottomAction extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        Log.i(Helper.LOGTAG, "Detached");
     }
 
     /**
