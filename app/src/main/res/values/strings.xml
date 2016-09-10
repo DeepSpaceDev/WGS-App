@@ -94,7 +94,7 @@
     <string name="subject">Fach</string>
     <string name="room">Raum</string>
     <string name="teacher">Lehrer</string>
-    <string name="connection_failed">Verbindung fehlgechlagen</string>
+    <string name="connection_failed">Verbindung fehlgechlagen oder falsches Passwort</string>
 
     <!--Others-->
     <string name="admob_id">ca-app-pub-3742245157994788/5610026757</string>
@@ -105,4 +105,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="try_again">Erneut Versuchen</string>
 </resources>
