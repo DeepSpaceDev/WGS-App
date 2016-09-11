@@ -4,11 +4,6 @@
         android:height="50dp"
         android:viewportWidth="400.0"
         android:viewportHeight="50.0">
-    <group android:name="background">
-        <path
-            android:pathData="M0,0 h400 v50 h-400 v-50z"
-            android:fillColor="#b6b6b6"/>
-    </group>
     <group
         android:name="exercise_book2"
         android:rotation="9"
