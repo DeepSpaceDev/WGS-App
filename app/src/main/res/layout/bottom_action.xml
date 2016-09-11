@@ -1,28 +1,30 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:id="@+id/bottom_action"
-             android:layout_width="@dimen/bottom_action_width"
-             android:layout_height="wrap_content"
-             android:minHeight="32dp"
-             android:elevation="@dimen/bottom_action_elevation"
-             android:background="@drawable/bottom_action_bg"
-             android:layout_margin="8dp"
-             android:layout_gravity="bottom"
-             android:visibility="invisible"
-             tools:context="onl.deepspace.wgs.bottomaction.BottomAction">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_action"
+    android:layout_width="@dimen/bottom_action_width"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_margin="8dp"
+    android:background="@drawable/bottom_action_bg"
+    android:elevation="@dimen/bottom_action_elevation"
+    android:minHeight="32dp"
+    android:visibility="invisible"
+    tools:context="onl.deepspace.wgs.bottomaction.BottomAction"
+    tools:ignore="UnusedAttribute">
 
     <TextView
         android:id="@+id/bottom_action_hint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="16sp"
         android:layout_gravity="center_vertical"
-        android:text="Folge uns auf Twitter"/>
+        android:text="Folge uns auf Twitter"
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/bottom_action_image"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_gravity="end"
-        android:src="@drawable/twitter"/>
+        android:src="@drawable/twitter"
+        tools:ignore="ContentDescription" />
 </FrameLayout>

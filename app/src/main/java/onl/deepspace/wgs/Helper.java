@@ -40,9 +40,7 @@ import onl.deepspace.wgs.activities.LoginActivity;
 import onl.deepspace.wgs.activities.PortalActivity;
 import onl.deepspace.wgs.bottomaction.BottomAction;
 
-/**
- * Created by Dennis on 18.02.2016.
- */
+@SuppressWarnings("SameParameterValue")
 public class Helper {
     public static final int MILLIS_TO_DAYS = 1/(1000 * 60 * 60 * 24);
 
@@ -366,7 +364,7 @@ public class Helper {
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpPost httpRequest = new HttpPost(url);
-            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
+            List<NameValuePair> nameValuePairList = new ArrayList<>(3);
             nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_USERNAME, username));
             nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_PASSWORD, password));
             nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_TOKEN, API_TOKEN));
@@ -420,7 +418,7 @@ public class Helper {
         Bundle querySkus = new Bundle();
         querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
 
-        Bundle skuDetails = new Bundle();
+        //Bundle skuDetails = new Bundle();
 
         try {
             /*skuDetails = PortalActivity.mService.getSkuDetails(3, activity.getPackageName(), "inapp", querySkus);

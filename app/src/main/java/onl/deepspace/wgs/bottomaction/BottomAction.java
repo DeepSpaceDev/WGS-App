@@ -80,6 +80,7 @@ public class BottomAction extends Fragment {
      *
      * @param type The type of bottom sheet.
      */
+    @SuppressWarnings("SameParameterValue")
     public static void showBottomSheet(Class activityClass, int containerId, String type,
                                        String action, String question, String additional) {
         BottomActionElement waitingAction =

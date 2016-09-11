@@ -12,14 +12,16 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:ignore="ScrollViewSize">
 
         <ImageView
             android:id="@+id/deepspace_logo"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="175dp"
-            android:src="@drawable/deepspace"/>
+            android:src="@drawable/deepspace"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:layout_width="match_parent"

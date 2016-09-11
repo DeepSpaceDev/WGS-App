@@ -1,9 +1,5 @@
 package onl.deepspace.wgs.fragments.representation;
 
-/**
- * Created by Sebastian on 11.09.2016.
- */
-
 public class RepresentationItem {
 
     public String subject, action, room;

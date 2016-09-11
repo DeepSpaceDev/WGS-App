@@ -12,7 +12,7 @@ import onl.deepspace.wgs.Helper;
  * Sets up the AlarmReceiver when device rebooted
  */
 public class AlarmBootReceiver extends BroadcastReceiver {
-    AlarmReceiver mAlarm = new AlarmReceiver();
+    private AlarmReceiver mAlarm = new AlarmReceiver();
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
