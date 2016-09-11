@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.AsyncTasks;
+package onl.deepspace.wgs.asynctasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;

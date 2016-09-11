@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Bottom;
+package onl.deepspace.wgs.bottomaction;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -24,8 +24,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import onl.deepspace.wgs.Activities.FeatureRequestActivity;
-import onl.deepspace.wgs.AsyncTasks.FeedbackSender;
+import onl.deepspace.wgs.activities.FeatureRequestActivity;
+import onl.deepspace.wgs.asynctasks.FeedbackSender;
 import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
 

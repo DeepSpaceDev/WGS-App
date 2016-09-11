@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.PortalUpdate;
+package onl.deepspace.wgs.portalupdate;
 
 import android.app.IntentService;
 import android.content.Intent;

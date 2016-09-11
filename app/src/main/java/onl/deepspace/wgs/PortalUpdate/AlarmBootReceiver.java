@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.PortalUpdate;
+package onl.deepspace.wgs.portalupdate;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

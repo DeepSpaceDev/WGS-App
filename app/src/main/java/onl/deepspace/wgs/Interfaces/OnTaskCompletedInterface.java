@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Interfaces;
+package onl.deepspace.wgs.interfaces;
 
 /**
  * Created by Sese on 06.02.2016.

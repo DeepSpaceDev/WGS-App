@@ -35,10 +35,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import onl.deepspace.wgs.Activities.FeatureRequestActivity;
-import onl.deepspace.wgs.Activities.LoginActivity;
-import onl.deepspace.wgs.Activities.PortalActivity;
-import onl.deepspace.wgs.Bottom.BottomAction;
+import onl.deepspace.wgs.activities.FeatureRequestActivity;
+import onl.deepspace.wgs.activities.LoginActivity;
+import onl.deepspace.wgs.activities.PortalActivity;
+import onl.deepspace.wgs.bottomaction.BottomAction;
 
 /**
  * Created by Dennis on 18.02.2016.
@@ -186,6 +186,224 @@ public class Helper {
         return bottomAction;
     }
 
+    public static int getLessonId(int lesson) {
+        switch (lesson) {
+            case 1:  return R.string.time1;
+            case 2:  return R.string.time2;
+            case 3:  return R.string.time3;
+            case 4:  return R.string.time4;
+            case 5:  return R.string.time5;
+            case 6:  return R.string.time6;
+            case 7:  return R.string.time7;
+            case 8:  return R.string.time8;
+            case 9:  return R.string.time9;
+            case 10: return R.string.time10;
+            case 11: return R.string.time11;
+            default: return 0;
+        }
+    }
+
+    /**
+     * Get the text id for the specified subject
+     * @param subject The subject to get the id for
+     * @return The id of the string resource
+     */
+    public static int getSubjectId(String subject) {
+        int id = 0;
+        subject = subject.replaceAll("[0-9]", "");
+        subject = subject.toUpperCase();
+
+        switch(subject) {
+            case "D": id = R.string.german; break;
+            case "M": id = R.string.maths; break;
+            case "E": id = R.string.english; break;
+            case "L": id = R.string.latin; break;
+            case "PH": id = R.string.physics; break;
+            case "INF": id = R.string.informatics; break;
+            case "WR": id = R.string.economyNLaw; break;
+            case "GEO": id = R.string.geographie; break;
+            case "SM/SW": id = R.string.sports; break;
+            case "C": id = R.string.chemistry; break;
+            case "B": id = R.string.biology; break;
+            case "G": id = R.string.history; break;
+            case "SK": id = R.string.socialEdu; break;
+            case "SOG": id = R.string.socialBaseEdu; break;
+            case "ETH/EV/K": id = R.string.religion; break;
+            case "F": id = R.string.french; break;
+            case "S": id = R.string.spain; break;
+            case "DRG": id = R.string.theatre; break;
+            case "CHOR": id = R.string.choir; break;
+            case "ORCH": id = R.string.orchestra; break;
+            case "NT": id = R.string.NT; break;
+            case "MU": id = R.string.music; break;
+            case "KU": id = R.string.arts; break;
+            case "PSY": id = R.string.psychology; break;
+            case "BCP": id = R.string.bioChemPrak; break;
+            case "ROB": id = R.string.robotic; break;
+            case "IM": id = R.string.intMaths; break;
+            case "ID": id = R.string.intGerman; break;
+            case "IE": id = R.string.intEnglish; break;
+            case "IF": id = R.string.intFrench; break;
+            case "IL": id = R.string.intLatin; break;
+            case "IPH": id = R.string.intPhysics; break;
+            case "IC": id = R.string.intChemistry; break;
+        }
+        return id;
+    }
+
+    public static int getLongLessonId(int lesson) {
+        switch (lesson) {
+            case 1:  return R.string.long_time1;
+            case 2:  return R.string.long_time2;
+            case 3:  return R.string.long_time3;
+            case 4:  return R.string.long_time4;
+            case 5:  return R.string.long_time5;
+            case 6:  return R.string.long_time6;
+            case 7:  return R.string.long_time7;
+            case 8:  return R.string.long_time8;
+            case 9:  return R.string.long_time9;
+            case 10: return R.string.long_time10;
+            case 11: return R.string.long_time11;
+            default: return 0;
+        }
+    }
+
+    /**
+     * Get the text id for the specified subject
+     * @param subject The subject to get the id for
+     * @return The id of the string resource
+     */
+    public static int getLongSubjectId(String subject) {
+        int id = 0;
+        subject = subject.replaceAll("[0-9]", "");
+        subject = subject.toUpperCase();
+
+        switch(subject) {
+            case "D": id = R.string.long_german; break;
+            case "M": id = R.string.long_maths; break;
+            case "E": id = R.string.long_english; break;
+            case "L": id = R.string.long_latin; break;
+            case "PH": id = R.string.long_physics; break;
+            case "INF": id = R.string.long_informatics; break;
+            case "WR": id = R.string.long_economyNLaw; break;
+            case "GEO": id = R.string.long_geographie; break;
+            case "SM/SW": id = R.string.long_sports; break;
+            case "C": id = R.string.long_chemistry; break;
+            case "B": id = R.string.long_biology; break;
+            case "G": id = R.string.long_history; break;
+            case "SK": id = R.string.long_socialEdu; break;
+            case "SOG": id = R.string.long_socialBaseEdu; break;
+            case "ETH/EV/K": id = R.string.long_religion; break;
+            case "F": id = R.string.long_french; break;
+            case "S": id = R.string.long_spain; break;
+            case "DRG": id = R.string.long_theatre; break;
+            case "CHOR": id = R.string.long_choir; break;
+            case "ORCH": id = R.string.long_orchestra; break;
+            case "NT": id = R.string.long_NT; break;
+            case "MU": id = R.string.long_music; break;
+            case "KU": id = R.string.long_arts; break;
+            case "PSY": id = R.string.long_psychology; break;
+            case "BCP": id = R.string.long_bioChemPrak; break;
+            case "ROB": id = R.string.long_robotic; break;
+            case "IM": id = R.string.long_intMaths; break;
+            case "ID": id = R.string.long_intGerman; break;
+            case "IE": id = R.string.long_intEnglish; break;
+            case "IF": id = R.string.long_intFrench; break;
+            case "IL": id = R.string.long_intLatin; break;
+            case "IPH": id = R.string.long_intPhysics; break;
+            case "IC": id = R.string.long_intChemistry; break;
+        }
+        return id;
+    }
+
+    public static int getColorId(String subject) {
+        int id = 0;
+        subject = subject.replaceAll("[0-9]", "");
+        subject = subject.toUpperCase();
+
+        switch(subject) {
+            case "D": id = R.color.red_500; break;
+            case "M": id = R.color.blue_500; break;
+            case "E": id = R.color.green_500; break;
+            case "L": id = R.color.yellow_500; break;
+            case "PH": id = R.color.red_700; break;
+            case "INF": id = R.color.blue_700; break;
+            case "WR": id = R.color.brown_300; break;
+            case "GEO": id = R.color.blue_300; break;
+            case "SM/SW": id = R.color.green_500; break;
+            case "C": id = R.color.purple_500; break;
+            case "B": id = R.color.green_700; break;
+            case "G": id = R.color.brown_500; break;
+            case "SK": id = R.color.deep_orange_300; break;
+            case "SOG": id = R.color.deep_orange_500; break;
+            case "ETH/EV/K": id = R.color.deep_orange_700; break;
+            case "F": id = R.color.yellow_500; break;
+            case "S": id = R.color.yellow_500; break;
+            case "DRG": id = R.color.blue_grey_500; break;
+            case "CHOR": id = R.color.blue_grey_500; break;
+            case "ORCH": id = R.color.blue_grey_500; break;
+            case "NT": id = R.color.blue_grey_500; break;
+            case "MU": id = R.color.lime_500; break;
+            case "KU": id = R.color.indigo_A400; break;
+            case "PSY": id = R.color.pink_500; break;
+            case "BCP": id = R.color.pink_300; break;
+            case "ROB": id = R.color.pink_500; break;
+            case "IM": id = R.color.blue_500; break;
+            case "ID": id = R.color.red_500; break;
+            case "IE": id = R.color.green_500; break;
+            case "IF": id = R.color.yellow_500; break;
+            case "IL": id = R.color.yellow_500; break;
+            case "IPH": id = R.color.red_700; break;
+            case "IC": id = R.color.purple_500; break;
+        }
+        return id;
+    }
+
+    public static String GetSomething(String username, String password, boolean autorefresh) {
+        String url = WGSPortalAPI;
+        String result = "";
+        BufferedReader inStream = null;
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpPost httpRequest = new HttpPost(url);
+            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_USERNAME, username));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_PASSWORD, password));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_TOKEN, API_TOKEN));
+            if(autorefresh) nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_AUTOREFRESH, "1"));
+            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_VERSION, BuildConfig.VERSION_CODE + ""));
+
+            httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
+            HttpResponse response = httpClient.execute(httpRequest);
+            inStream = new BufferedReader(
+                    new InputStreamReader(
+                            response.getEntity().getContent()));
+
+            StringBuilder buffer = new StringBuilder("");
+            String line;
+            String NL = System.getProperty("line.separator");
+            while ((line = inStream.readLine()) != null) {
+                buffer.append(line).append(NL);
+            }
+            inStream.close();
+
+            result = buffer.toString();
+        } catch (Exception e) {
+            Log.e(Helper.LOGTAG, e.toString());
+            e.printStackTrace();
+        } finally {
+            if (inStream != null) {
+                try {
+                    inStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    /********* Shared Preferences & Ad *****/
     public static void incrementNextAction(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -331,116 +549,5 @@ public class Helper {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         return sharedPref.getInt(CHILD_INDEX, 0);
-    }
-
-    public static int getLessonId(int lesson) {
-        switch (lesson) {
-            case 1:  return R.string.time1;
-            case 2:  return R.string.time2;
-            case 3:  return R.string.time3;
-            case 4:  return R.string.time4;
-            case 5:  return R.string.time5;
-            case 6:  return R.string.time6;
-            case 7:  return R.string.time7;
-            case 8:  return R.string.time8;
-            case 9:  return R.string.time9;
-            case 10: return R.string.time10;
-            case 11: return R.string.time11;
-            default: return 0;
-        }
-    }
-
-    /**
-     * Get the text id for the specified subject
-     * @param subject The subject to get the id for
-     * @return The id of the string resource
-     */
-    public static int getSubjectId(String subject) {
-        int id = 0;
-
-        subject = subject.replaceAll("[0-9]", "");
-
-        subject = subject.toUpperCase();
-
-        switch(subject) {
-            case "D": id = R.string.german; break;
-            case "M": id = R.string.maths; break;
-            case "E": id = R.string.english; break;
-            case "L": id = R.string.latin; break;
-            case "PH": id = R.string.physics; break;
-            case "INF": id = R.string.informatics; break;
-            case "WR": id = R.string.economyNLaw; break;
-            case "GEO": id = R.string.geographie; break;
-            case "SM/SW": id = R.string.sports; break;
-            case "C": id = R.string.chemistry; break;
-            case "B": id = R.string.biology; break;
-            case "G": id = R.string.history; break;
-            case "SK": id = R.string.socialEdu; break;
-            case "SOG": id = R.string.socialBaseEdu; break;
-            case "ETH/EV/K": id = R.string.religion; break;
-            case "F": id = R.string.french; break;
-            case "S": id = R.string.spain; break;
-            case "DRG": id = R.string.theatre; break;
-            case "CHOR": id = R.string.choir; break;
-            case "ORCH": id = R.string.orchestra; break;
-            case "NT": id = R.string.NT; break;
-            case "MU": id = R.string.music; break;
-            case "KU": id = R.string.arts; break;
-            case "PSY": id = R.string.psychology; break;
-            case "BCP": id = R.string.bioChemPrak; break;
-            case "ROB": id = R.string.robotic; break;
-            case "IM": id = R.string.intMaths; break;
-            case "ID": id = R.string.intGerman; break;
-            case "IE": id = R.string.intEnglish; break;
-            case "IF": id = R.string.intFrench; break;
-            case "IL": id = R.string.intLatin; break;
-            case "IPH": id = R.string.intPhysics; break;
-            case "IC": id = R.string.intChemistry; break;
-        }
-        return id;
-    }
-
-    public static String GetSomething(String username, String password, boolean autorefresh) {
-        String url = WGSPortalAPI;
-        String result = "";
-        BufferedReader inStream = null;
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpRequest = new HttpPost(url);
-            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>(3);
-            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_USERNAME, username));
-            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_PASSWORD, password));
-            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_TOKEN, API_TOKEN));
-            if(autorefresh) nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_AUTOREFRESH, "1"));
-            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_VERSION, BuildConfig.VERSION_CODE + ""));
-
-            httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
-            HttpResponse response = httpClient.execute(httpRequest);
-            inStream = new BufferedReader(
-                    new InputStreamReader(
-                            response.getEntity().getContent()));
-
-            StringBuilder buffer = new StringBuilder("");
-            String line;
-            String NL = System.getProperty("line.separator");
-            while ((line = inStream.readLine()) != null) {
-                buffer.append(line).append(NL);
-            }
-            inStream.close();
-
-            result = buffer.toString();
-        } catch (Exception e) {
-            Log.e(Helper.LOGTAG, e.toString());
-            e.printStackTrace();
-        } finally {
-            if (inStream != null) {
-                try {
-                    inStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return result;
     }
 }

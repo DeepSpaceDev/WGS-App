@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Activities;
+package onl.deepspace.wgs.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;

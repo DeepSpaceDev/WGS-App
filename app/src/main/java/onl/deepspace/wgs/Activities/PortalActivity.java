@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Activities;
+package onl.deepspace.wgs.activities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,12 +31,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import onl.deepspace.wgs.Bottom.BottomAction;
-import onl.deepspace.wgs.Fragments.FoodMenuFragment;
-import onl.deepspace.wgs.Fragments.RepresentationFragment;
-import onl.deepspace.wgs.Fragments.TimetableFragment;
+import onl.deepspace.wgs.bottomaction.BottomAction;
+import onl.deepspace.wgs.fragments.FoodMenuFragment;
+import onl.deepspace.wgs.fragments.RepresentationFragment;
+import onl.deepspace.wgs.fragments.TimetableFragment;
 import onl.deepspace.wgs.Helper;
-import onl.deepspace.wgs.PortalUpdate.AlarmReceiver;
+import onl.deepspace.wgs.portalupdate.AlarmReceiver;
 import onl.deepspace.wgs.R;
 
 public class PortalActivity extends AppCompatActivity implements BottomAction.OnFragmentInteractionListener {

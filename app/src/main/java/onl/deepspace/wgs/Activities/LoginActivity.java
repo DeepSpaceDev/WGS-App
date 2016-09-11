@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Activities;
+package onl.deepspace.wgs.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import onl.deepspace.wgs.Helper;
-import onl.deepspace.wgs.Interfaces.OnTaskCompletedInterface;
+import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
 import onl.deepspace.wgs.R;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface<String> {

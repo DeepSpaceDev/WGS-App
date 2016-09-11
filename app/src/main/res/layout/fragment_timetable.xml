@@ -3,7 +3,8 @@
     android:id="@+id/login_form"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="onl.deepspace.wgs.Fragments.TimetableFragment">
+    android:background="@color/white"
+    tools:context="onl.deepspace.wgs.fragments.TimetableFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                 android:stretchColumns="6">
 
                 <TableRow
-                    android:background="@color/darkergrey"
+                    android:background="@color/colorAccent"
                     android:gravity="center"
                     android:weightSum="11">
 
@@ -124,7 +125,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/grey"
+                    android:background="@color/blue_grey_200"
                     android:gravity="center"
                     android:weightSum="11">
 
@@ -207,7 +208,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/grey"
+                    android:background="@color/blue_grey_200"
                     android:gravity="center"
                     android:weightSum="11">
 
@@ -290,7 +291,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/grey"
+                    android:background="@color/blue_grey_200"
                     android:gravity="center"
                     android:weightSum="11">
 
@@ -373,7 +374,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/grey"
+                    android:background="@color/blue_grey_200"
                     android:gravity="center"
                     android:weightSum="11">
 
@@ -456,7 +457,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:background="@color/grey"
+                    android:background="@color/blue_grey_200"
                     android:gravity="center"
                     android:weightSum="11">
 
@@ -546,9 +547,9 @@
             android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:paddingBottom="@dimen/padding_disclaimers"
-            android:textColor="#aaa"
+            android:textColor="@color/grey_800"
             android:textSize="13sp"
             android:text="@string/portal_timetable_disclaimer"/>
 

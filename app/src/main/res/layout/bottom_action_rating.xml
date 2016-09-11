@@ -8,7 +8,7 @@
              android:layout_margin="8dp"
              android:layout_gravity="bottom"
              android:visibility="visible"
-             tools:context="onl.deepspace.wgs.Bottom.BottomAction">
+             tools:context="onl.deepspace.wgs.bottomaction.BottomAction">
 
     <!-- Maximum 43 characters for the text -->
     <TextView
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="16sp"
-        android:text="Wie gefällt dir unser Design, so ansich her?"/>
+        android:text="Wie gefällt dir unser Design?"/>
 
     <ImageView
         android:id="@+id/bottom_action_5s"
