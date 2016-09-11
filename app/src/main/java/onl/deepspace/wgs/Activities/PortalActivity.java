@@ -290,20 +290,26 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
             intent.putExtra(Helper.CHILDREN, childrenNames);
             startActivityForResult(intent, PICK_CHILD_REQUEST);
         }
-        if(id == R.id.action_about) {
+
+        if (id == R.id.action_change_subject_colors) {
+            Intent intent = new Intent(this, ChangeColorActivity.class);
+            startActivity(intent);
+        }
+
+        if (id == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
             return true;
         }
 
-        if(id == R.id.action_logout) {
+        if (id == R.id.action_logout) {
             Helper.setEmail(this, null);
             Helper.setPw(this, null);
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
 
-        if(id == R.id.action_remads){
+        if (id == R.id.action_remads) {
             Helper.purchaseNoAd(this);
             return true;
         }

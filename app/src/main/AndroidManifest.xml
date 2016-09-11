@@ -13,8 +13,8 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/wgs_app_green2_300"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:screenOrientation="portrait"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.LoginActivity"
@@ -60,6 +60,8 @@
             android:exported="false"/>
 
         <activity android:name=".activities.FeatureRequestActivity">
+        </activity>
+        <activity android:name=".activities.ChangeColorActivity">
         </activity>
     </application>
 

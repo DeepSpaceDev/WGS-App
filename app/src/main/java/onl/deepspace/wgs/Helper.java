@@ -79,6 +79,11 @@ public class Helper {
     public static final String API_RESULT_NAME = "name";
     public static final String API_RESULT_TIMETABLE = "timetable";
 
+    public static final String[] ALL_SUBJECTS = new String[]{
+            "D", "M", "E", "L", "PH", "INF", "WR", "GEO", "SM/SW", "C", "B", "G", "SK", "SOG",
+            "ETH/EV/K", "F", "S", "DRG", "CHOR", "ORCH", "NT", "MU", "KU", "PSY", "BCP", "ROB",
+            "IM", "ID", "IE", "IF", "IL", "IPH", "IC"};
+
     public static final String API_RESULT_MONDAY = "monday";
     public static final String API_RESULT_TUESDAY = "tuesday";
     public static final String API_RESULT_THURSDAY = "thursday";
