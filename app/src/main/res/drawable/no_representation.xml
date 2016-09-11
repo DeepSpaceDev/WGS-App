@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="400dp"
+        android:height="50dp"
+        android:viewportWidth="400.0"
+        android:viewportHeight="50.0">
+    <group android:name="background">
+        <path
+            android:pathData="M0,0 h400 v50 h-400 v-50z"
+            android:fillColor="#b6b6b6"/>
+    </group>
+    <group
+        android:name="exercise_book2"
+        android:rotation="9"
+        android:translateX="112"
+        android:translateY="5">
+        <path
+            android:pathData="M0,0 l0,30 l23,-2 l0,-30 l-23,2z"
+            android:strokeColor="#313131"
+            android:strokeWidth="1"
+            android:fillColor="#fff" />
+        <path
+            android:pathData="M0,0 l0,30 l21,0 l0,-30 l-21,0z"
+            android:strokeColor="#313131"
+            android:strokeWidth="1"
+            android:fillColor="#616161" />
+        <path
+            android:pathData="M5.5,5 h10 v7 h-10 v-7z"
+            android:strokeColor="#b1b1b1"
+            android:strokeWidth="1"
+            android:fillColor="#fff" />
+    </group>
+    <group
+        android:name="exercise_book1"
+        android:rotation="5"
+        android:translateX="100"
+        android:translateY="10">
+        <path
+            android:pathData="M0,0 l0,30 l23,-2 l0,-30 l-23,2z"
+            android:strokeColor="#313131"
+            android:strokeWidth="1"
+            android:fillColor="#fff" />
+        <path
+            android:pathData="M0,0 l0,30 l21,0 l0,-30 l-21,0z"
+            android:strokeColor="#313131"
+            android:strokeWidth="1"
+            android:fillColor="#d90404" />
+        <path
+            android:pathData="M5.5,5 h10 v7 h-10 v-7z"
+            android:strokeColor="#b1b1b1"
+            android:strokeWidth="1"
+            android:fillColor="#fff" />
+    </group>
+</vector>
+
