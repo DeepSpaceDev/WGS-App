@@ -3,6 +3,7 @@ package onl.deepspace.wgs.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,23 +90,21 @@ public class RepresentationFragment extends Fragment {
 
         }
 
-        //TODO no repres.
-        /*
+
         if(data.length() > 0) {
             if(day.equals("today")) {
-                TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
+                CardView noToday = (CardView) mInflater.findViewById(R.id.no_representation_today);
                 noToday.setVisibility(View.GONE);
             } else {
-                TextView noTomorrow = (TextView) mInflater.findViewById(R.id.noTomorrow);
+                CardView noTomorrow = (CardView) mInflater.findViewById(R.id.no_representation_tomorrow);
                 noTomorrow.setVisibility(View.GONE);
             }
-        }*/
+        }
+
         adapter.notifyDataSetChanged();
     }
 
     public static void clearRepresentations() {
-
-        //TODO no rep.
 
         listViewTodayAdapter.reset();
         listViewTodayAdapter.notifyDataSetChanged();
@@ -114,11 +113,11 @@ public class RepresentationFragment extends Fragment {
         listViewTomorrowAdapter.notifyDataSetChanged();
 
 
-        /*TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
-        TextView noTomorrow = (TextView) mInflater.findViewById(R.id.noTomorrow);
+        CardView noToday = (CardView) mInflater.findViewById(R.id.no_representation_today);
+        CardView noTomorrow = (CardView) mInflater.findViewById(R.id.no_representation_tomorrow);
 
         noToday.setVisibility(View.VISIBLE);
-        noTomorrow.setVisibility(View.VISIBLE);*/
+        noTomorrow.setVisibility(View.VISIBLE);
     }
 
     public static void setDates(String today, String tomorrow) {

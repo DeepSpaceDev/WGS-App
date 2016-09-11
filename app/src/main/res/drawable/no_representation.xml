@@ -12,7 +12,7 @@
     <group
         android:name="exercise_book2"
         android:rotation="9"
-        android:translateX="112"
+        android:translateX="100"
         android:translateY="5">
         <path
             android:pathData="M0,0 l0,30 l23,-2 l0,-30 l-23,2z"
@@ -33,7 +33,7 @@
     <group
         android:name="exercise_book1"
         android:rotation="5"
-        android:translateX="100"
+        android:translateX="88"
         android:translateY="10">
         <path
             android:pathData="M0,0 l0,30 l23,-2 l0,-30 l-23,2z"

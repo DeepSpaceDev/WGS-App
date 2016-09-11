@@ -136,7 +136,7 @@
     <string name="friday">Fr</string>
 
     <string name="title_activity_portal">Portal</string>
-    <string name="noRepresentation">Keine Vertretung</string>
+    <string name="no_representation">Keine Vertretungen</string>
     <string name="lesson">Stunde</string>
     <string name="subject">Fach</string>
     <string name="room">Raum</string>
