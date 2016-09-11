@@ -1,15 +1,14 @@
-package onl.deepspace.wgs.Fragments;
+package onl.deepspace.wgs.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -18,6 +17,8 @@ import org.json.JSONObject;
 
 import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
+import onl.deepspace.wgs.fragments.representation.ListViewRepresentation;
+import onl.deepspace.wgs.fragments.representation.RepresentationItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,40 +26,22 @@ import onl.deepspace.wgs.R;
  */
 public class RepresentationFragment extends Fragment {
 
-    private static Activity mActivity;
     public static JSONObject representation;
+    static Activity mActivity;
     static View mInflater;
+    static ListViewRepresentation listViewTodayAdapter, listViewTomorrowAdapter;
 
     public RepresentationFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mInflater = inflater.inflate(R.layout.fragment_representation, container, false);
-        setRepresentations(representation);
-
-        if(Helper.getHasNoAds(getContext())){
-            TextView representations = (TextView) mInflater.findViewById(R.id.representations_disclaimer);
-            representations.setPadding(representations.getPaddingLeft(), representations.getPaddingTop(), representations.getPaddingRight(), 8);
-        }
-
-        return mInflater;
-    }
-
     /**
      * Set the representations of today and tomorrow
      * Provide the date like this: {"today":
-     *                                  {"date": "1.12.15", "data":
-     *                                      [{"lesson": 1, "subject": "...", "room": "..."}, ...]},
-     *                              "tomorrow": ... }
+     * {"date": "1.12.15", "data":
+     * [{"lesson": 1, "subject": "...", "room": "..."}, ...]},
+     * "tomorrow": ... }
+     *
      * @param representations The data of the representations
      */
     public static void setRepresentations(JSONObject representations) {
@@ -68,7 +51,7 @@ public class RepresentationFragment extends Fragment {
 
             setDates(today.getString("date"), tomorrow.getString("date"));
 
-            clearRepesentations();
+            clearRepresentations();
 
             String refresh = representations.getString("lastrefresh");
             refresh = refresh.trim();
@@ -87,66 +70,27 @@ public class RepresentationFragment extends Fragment {
 
     /**
      * Set the values for the specified day
-     * @param day The day to set the values for
+     *
+     * @param day  The day to set the values for
      * @param data The lessons on the specified day
      */
-    public static void addRepresentations(String day, JSONArray data) throws JSONException{
-        TableLayout table = (TableLayout)
-                (day.equals("today") ?
-                        mInflater.findViewById(R.id.representationsToday) :
-                        mInflater.findViewById(R.id.representationsTomorrow));
-        for(int i=0; i<data.length(); i++) {
+    public static void addRepresentations(String day, JSONArray data) throws JSONException {
+
+        ListViewRepresentation adapter = (day.equals("today") ? listViewTodayAdapter : listViewTomorrowAdapter);
+
+        for (int i = 0; i < data.length(); i++) {
             JSONObject representation = data.getJSONObject(i);
             int lesson = representation.getInt("lesson");
             String subject = representation.getString("subject");
             String teacher = representation.getString("teacher");
             String room = representation.getString("room");
 
-            TableRow row = new TableRow(mActivity);
-            if(i % 2 == 1) row.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.grey));
-            row.setGravity(Gravity.CENTER);
-            row.setWeightSum(4);
+            adapter.add(new RepresentationItem(subject, teacher, lesson, room));
 
-            TextView lessonView = new TextView(mActivity);
-            TextView subjectView = new TextView(mActivity);
-            TextView teacherView = new TextView(mActivity);
-            TextView roomView = new TextView(mActivity);
-
-            int subjectId = Helper.getSubjectId(subject);
-            String subjectString = subjectId == 0 ? subject : mActivity.getString(subjectId);
-
-            lessonView.setText(mActivity.getString(Helper.getLessonId(lesson)));
-            subjectView.setText(subjectString);
-            teacherView.setText(teacher);
-            roomView.setText(room);
-
-            lessonView.setPadding(8, 8, 8, 8);
-            subjectView.setPadding(8, 8, 8, 8);
-            teacherView.setPadding(8, 8, 8, 8);
-            roomView.setPadding(8, 8, 8, 8);
-
-            lessonView.setGravity(Gravity.CENTER);
-            subjectView.setGravity(Gravity.CENTER);
-            teacherView.setGravity(Gravity.CENTER);
-            roomView.setGravity(Gravity.CENTER);
-
-            TableRow.LayoutParams params = new TableRow.LayoutParams(
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    1.0f);
-
-            lessonView.setLayoutParams(params);
-            subjectView.setLayoutParams(params);
-            teacherView.setLayoutParams(params);
-            roomView.setLayoutParams(params);
-
-            row.addView(lessonView);
-            row.addView(subjectView);
-            row.addView(teacherView);
-            row.addView(roomView);
-
-            table.addView(row);
         }
+
+        //TODO no repres.
+        /*
         if(data.length() > 0) {
             if(day.equals("today")) {
                 TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
@@ -155,28 +99,41 @@ public class RepresentationFragment extends Fragment {
                 TextView noTomorrow = (TextView) mInflater.findViewById(R.id.noTomorrow);
                 noTomorrow.setVisibility(View.GONE);
             }
-        }
+        }*/
+        adapter.notifyDataSetChanged();
     }
 
-    public static void clearRepesentations() {
-        TableLayout today = (TableLayout) mInflater.findViewById(R.id.representationsToday);
-        TableLayout tomorrow = (TableLayout) mInflater.findViewById(R.id.representationsTomorrow);
-        TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
+    public static void clearRepresentations() {
+
+        //TODO no rep.
+
+        listViewTodayAdapter.reset();
+        listViewTodayAdapter.notifyDataSetChanged();
+
+        listViewTomorrowAdapter.reset();
+        listViewTomorrowAdapter.notifyDataSetChanged();
+
+
+        /*TextView noToday = (TextView) mInflater.findViewById(R.id.noToday);
         TextView noTomorrow = (TextView) mInflater.findViewById(R.id.noTomorrow);
 
         noToday.setVisibility(View.VISIBLE);
-        noTomorrow.setVisibility(View.VISIBLE);
-
-        today.removeViews(1, today.getChildCount() - 1);
-        tomorrow.removeViews(1, tomorrow.getChildCount() - 1);
+        noTomorrow.setVisibility(View.VISIBLE);*/
     }
 
     public static void setDates(String today, String tomorrow) {
         TextView todayView = (TextView) mInflater.findViewById(R.id.dateToday);
         TextView tomorrowView = (TextView) mInflater.findViewById(R.id.dateTomorrow);
 
-        String todayDate = mActivity.getString(R.string.today, today.substring(0, today.length() - 8));
-        String tomorrowDate = mActivity.getString(R.string.tomorrow, tomorrow.substring(0, tomorrow.length() - 8));
+        //Heute, dd. DD.MM.YYYY
+        String todayDate = mActivity.getString(
+                R.string.today,
+                today.substring(0, today.length() - 20) +
+                        today.substring(today.length() - 19, today.length() - 8));
+        String tomorrowDate = mActivity.getString(
+                R.string.tomorrow,
+                tomorrow.substring(0, tomorrow.length() - 20) +
+                        tomorrow.substring(tomorrow.length() - 19, tomorrow.length() - 8));
 
         todayView.setText(todayDate);
         tomorrowView.setText(tomorrowDate);
@@ -184,5 +141,44 @@ public class RepresentationFragment extends Fragment {
 
     public static void setActivity(Activity mActivity) {
         RepresentationFragment.mActivity = mActivity;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mInflater = inflater.inflate(R.layout.fragment_representation, container, false);
+
+        if (Helper.getHasNoAds(getContext())) {
+            TextView representations = (TextView) mInflater.findViewById(R.id.representations_disclaimer);
+            representations.setPadding(representations.getPaddingLeft(), representations.getPaddingTop(), representations.getPaddingRight(), 8);
+        }
+
+        // Recyclers
+        // Today
+        RecyclerView representationToday = (RecyclerView) mInflater.findViewById(R.id.recycler_today);
+        listViewTodayAdapter = new ListViewRepresentation(getContext());
+
+        representationToday.setLayoutManager(new LinearLayoutManager(getContext()));
+        representationToday.setItemAnimator(new DefaultItemAnimator());
+        representationToday.setAdapter(listViewTodayAdapter);
+
+        //Tomorrow
+        RecyclerView representationTomorrow = (RecyclerView) mInflater.findViewById(R.id.recycler_tomorrow);
+        listViewTomorrowAdapter = new ListViewRepresentation(getContext());
+
+        representationTomorrow.setLayoutManager(new LinearLayoutManager(getContext()));
+        representationTomorrow.setItemAnimator(new DefaultItemAnimator());
+        representationTomorrow.setAdapter(listViewTomorrowAdapter);
+
+        /*listViewTodayAdapter.add(new RepresentationItem("Englisch", "entfällt", "7:45 - 8:30", "D105"));
+        listViewTodayAdapter.add(new RepresentationItem("Deutsch", "entfällt", "8:30 - 9:15", "A206"));
+        listViewTodayAdapter.notifyDataSetChanged();*/
+
+
+        //Execute
+        setRepresentations(representation);
+
+        return mInflater;
     }
 }

@@ -31,8 +31,8 @@
     <string name="action_logout">Abmelden</string>
 
 
-    <string name="today">Heute (%1$s)</string>
-    <string name="tomorrow">Morgen (%1$s)</string>
+    <string name="today">Heute, %1$s</string>
+    <string name="tomorrow">Morgen, %1$s</string>
 
     <string name="times">Stunde</string>
     <string name="time1">1</string>
@@ -46,12 +46,6 @@
     <string name="time9">9</string>
     <string name="time10">10</string>
     <string name="time11">11</string>
-
-    <string name="monday">Mo</string>
-    <string name="tuesday">Di</string>
-    <string name="wednesday">Mi</string>
-    <string name="thursday">Do</string>
-    <string name="friday">Fr</string>
 
     <string name="german">D</string>
     <string name="maths">M</string>
@@ -87,6 +81,59 @@
     <string name="intLatin">IL</string>
     <string name="intPhysics">IPh</string>
     <string name="intChemistry">IC</string>
+
+    <string name="long_time1">07:45–08:30</string>
+    <string name="long_time2">08:30–09:15</string>
+    <string name="long_time3">09:40–10:25</string>
+    <string name="long_time4">10:25–11:10</string>
+    <string name="long_time5">11:20–12:05</string>
+    <string name="long_time6">12:05–12:50</string>
+    <string name="long_time7">13:00–13:45</string>
+    <string name="long_time8">13:45–14:30</string>
+    <string name="long_time9">14:30–15:15</string>
+    <string name="long_time10">15:30–16:15</string>
+    <string name="long_time11">16:15–17:00</string>
+
+    <string name="long_german">Deutsch</string>
+    <string name="long_maths">Mathematik</string>
+    <string name="long_english">Englisch</string>
+    <string name="long_latin">Latein</string>
+    <string name="long_physics">Physik</string>
+    <string name="long_informatics">Informatik</string>
+    <string name="long_economyNLaw">Wirtschaft und Recht</string>
+    <string name="long_geographie">Geographie</string>
+    <string name="long_sports">Sport</string>
+    <string name="long_chemistry">Chemie</string>
+    <string name="long_biology">Biologie</string>
+    <string name="long_history">Geschichte</string>
+    <string name="long_socialEdu">Sozialkunde</string>
+    <string name="long_socialBaseEdu">Sozialpraktische Grundbildung</string>
+    <string name="long_religion">Religion</string>
+    <string name="long_french">Französisch</string>
+    <string name="long_spain">Spanisch</string>
+    <string name="long_theatre">Theater</string>
+    <string name="long_choir">Chor</string>
+    <string name="long_orchestra">Orchester</string>
+    <string name="long_NT">Natur und Technik</string>
+    <string name="long_music">Musik</string>
+    <string name="long_arts">Kunst</string>
+    <string name="long_psychology">Psychology</string>
+    <string name="long_bioChemPrak">Biol. - chem. Praktikum</string>
+    <string name="long_robotic">Robotic</string>
+
+    <string name="long_intMaths">Intensivierung Mathe</string>
+    <string name="long_intGerman">Intensivierung Deutsch</string>
+    <string name="long_intEnglish">Intensivierung Englisch</string>
+    <string name="long_intFrench">Intensivierung Französisch</string>
+    <string name="long_intLatin">Intensivierung Latein</string>
+    <string name="long_intPhysics">Intensivierung Physik</string>
+    <string name="long_intChemistry">Intensivierung Chemie</string>
+
+    <string name="monday">Mo</string>
+    <string name="tuesday">Di</string>
+    <string name="wednesday">Mi</string>
+    <string name="thursday">Do</string>
+    <string name="friday">Fr</string>
 
     <string name="title_activity_portal">Portal</string>
     <string name="noRepresentation">Keine Vertretung</string>

@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Activities;
+package onl.deepspace.wgs.activities;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import onl.deepspace.wgs.AsyncTasks.FeedbackSender;
+import onl.deepspace.wgs.asynctasks.FeedbackSender;
 import onl.deepspace.wgs.R;
 
 public class FeatureRequestActivity extends AppCompatActivity {

@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="onl.deepspace.wgs.Fragments.FoodMenuFragment"
+    tools:context="onl.deepspace.wgs.fragments.FoodMenuFragment"
     android:orientation="vertical"
-    android:background="#999">
+    android:background="@color/blue_grey_300">
 
     <ImageView
         android:id="@+id/fragment_foodmenu_menuimg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp"/>
 
 </LinearLayout>

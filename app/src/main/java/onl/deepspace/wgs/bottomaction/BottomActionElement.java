@@ -1,4 +1,4 @@
-package onl.deepspace.wgs.Bottom;
+package onl.deepspace.wgs.bottomaction;
 
 /**
  * Created by Dennis on 25.03.2016.
