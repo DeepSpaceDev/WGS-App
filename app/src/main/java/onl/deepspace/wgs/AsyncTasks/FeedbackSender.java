@@ -18,9 +18,6 @@ import java.net.URL;
 import onl.deepspace.wgs.BuildConfig;
 import onl.deepspace.wgs.Helper;
 
-/**
- * Created by Dennis on 26.03.2016.
- */
 public class FeedbackSender extends AsyncTask<Void, Void, String> {
 
     private Activity mActivity;
@@ -41,6 +38,7 @@ public class FeedbackSender extends AsyncTask<Void, Void, String> {
         return sendFeedback(mUrlString, mCategory, mFeedback);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private String sendFeedback(String urlString, String category, String feedback) {
         try {
             URL url = new URL(urlString);

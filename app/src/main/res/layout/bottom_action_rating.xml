@@ -8,7 +8,8 @@
              android:layout_margin="8dp"
              android:layout_gravity="bottom"
              android:visibility="visible"
-             tools:context="onl.deepspace.wgs.bottomaction.BottomAction">
+             tools:context="onl.deepspace.wgs.bottomaction.BottomAction"
+    tools:ignore="UnusedAttribute">
 
     <!-- Maximum 43 characters for the text -->
     <TextView
@@ -26,7 +27,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:tint="#9B9B9B"
-        android:src="@drawable/ic_star_border_black_24dp"/>
+        android:src="@drawable/ic_star_border_black_24dp"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/bottom_action_4s"
@@ -37,7 +39,8 @@
         android:layout_toStartOf="@id/bottom_action_5s"
         android:layout_toLeftOf="@id/bottom_action_5s"
         android:tint="#9B9B9B"
-        android:src="@drawable/ic_star_border_black_24dp"/>
+        android:src="@drawable/ic_star_border_black_24dp"
+        tools:ignore="ContentDescription" />
     <ImageView
         android:id="@+id/bottom_action_3s"
         android:layout_width="32dp"
@@ -47,7 +50,8 @@
         android:layout_toStartOf="@id/bottom_action_4s"
         android:layout_toLeftOf="@id/bottom_action_4s"
         android:tint="#9B9B9B"
-        android:src="@drawable/ic_star_border_black_24dp"/>
+        android:src="@drawable/ic_star_border_black_24dp"
+        tools:ignore="ContentDescription" />
     <ImageView
         android:id="@+id/bottom_action_2s"
         android:layout_width="32dp"
@@ -57,7 +61,8 @@
         android:layout_toStartOf="@id/bottom_action_3s"
         android:layout_toLeftOf="@id/bottom_action_3s"
         android:tint="#9B9B9B"
-        android:src="@drawable/ic_star_border_black_24dp"/>
+        android:src="@drawable/ic_star_border_black_24dp"
+        tools:ignore="ContentDescription" />
     <ImageView
         android:id="@+id/bottom_action_1s"
         android:layout_width="32dp"
@@ -67,5 +72,6 @@
         android:layout_toStartOf="@id/bottom_action_2s"
         android:layout_toLeftOf="@id/bottom_action_2s"
         android:tint="#9B9B9B"
-        android:src="@drawable/ic_star_border_black_24dp"/>
+        android:src="@drawable/ic_star_border_black_24dp"
+        tools:ignore="ContentDescription" />
 </RelativeLayout>

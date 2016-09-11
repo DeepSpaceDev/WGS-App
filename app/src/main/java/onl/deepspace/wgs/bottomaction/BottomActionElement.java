@@ -1,8 +1,5 @@
 package onl.deepspace.wgs.bottomaction;
 
-/**
- * Created by Dennis on 25.03.2016.
- */
 public class BottomActionElement {
 
     private Class mActivity;

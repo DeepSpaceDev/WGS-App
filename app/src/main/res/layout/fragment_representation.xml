@@ -49,7 +49,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/no_representation" />
+                android:src="@drawable/no_representation"
+                tools:ignore="ContentDescription" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,7 +58,8 @@
                 android:textColor="@color/white"
                 android:layout_marginLeft="18dp"
                 android:textSize="18dp"
-                android:text="@string/no_representation"/>
+                android:text="@string/no_representation"
+                tools:ignore="SpUsage" />
 
         </android.support.v7.widget.CardView>
 
@@ -96,7 +98,8 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/no_representation" />
+                android:src="@drawable/no_representation"
+                tools:ignore="ContentDescription" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,7 +107,8 @@
                 android:textColor="@color/white"
                 android:layout_marginLeft="18dp"
                 android:textSize="18dp"
-                android:text="@string/no_representation"/>
+                android:text="@string/no_representation"
+                tools:ignore="SpUsage" />
 
         </android.support.v7.widget.CardView>
 

@@ -42,7 +42,8 @@
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="onl.deepspace.wgs.fragments.RepresentationFragment" />
+                class="onl.deepspace.wgs.fragments.RepresentationFragment"
+                tools:ignore="MissingId" />
             <TextView
                 android:text="Stundenplan"
                 android:layout_width="match_parent"
@@ -50,7 +51,8 @@
             <fragment
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                class="onl.deepspace.wgs.fragments.TimetableFragment" />
+                class="onl.deepspace.wgs.fragments.TimetableFragment"
+                tools:ignore="MissingId" />
 
         </LinearLayout>
     </ScrollView>

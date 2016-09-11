@@ -38,6 +38,7 @@ public class FoodMenuFragment extends Fragment implements OnTaskCompletedInterfa
         return view;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void LoadImageFromWebOperations(String url) {
         new GetMenuImg(this).execute(url);
     }

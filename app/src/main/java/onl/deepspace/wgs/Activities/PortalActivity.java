@@ -202,6 +202,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void selectChild(int index, boolean... update) {
         try {
             if(index + 1 > mChildren.length()){
