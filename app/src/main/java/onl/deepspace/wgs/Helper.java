@@ -369,7 +369,7 @@ public class Helper {
         return id;
     }
 
-    public static String GetSomething(String username, String password, boolean autorefresh) {
+    public static String loginToPortal(String username, String password, boolean autorefresh) {
         String url = WGSPortalAPI;
         String result = "";
         BufferedReader inStream = null;

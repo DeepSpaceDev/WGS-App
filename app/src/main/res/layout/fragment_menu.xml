@@ -6,11 +6,16 @@
     android:orientation="vertical"
     android:background="@color/blue_grey_300">
 
-    <ImageView
-        android:id="@+id/fragment_foodmenu_menuimg"
+    <onl.deepspace.wgs.lib.ZoomView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="50dp"
-        tools:ignore="ContentDescription" />
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/fragment_foodmenu_menuimg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            android:paddingBottom="50dp"
+            tools:ignore="ContentDescription" />
+    </onl.deepspace.wgs.lib.ZoomView>
 
 </LinearLayout>

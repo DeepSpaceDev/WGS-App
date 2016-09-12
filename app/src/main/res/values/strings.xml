@@ -175,5 +175,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="try_again">Erneut Versuchen</string>
     <string name="portal_foodmenu_disclaimer">Wir übernehemen keinerlei Garantie für die Korrektheit der Daten. Alle Angaben ohne Gewähr.</string>
+    <string name="action_feature_request">Feature Request</string>
     <string name="tutorial_click_menu">Klick hier um, das Kind auszuwählen oder um die Farben für die Fächer anzupassen.</string>
 </resources>

@@ -16,13 +16,11 @@ import java.net.URL;
 
 import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
 import onl.deepspace.wgs.R;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class FoodMenuFragment extends Fragment implements OnTaskCompletedInterface<Bitmap> {
 
     View view;
     ImageView foodMenuImg;
-    PhotoViewAttacher attacher;
 
     @Nullable
     @Override
@@ -30,8 +28,6 @@ public class FoodMenuFragment extends Fragment implements OnTaskCompletedInterfa
         view = inflater.inflate(R.layout.fragment_menu, container, false);
 
         foodMenuImg = (ImageView) view.findViewById(R.id.fragment_foodmenu_menuimg);
-        attacher = new PhotoViewAttacher(foodMenuImg);
-        attacher.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         LoadImageFromWebOperations("https://welfen.eltern-portal.org/files/ep_speisenplan_img-0.jpg");
 
@@ -46,8 +42,6 @@ public class FoodMenuFragment extends Fragment implements OnTaskCompletedInterfa
     @Override
     public void onTaskCompleted(Bitmap response) {
         foodMenuImg.setImageBitmap(response);
-        attacher.update();
-
     }
 
     private class GetMenuImg extends AsyncTask<String, Void, Bitmap> {
