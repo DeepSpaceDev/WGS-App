@@ -44,6 +44,7 @@ import onl.deepspace.wgs.bottomaction.BottomAction;
 public class Helper {
     public static final int MILLIS_TO_DAYS = 1/(1000 * 60 * 60 * 24);
 
+
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
 
@@ -51,6 +52,8 @@ public class Helper {
     public static String PW = "password_v2";
     public static String EMAIL = "userEmail_v2";
     public static String HASADS = "hasDisabledAds";
+
+    public static final String PREF_PORTAL_TUTORIAL = "prefPortalTutorial";
 
     public static String LAST_BOTTOM_ACTION = "lastBottomAction";
     public static String NEXT_BOTTOM_ACTION = "nextBottomAction";

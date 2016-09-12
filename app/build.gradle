@@ -42,4 +42,6 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
     /** @link{https://github.com/hdodenhof/CircleImageView} */
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    /** @link{https://github.com/florent37/TutoShowcase} */
+    compile 'com.github.florent37:tutoshowcase:1.0.0'
 }

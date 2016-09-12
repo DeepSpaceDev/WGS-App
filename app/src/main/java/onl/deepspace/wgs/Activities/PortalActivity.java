@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.github.florent37.tutoshowcase.TutoShowcase;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -67,7 +71,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
 
         // AdMob
-        if(!Helper.getHasNoAds(getBaseContext())){
+        if (!Helper.getHasNoAds(getBaseContext())) {
             mAdView = (AdView) findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
@@ -121,7 +125,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar != null)
+        if (toolbar != null)
             setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the mActivity.
@@ -137,16 +141,16 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
-        if(mViewPager != null)
+        if (mViewPager != null)
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        if(tabLayout != null && mViewPager != null)
+        if (tabLayout != null && mViewPager != null)
             tabLayout.setupWithViewPager(mViewPager);
 
         //Alarm Manager
-        if(Helper.getEmail(this) != null & Helper.getPw(this) != null)
+        if (Helper.getEmail(this) != null & Helper.getPw(this) != null)
             mAlarm.setAlarm(this);
 
         //EXTRAS verarbeitung
@@ -162,11 +166,10 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
             int childIndex = Helper.getChildIndex(this);
             selectChild(childIndex);
 
-        }
-        catch (JSONException e) {
+            showTutorial(mChildren.length() > 1);
+        } catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.toString());
         }
-
     }
 
     @Override
@@ -180,21 +183,18 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
                 try {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
-                    if(sku.equalsIgnoreCase("wgs_app_remove_ads")) {
+                    if (sku.equalsIgnoreCase("wgs_app_remove_ads")) {
                         Helper.setHasNoAds(this, true);
                         mAdView.setVisibility(View.INVISIBLE);
                         Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf.", Snackbar.LENGTH_LONG).show();
-                    }
-                    else{
+                    } else {
                         Toast.makeText(PortalActivity.this, "Your request was not set. Please contact the developer!", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
             }
         }
@@ -213,10 +213,26 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         }
     }
 
+    private void showTutorial(boolean multipleChildren) {
+        Log.d(Helper.LOGTAG, "Muliple Children: " + multipleChildren);
+
+        TutoShowcase.from(this)
+                .setContentView(R.layout.tutorial_portal)
+                .on(R.id.pseudo_cover_icon)
+                .addRoundRect()
+                .withBorder()
+
+                .on(R.id.container)
+                .displaySwipableRight()
+                .animated(true)
+
+                .showOnce(Helper.PREF_PORTAL_TUTORIAL);
+    }
+
     @SuppressWarnings("SameParameterValue")
     private void selectChild(int index, boolean... update) {
         try {
-            if(index + 1 > mChildren.length()){
+            if (index + 1 > mChildren.length()) {
                 index = 0;
             }
             JSONObject child = mChildren.getJSONObject(index);
@@ -231,14 +247,14 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
             TimetableFragment.timetable = timetable;
             RepresentationFragment.representation = representations;
 
-            if(update.length > 0) { //Array out of bounds if launched via onCreate
+            if (update.length > 0) { //Array out of bounds if launched via onCreate
                 if (update[0]) {
                     TimetableFragment.setTimetable(TimetableFragment.timetable);
                     RepresentationFragment.setRepresentations(RepresentationFragment.representation);
                 }
             }
 
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.getMessage());
         }
     }
@@ -260,7 +276,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(Helper.getHasNoAds(getBaseContext())) {
+        if (Helper.getHasNoAds(getBaseContext())) {
             MenuItem mi = menu.findItem(R.id.action_remads);
             mi.setVisible(false);
         }
@@ -347,9 +363,12 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: return representationFragment = new RepresentationFragment();
-                case 1: return foodMenuFragement = new FoodMenuFragment();
-                case 2: return timetableFragment = new TimetableFragment();
+                case 0:
+                    return representationFragment = new RepresentationFragment();
+                case 1:
+                    return foodMenuFragement = new FoodMenuFragment();
+                case 2:
+                    return timetableFragment = new TimetableFragment();
             }
             return null;
         }
