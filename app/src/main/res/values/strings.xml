@@ -136,6 +136,26 @@
     <string name="thursday">Do</string>
     <string name="friday">Fr</string>
 
+    <string name="red">Rot</string>
+    <string name="pink">Pink</string>
+    <string name="purple">Violett</string>
+    <string name="deep_purple">Dunkel Violett</string>
+    <string name="indigo">Indigo Blau</string>
+    <string name="blue">Blau</string>
+    <string name="light_blue">Hellblau</string>
+    <string name="cyan">Türkis</string>
+    <string name="teal">Seegrün</string>
+    <string name="green">Grün</string>
+    <string name="light_green">Hellgrün</string>
+    <string name="lime">Limettengrün</string>
+    <string name="yellow">Gelb</string>
+    <string name="amber">Bernsteingelb</string>
+    <string name="orange">Orange</string>
+    <string name="deep_orange">Dunkel Orange</string>
+    <string name="brown">Braun</string>
+    <string name="grey">Grau</string>
+    <string name="blue_grey">Blau-Grau</string>
+
     <string name="title_activity_portal">Portal</string>
     <string name="no_representation">Keine Vertretungen</string>
     <string name="lesson">Stunde</string>

@@ -1,6 +1,7 @@
 package onl.deepspace.wgs.fragments.representation;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,7 +54,8 @@ public class ListViewRepresentation extends RecyclerView.Adapter<ListViewReprese
         holder.room.setText(item.room);
         holder.time.setText(Helper.getLongLessonId(item.time));
 
-        holder.card.setCardBackgroundColor(context.getResources().getColor(Helper.getColorId(item.subject)));
+        holder.card.setCardBackgroundColor(
+                ContextCompat.getColor(context, Helper.getColorId(context, item.subject)));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

@@ -180,4 +180,9 @@ public class RepresentationFragment extends Fragment {
 
         return mInflater;
     }
+
+    public void notifyColorChange() {
+        listViewTodayAdapter.notifyDataSetChanged();
+        listViewTomorrowAdapter.notifyDataSetChanged();
+    }
 }

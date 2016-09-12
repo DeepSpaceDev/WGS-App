@@ -6,7 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import onl.deepspace.wgs.ColorPickerDialogFragment;
+import onl.deepspace.wgs.fragments.ColorPickerDialogFragment;
 import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
 import onl.deepspace.wgs.activities.colorpicker.ListViewColorChange;
@@ -15,6 +15,8 @@ import onl.deepspace.wgs.activities.colorpicker.SubjectColorItem;
 public class ChangeColorActivity extends AppCompatActivity {
 
     static ListViewColorChange adapter;
+    private String subject;
+    private ColorPickerDialogFragment dialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +30,28 @@ public class ChangeColorActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        for (int i = 0; i < Helper.ALL_SUBJECTS.length; i++) {
-            adapter.add(new SubjectColorItem(Helper.ALL_SUBJECTS[i]));
-        }
+        setAdapter();
     }
 
     public void openColorPickerDialog(String subject) {
-        ColorPickerDialogFragment fragment = new ColorPickerDialogFragment();
-        fragment.show(getFragmentManager(), "colorpicker");
+        if (dialogFragment == null) dialogFragment = new ColorPickerDialogFragment();
+        dialogFragment.show(getFragmentManager(), "colorpicker");
+        this.subject = subject;
+    }
+
+    public void setColor(int color) {
+        if (dialogFragment != null)
+            dialogFragment.dismiss();
+        Helper.setColorForSubject(this, subject, color);
+        adapter.reset();
+        setAdapter();
+        setResult(RESULT_OK);
+    }
+
+    public void setAdapter() {
+        for (int i = 0; i < Helper.ALL_SUBJECTS.length; i++) {
+            adapter.add(new SubjectColorItem(Helper.ALL_SUBJECTS[i]));
+        }
+        adapter.notifyDataSetChanged();
     }
 }

@@ -62,7 +62,7 @@ public class ListViewColorChange extends RecyclerView.Adapter<ListViewColorChang
 
         holder.subject.setText(Helper.getLongSubjectId(subject));
 
-        holder.color.setImageResource(Helper.getColorId(subject));
+        holder.color.setImageResource(Helper.getColorId(activity, subject));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

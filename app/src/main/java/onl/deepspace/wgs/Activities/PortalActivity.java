@@ -42,7 +42,11 @@ import onl.deepspace.wgs.R;
 public class PortalActivity extends AppCompatActivity implements BottomAction.OnFragmentInteractionListener {
 
     public static final int PICK_CHILD_REQUEST = 1;
+    private static final int CHANGE_COLOR_REQUEST = 2;
     private static final String INAPP_PURCHASE_DATA = "INAPP_PURCHASE_DATA";
+    private FoodMenuFragment foodMenuFragement;
+    private RepresentationFragment representationFragment;
+    private TimetableFragment timetableFragment;
     //private static final String INAPP_DATA_SIGNATURE = "INAPP_DATA_SIGNATURE";
     //private static final String RESPONSE_CODE = "RESPONSE_CODE";
 
@@ -200,6 +204,13 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
             Helper.setChildIndex(this, childIndex);
             selectChild(childIndex, true);
         }
+        if (requestCode == CHANGE_COLOR_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                if (representationFragment != null) {
+                    representationFragment.notifyColorChange();
+                }
+            }
+        }
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -294,7 +305,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
         if (id == R.id.action_change_subject_colors) {
             Intent intent = new Intent(this, ChangeColorActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, CHANGE_COLOR_REQUEST);
         }
 
         if (id == R.id.action_about) {
@@ -336,9 +347,9 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: return new RepresentationFragment();
-                case 1: return new FoodMenuFragment();
-                case 2: return new TimetableFragment();
+                case 0: return representationFragment = new RepresentationFragment();
+                case 1: return foodMenuFragement = new FoodMenuFragment();
+                case 2: return timetableFragment = new TimetableFragment();
             }
             return null;
         }

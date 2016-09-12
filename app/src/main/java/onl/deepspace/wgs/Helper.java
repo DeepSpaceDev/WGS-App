@@ -319,45 +319,49 @@ public class Helper {
         return id;
     }
 
-    public static int getColorId(String subject) {
+    public static int getColorId(Context context, String subject) {
         int id = 0;
         subject = subject.replaceAll("[0-9]", "");
         subject = subject.toUpperCase();
-
-        switch(subject) {
-            case "D": id = R.color.red_500; break;
-            case "M": id = R.color.blue_500; break;
-            case "E": id = R.color.green_500; break;
-            case "L": id = R.color.yellow_500; break;
-            case "PH": id = R.color.red_700; break;
-            case "INF": id = R.color.blue_700; break;
-            case "WR": id = R.color.brown_300; break;
-            case "GEO": id = R.color.blue_300; break;
-            case "SM/SW": id = R.color.green_500; break;
-            case "C": id = R.color.purple_500; break;
-            case "B": id = R.color.green_700; break;
-            case "G": id = R.color.brown_500; break;
-            case "SK": id = R.color.deep_orange_300; break;
-            case "SOG": id = R.color.deep_orange_500; break;
-            case "ETH/EV/K": id = R.color.deep_orange_700; break;
-            case "F": id = R.color.yellow_500; break;
-            case "S": id = R.color.yellow_500; break;
-            case "DRG": id = R.color.blue_grey_500; break;
-            case "CHOR": id = R.color.blue_grey_500; break;
-            case "ORCH": id = R.color.blue_grey_500; break;
-            case "NT": id = R.color.blue_grey_500; break;
-            case "MU": id = R.color.lime_500; break;
-            case "KU": id = R.color.indigo_A400; break;
-            case "PSY": id = R.color.pink_500; break;
-            case "BCP": id = R.color.pink_300; break;
-            case "ROB": id = R.color.pink_500; break;
-            case "IM": id = R.color.blue_500; break;
-            case "ID": id = R.color.red_500; break;
-            case "IE": id = R.color.green_500; break;
-            case "IF": id = R.color.yellow_500; break;
-            case "IL": id = R.color.yellow_500; break;
-            case "IPH": id = R.color.red_700; break;
-            case "IC": id = R.color.purple_500; break;
+        // Try to get user preferred color
+        id = getColorForSubject(context, subject);
+        // If user has no preference use default color
+        if (id == 0) {
+            switch(subject) {
+                case "D": id = R.color.red_500; break;
+                case "M": id = R.color.blue_500; break;
+                case "E": id = R.color.green_500; break;
+                case "L": id = R.color.yellow_500; break;
+                case "PH": id = R.color.red_700; break;
+                case "INF": id = R.color.blue_700; break;
+                case "WR": id = R.color.brown_300; break;
+                case "GEO": id = R.color.blue_300; break;
+                case "SM/SW": id = R.color.green_500; break;
+                case "C": id = R.color.purple_500; break;
+                case "B": id = R.color.green_700; break;
+                case "G": id = R.color.brown_500; break;
+                case "SK": id = R.color.deep_orange_300; break;
+                case "SOG": id = R.color.deep_orange_500; break;
+                case "ETH/EV/K": id = R.color.deep_orange_700; break;
+                case "F": id = R.color.yellow_500; break;
+                case "S": id = R.color.yellow_500; break;
+                case "DRG": id = R.color.blue_grey_500; break;
+                case "CHOR": id = R.color.blue_grey_500; break;
+                case "ORCH": id = R.color.blue_grey_500; break;
+                case "NT": id = R.color.blue_grey_500; break;
+                case "MU": id = R.color.lime_500; break;
+                case "KU": id = R.color.indigo_A400; break;
+                case "PSY": id = R.color.pink_500; break;
+                case "BCP": id = R.color.pink_300; break;
+                case "ROB": id = R.color.pink_500; break;
+                case "IM": id = R.color.blue_500; break;
+                case "ID": id = R.color.red_500; break;
+                case "IE": id = R.color.green_500; break;
+                case "IF": id = R.color.yellow_500; break;
+                case "IL": id = R.color.yellow_500; break;
+                case "IPH": id = R.color.red_700; break;
+                case "IC": id = R.color.purple_500; break;
+            }
         }
         return id;
     }
@@ -480,6 +484,30 @@ public class Helper {
 
         NotificationManager mNotifyMgr = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(notificationId, mBuilder.build());
+    }
+
+    public static void setColorForSubject(Context context, String subject, int color) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String subjectKey = getSubjectKey(subject);
+        if (color == 0) {
+            editor.remove(subjectKey);
+        } else {
+            editor.putInt(subjectKey, color);
+        }
+        editor.apply();
+    }
+
+    public static int getColorForSubject(Context context, String subject) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String subjectKey = getSubjectKey(subject);
+        return sharedPref.getInt(subjectKey, 0);
+    }
+
+    public static String getSubjectKey(String subject) {
+        return "color_" + subject.toUpperCase();
     }
 
     public static void setPw(Context context, String pw) {
