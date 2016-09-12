@@ -64,9 +64,6 @@
             android:name=".activities.CustomTimetableActivity"
             android:label="@string/action_custom_timetable"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.PortalActivity" />
         </activity>
 
         <receiver android:name=".portalupdate.AlarmReceiver"/>

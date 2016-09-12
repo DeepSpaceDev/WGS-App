@@ -50,6 +50,7 @@
     <string name="time10">10</string>
     <string name="time11">11</string>
 
+    <string name="free">-</string>
     <string name="german">D</string>
     <string name="maths">M</string>
     <string name="english">E</string>
@@ -97,6 +98,7 @@
     <string name="long_time10">15:30 – 16:15</string>
     <string name="long_time11">16:15 – 17:00</string>
 
+    <string name="long_free">Freistunde</string>
     <string name="long_german">Deutsch</string>
     <string name="long_maths">Mathematik</string>
     <string name="long_english">Englisch</string>
@@ -126,6 +128,7 @@
 
     <string-array name="all_subjects">
         <item/>
+        <item>Freistunde</item>
         <item>Deutsch</item>
         <item>Mathematik</item>
         <item>Englisch</item>
@@ -219,4 +222,5 @@
     <string name="timetable_changes_discarded">Veränderungen am Studenplan verworfen</string>
     <string name="tutorial_click_menu_multiple">Klick hier um das Kind auszuwählen oder um die Farben für die Fächer anzupassen.</string>
     <string name="tutorial_click_menu_single">Klick hier um die Farben für die Fächer anzupassen.</string>
+    <string name="action_create_timetable">Stundenplan anpassen</string>
 </resources>

@@ -9,7 +9,7 @@
     tools:context="onl.deepspace.wgs.activities.LoginActivity">
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/fragment_timetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingRight="@dimen/activity_horizontal_margin"

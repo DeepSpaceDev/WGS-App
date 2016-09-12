@@ -33,10 +33,7 @@ public class TimetableFragment extends Fragment {
     static Activity mActivity;
     static View mInflater;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    Runnable showCrateTimetable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,26 +41,46 @@ public class TimetableFragment extends Fragment {
         // Inflate the layout for this fragment
         mInflater = inflater.inflate(R.layout.fragment_timetable, container, false);
 
-        if (isTimetablePresent(timetable)) {
-            setTimetable(getContext(), timetable);
-        } else {
-            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main_content), R.string.no_timetable, Snackbar.LENGTH_LONG);
-            snackbar.setAction(R.string.create_own_timetable, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), CustomTimetableActivity.class);
-                    startActivityForResult(intent, CUSTOM_TIMETABLE_REQUEST);
-                }
-            });
-            snackbar.show();
-        }
-
         if(Helper.getHasNoAds(getContext())){
             TextView timetable = (TextView) mInflater.findViewById(R.id.timetable_disclaimer);
             timetable.setPadding(timetable.getPaddingLeft(), timetable.getPaddingTop(), timetable.getPaddingRight(), 8);
         }
 
+        //Needed because setUserVisibleHint is called before onCreateView
+        if(showCrateTimetable != null){
+            showCrateTimetable.run();
+        }
+
         return mInflater;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.onHiddenChanged(isVisibleToUser);
+        if(isVisibleToUser){
+            if (isTimetablePresent(timetable)) {
+                setTimetable(getContext(), timetable);
+            } else {
+                //Needed because setUserVisibleHint is called before onCreateView
+                showCrateTimetable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar snackbar = Snackbar.make(
+                                getActivity().findViewById(R.id.main_content),
+                                R.string.no_timetable,
+                                Snackbar.LENGTH_LONG);
+                        snackbar.setAction(R.string.create_own_timetable, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), CustomTimetableActivity.class);
+                                startActivityForResult(intent, CUSTOM_TIMETABLE_REQUEST);
+                            }
+                        });
+                        snackbar.show();
+                    }
+                };
+            }
+        }
     }
 
     public static void setActivity(Activity activity) {

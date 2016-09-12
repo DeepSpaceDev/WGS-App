@@ -320,54 +320,54 @@ public class PortalActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-            return true;
-        }*/
-        if (id == R.id.action_select_child) {
-            Intent intent = new Intent(this, SelectChildActivity.class);
-            ArrayList<String> childrenNames = new ArrayList<>();
+        switch (id) {
+            case R.id.action_select_child: {
+                Intent intent = new Intent(this, SelectChildActivity.class);
+                ArrayList<String> childrenNames = new ArrayList<>();
 
-            try {
-                for (int i = 0; i < mChildren.length(); i++) {
-                    String name = mChildren.getString(i);
-                    childrenNames.add(name);
+                try {
+                    for (int i = 0; i < mChildren.length(); i++) {
+                        String name = mChildren.getString(i);
+                        childrenNames.add(name);
+                    }
+                } catch (JSONException e) {
+                    Log.e(Helper.LOGTAG, e.getMessage());
                 }
-            } catch (JSONException e) {
-                Log.e(Helper.LOGTAG, e.getMessage());
+
+                intent.putExtra(Helper.CHILDREN, childrenNames);
+                startActivityForResult(intent, PICK_CHILD_REQUEST);
+                break;
             }
-
-            intent.putExtra(Helper.CHILDREN, childrenNames);
-            startActivityForResult(intent, PICK_CHILD_REQUEST);
-        }
-
-        if (id == R.id.action_change_subject_colors) {
-            Intent intent = new Intent(this, ChangeColorActivity.class);
-            startActivityForResult(intent, CHANGE_COLOR_REQUEST);
-        }
-
-        if (id == R.id.action_about) {
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        if (id == R.id.action_logout) {
-            Helper.setEmail(this, null);
-            Helper.setPw(this, null);
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        }
-
-        if (id == R.id.action_remads) {
-            Helper.purchaseNoAd(this);
-            return true;
-        }
-
-        if (id == R.id.action_feature_request){
-            Intent intent = new Intent(this, FeatureRequestActivity.class);
-            startActivity(intent);
-            return true;
+            case R.id.action_change_subject_colors: {
+                Intent intent = new Intent(this, ChangeColorActivity.class);
+                startActivityForResult(intent, CHANGE_COLOR_REQUEST);
+                break;
+            }
+            case R.id.action_about: {
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.action_logout: {
+                Helper.setEmail(this, null);
+                Helper.setPw(this, null);
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.action_remads:
+                Helper.purchaseNoAd(this);
+                break;
+            case R.id.action_feature_request: {
+                Intent intent = new Intent(this, FeatureRequestActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.action_create_timetable: {
+                Intent intent = new Intent(this, CustomTimetableActivity.class);
+                startActivityForResult(intent, CUSTOM_TIMETABLE_REQUEST);
+                break;
+            }
         }
 
         return super.onOptionsItemSelected(item);

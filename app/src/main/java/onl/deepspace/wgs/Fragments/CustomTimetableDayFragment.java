@@ -123,7 +123,7 @@ public class CustomTimetableDayFragment extends Fragment {
                     if (mListener != null) {
                         String subject = (String) adapter.getItem(position);
                         mListener.onTimetableChanged(mDayIndex, lessonId,
-                                Helper.convertLongSubjectToShorrForm(getContext(), subject));
+                                Helper.convertLongSubjectToShortForm(getContext(), subject));
                     }
                 }
 
