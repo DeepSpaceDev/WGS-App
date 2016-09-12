@@ -16,8 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import onl.deepspace.wgs.Helper;
-import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
 import onl.deepspace.wgs.R;
+import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface<String> {
 
@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
         // Helper.fixLayout(this);
 
-        if(!(savedPw.equals("") && savedEmail.equals(""))) {
+        if (!(savedPw.equals("") && savedEmail.equals(""))) {
             new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
             setContentView(R.layout.activity_loading);
         } else {
@@ -47,13 +47,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     public void onTaskCompleted(String response) {
         Helper.setApiResult(this, response);
         Log.d(Helper.LOGTAG, response);
-        try{
+        try {
             JSONObject arr = new JSONObject(response);
 
             Log.d(Helper.LOGTAG, Boolean.toString(arr.getBoolean(Helper.API_RESULT_LOGIN)));
-            if(arr.getBoolean(Helper.API_RESULT_LOGIN)) {
+            if (arr.getBoolean(Helper.API_RESULT_LOGIN)) {
                 CheckBox saveLoginBox = (CheckBox) findViewById(R.id.saveLogin);
-                if(saveLoginBox != null) {
+                if (saveLoginBox != null) {
                     Boolean saveLogin = saveLoginBox.isChecked();
                     if (saveLogin) {
                         Helper.setPw(getBaseContext(), ((TextView) findViewById(R.id.password)).getText().toString());
@@ -65,31 +65,44 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 intent.putExtra(Helper.API_RESULT_CHILDREN,
                         arr.getJSONArray(Helper.API_RESULT_CHILDREN).toString());
                 startActivity(intent);
+            } else {
+                if (arr.getInt("errno") == 5) { //Something went wrong, connection timed out?
+                    setUpTryAgain();
+                    Snackbar.make(findViewById(R.id.try_again_activity),
+                            "Verbindung zum Elternportal fehlgeschlagen",
+                            Snackbar.LENGTH_SHORT).show();
+                } else {
+                    setUpLogin();
+                    findViewById(R.id.login_progress).setVisibility(View.GONE);
+                    Snackbar.make(
+                            findViewById(R.id.login_activity),
+                            arr.getString("error"),
+                            Snackbar.LENGTH_SHORT).show();
+                }
             }
-            else{
+        } catch (JSONException e) {
+
+            if(response.contains("Connection timed out")){
+                setUpTryAgain();
+                Snackbar.make(findViewById(R.id.try_again_activity),
+                        "Verbindung zum Elternportal fehlgeschlagen",
+                        Snackbar.LENGTH_SHORT).show();
+            }
+            else if (Helper.isNetworkAvailable(this)) {
                 setUpLogin();
                 findViewById(R.id.login_progress).setVisibility(View.GONE);
                 Snackbar.make(
                         findViewById(R.id.login_activity),
-                        arr.getString("error"),
+                        R.string.connection_failed,
                         Snackbar.LENGTH_SHORT).show();
-            }
-        }
-        catch(JSONException e){
-
-            if(Helper.isNetworkAvailable(this)){
-                setUpLogin();
-                findViewById(R.id.login_progress).setVisibility(View.GONE);
-                Toast.makeText(LoginActivity.this, R.string.connection_failed, Toast.LENGTH_SHORT).show();
                 Log.e(Helper.LOGTAG, e.toString());
-            }
-            else{
+            } else {
                 setUpTryAgain();
             }
         }
     }
 
-    private void setUpTryAgain(){
+    private void setUpTryAgain() {
         setContentView(R.layout.activity_try_again);
         final Activity activity = this;
 
@@ -104,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
         });
     }
 
-    private void setUpLogin(){
+    private void setUpLogin() {
         setContentView(R.layout.activity_login);
 
         TextView loginhint = (TextView) findViewById(R.id.loginhint);
@@ -125,13 +138,13 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
 
         private OnTaskCompletedInterface<String> taskCompleted;
 
-        @Override
-        protected String doInBackground(String... params) {
-            return Helper.GetSomething(params[0], params[1], false);
-        }
-
         public GetUserData(OnTaskCompletedInterface<String> activityContext) {
             this.taskCompleted = activityContext;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return Helper.loginToPortal(params[0], params[1], false);
         }
 
         protected void onPostExecute(String page) {

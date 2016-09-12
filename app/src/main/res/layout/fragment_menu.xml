@@ -15,7 +15,6 @@
             android:layout_height="match_parent"
             android:foregroundGravity="center"
             android:paddingBottom="50dp"
-            android:src="@drawable/playstore"
             tools:ignore="ContentDescription" />
     </onl.deepspace.wgs.lib.ZoomView>
 
