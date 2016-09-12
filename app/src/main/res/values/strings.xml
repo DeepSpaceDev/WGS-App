@@ -210,14 +210,14 @@
     <string name="title_activity_select_child">Kind auswählen</string>
     <string name="updated_at">Aktualisiert am</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="try_again">Erneut Versuchen</string>
     <string name="portal_foodmenu_disclaimer">Wir übernehemen keinerlei Garantie für die Korrektheit der Daten. Alle Angaben ohne Gewähr.</string>
-    <string name="tutorial_click_menu">Klick hier um, das Kind auszuwählen oder um die Farben für die Fächer anzupassen.</string>
     <string name="action_save_timetable">Stundenplan speichern</string>
     <string name="action_discard_timetable">Änderungen verwerfen</string>
     <string name="create_own_timetable">Eigenen erstellen</string>
     <string name="no_timetable">Kein Stundenplan</string>
     <string name="timetable_changes_discarded">Veränderungen am Studenplan verworfen</string>
+    <string name="action_feature_request">Feature Request</string>
+    <string name="tutorial_click_menu_multiple">Klick hier um das Kind auszuwählen oder um die Farben für die Fächer anzupassen.</string>
+    <string name="tutorial_click_menu_slinge">Klick hier um die Farben für die Fächer anzupassen.</string>
 </resources>

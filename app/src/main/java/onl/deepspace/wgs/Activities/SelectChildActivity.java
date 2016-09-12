@@ -1,14 +1,12 @@
 package onl.deepspace.wgs.activities;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -49,7 +47,7 @@ public class SelectChildActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams layoutParamsCard = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParamsCard.setMargins(pixelToDP(8), pixelToDP(8), pixelToDP(8), pixelToDP(8));
+        layoutParamsCard.setMargins(Helper.dpToPixel(8, this), Helper.dpToPixel(8, this), Helper.dpToPixel(8, this), Helper.dpToPixel(8, this));
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -73,7 +71,7 @@ public class SelectChildActivity extends AppCompatActivity {
             name.setText(childName);
             name.setTextColor(getResources().getColor(R.color.white));
             name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-            name.setPadding(pixelToDP(8), pixelToDP(8), pixelToDP(8), pixelToDP(8));
+            name.setPadding(Helper.dpToPixel(8, this), Helper.dpToPixel(8, this), Helper.dpToPixel(8, this), Helper.dpToPixel(8, this));
             name.setOnClickListener(clickListener);
 
             card.addView(name);
@@ -84,10 +82,5 @@ public class SelectChildActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Snackbar.make(findViewById(R.id.activity_select_child), "Bitte ein Kind auswählen", Snackbar.LENGTH_SHORT).show();
-    }
-
-    private int pixelToDP(int pixel) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) ((pixel * scale) + 0.5f);
     }
 }

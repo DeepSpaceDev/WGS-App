@@ -16,7 +16,9 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 
 import org.apache.http.HttpResponse;
@@ -747,5 +749,11 @@ public class Helper {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         return sharedPref.getInt(CHILD_INDEX, 0);
+    }
+
+    /***** Other *****/
+    public static int dpToPixel(int pixel, Context context) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, metrics);
     }
 }

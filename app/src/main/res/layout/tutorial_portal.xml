@@ -4,9 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
+        android:id="@+id/tutorial_text_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tutorial_click_menu"
+        android:text="@string/tutorial_click_menu_multiple"
         android:textColor="@color/white"
         android:layout_marginTop="130dp"
         android:layout_marginLeft="24dp"
