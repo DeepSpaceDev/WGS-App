@@ -326,6 +326,12 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
             return true;
         }
 
+        if (id == R.id.action_feature_request){
+            Intent intent = new Intent(this, FeatureRequestActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -5,14 +5,15 @@
     <item
         android:id="@+id/action_select_child"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_arrow_drop_down_black_24dp"
+        android:icon="@drawable/ic_arrow_drop_down_white_24dp"
         android:title="@string/select_child"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_change_subject_colors"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="@string/action_change_subject_colors"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_palette_24dp"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_remads"
         android:orderInCategory="101"
@@ -24,8 +25,14 @@
         android:title="@string/action_about"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_logout"
+        android:id="@+id/action_feature_request"
         android:orderInCategory="103"
+        android:title="@string/action_feature_request"
+        android:visible="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="104"
         android:title="@string/action_logout"
         app:showAsAction="never" />
 </menu>
