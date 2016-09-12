@@ -227,8 +227,8 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
                 .on(R.id.container)
                 .displaySwipableRight()
                 .animated(true)
-                .show();
-                //.showOnce(Helper.PREF_PORTAL_TUTORIAL);
+                .showOnce(Helper.PREF_PORTAL_TUTORIAL);
+
         if(!multipleChildren) ((TextView) findViewById(R.id.tutorial_text_1)).setText(R.string.tutorial_click_menu_slinge);
     }
 

@@ -13,8 +13,8 @@
     android:background="?attr/selectableItemBackground">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/lv_subj_color"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@color/red_500"/>
     <TextView
         android:id="@+id/lv_subj_name"
@@ -23,6 +23,6 @@
         android:layout_gravity="center"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="@string/long_german"
-        android:textSize="32sp"/>
+        android:text="@string/long_socialBaseEdu"
+        android:textSize="18sp"/>
 </LinearLayout>
