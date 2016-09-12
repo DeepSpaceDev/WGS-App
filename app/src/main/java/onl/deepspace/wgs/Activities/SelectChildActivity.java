@@ -3,7 +3,9 @@ package onl.deepspace.wgs.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -21,6 +23,7 @@ import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
 
 public class SelectChildActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,11 @@ public class SelectChildActivity extends AppCompatActivity {
         LinearLayout container = (LinearLayout) findViewById(R.id.select_children_container);
         container.removeAllViews();
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams layoutParamsTextView = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParamsCard = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParamsCard.setMargins(pixelToDP(8), pixelToDP(8), pixelToDP(8), pixelToDP(8));
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -58,15 +64,30 @@ public class SelectChildActivity extends AppCompatActivity {
         for (String aChildren : children) {
             String childName = new JSONObject(aChildren).getString("name");
 
+            CardView card = new CardView(this);
+            card.setLayoutParams(layoutParamsCard);
+            card.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+
             TextView name = new TextView(this);
-            name.setLayoutParams(layoutParams);
+            name.setLayoutParams(layoutParamsTextView);
             name.setText(childName);
-            name.setHeight(150);
-            name.setTypeface(Typeface.DEFAULT_BOLD);
-            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-            name.setGravity(Gravity.CENTER_VERTICAL);
+            name.setTextColor(getResources().getColor(R.color.white));
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            name.setPadding(pixelToDP(8), pixelToDP(8), pixelToDP(8), pixelToDP(8));
             name.setOnClickListener(clickListener);
-            container.addView(name);
+
+            card.addView(name);
+            container.addView(card);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Snackbar.make(findViewById(R.id.activity_select_child), "Bitte ein Kind auswählen", Snackbar.LENGTH_SHORT).show();
+    }
+
+    private int pixelToDP(int pixel) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) ((pixel * scale) + 0.5f);
     }
 }

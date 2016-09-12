@@ -34,9 +34,6 @@
             android:name=".activities.SelectChildActivity"
             android:label="@string/title_activity_select_child"
             android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
         </activity>
         <activity android:name=".activities.AboutActivity">
             <meta-data
