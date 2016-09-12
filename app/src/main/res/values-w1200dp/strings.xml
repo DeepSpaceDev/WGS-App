@@ -7,17 +7,17 @@
     <string name="thursday">Donnerstag</string>
     <string name="friday">Freitag</string>
 
-    <string name="time1">07:45–08:30</string>
-    <string name="time2">08:30–09:15</string>
-    <string name="time3">09:40–10:25</string>
-    <string name="time4">10:25–11:10</string>
-    <string name="time5">11:20–12:05</string>
-    <string name="time6">12:05–12:50</string>
-    <string name="time7">13:00–13:45</string>
-    <string name="time8">13:45–14:30</string>
-    <string name="time9">14:30–15:15</string>
-    <string name="time10">15:30–16:15</string>
-    <string name="time11">16:15–17:00</string>
+    <string name="time1">07:45 – 08:30</string>
+    <string name="time2">08:30 – 09:15</string>
+    <string name="time3">09:40 – 10:25</string>
+    <string name="time4">10:25 – 11:10</string>
+    <string name="time5">11:20 – 12:05</string>
+    <string name="time6">12:05 – 12:50</string>
+    <string name="time7">13:00 – 13:45</string>
+    <string name="time8">13:45 – 14:30</string>
+    <string name="time9">14:30 – 15:15</string>
+    <string name="time10">15:30 – 16:15</string>
+    <string name="time11">16:15 – 17:00</string>
 
     <string name="german">Deutsch</string>
     <string name="maths">Mathematik</string>

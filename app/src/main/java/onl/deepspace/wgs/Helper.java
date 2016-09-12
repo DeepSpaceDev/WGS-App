@@ -26,6 +26,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,6 +65,7 @@ public class Helper {
     public static String BOTTOM_ACTION_DAYS_AFTER = "daysAfter";
 
     public static String API_RESULT = "onl.deepspace.wgs.api_result";
+    public static String CUSTOM_TIMETABLE = "customTimetable";
 
     public static final String WGSPortalAPI = "http://api.deepspace.onl/wgs/v3";
     public static final String WGSPortalAPI_USERNAME = "username";
@@ -272,6 +274,87 @@ public class Helper {
             case 11: return R.string.long_time11;
             default: return 0;
         }
+    }
+
+    /**
+     * Get the text id for the specified subject
+     *
+     * @param subject The subject to get the id for
+     * @return The id of the string resource
+     */
+    public static String convertLongSubjectToShorrForm(Context context, String subject) {
+        int id = 0;
+        subject = subject.replaceAll("[0-9]", "");
+        subject = subject.toUpperCase();
+
+        if (subject.equals(context.getString(R.string.long_german).toUpperCase())) {
+            return "D";
+        } else if (subject.equals(context.getString(R.string.long_maths).toUpperCase())) {
+            return "M";
+        } else if (subject.equals(context.getString(R.string.long_english).toUpperCase())) {
+            return "E";
+        } else if (subject.equals(context.getString(R.string.long_latin).toUpperCase())) {
+            return "L";
+        } else if (subject.equals(context.getString(R.string.long_physics).toUpperCase())) {
+            return "PH";
+        } else if (subject.equals(context.getString(R.string.long_informatics).toUpperCase())) {
+            return "INF";
+        } else if (subject.equals(context.getString(R.string.long_economyNLaw).toUpperCase())) {
+            return "WR";
+        } else if (subject.equals(context.getString(R.string.long_geographie).toUpperCase())) {
+            return "GEO";
+        } else if (subject.equals(context.getString(R.string.long_sports).toUpperCase())) {
+            return "SM/SW";
+        } else if (subject.equals(context.getString(R.string.long_chemistry).toUpperCase())) {
+            return "C";
+        } else if (subject.equals(context.getString(R.string.long_biology).toUpperCase())) {
+            return "B";
+        } else if (subject.equals(context.getString(R.string.long_history).toUpperCase())) {
+            return "G";
+        } else if (subject.equals(context.getString(R.string.long_socialEdu).toUpperCase())) {
+            return "SK";
+        } else if (subject.equals(context.getString(R.string.long_socialBaseEdu).toUpperCase())) {
+            return "SOG";
+        } else if (subject.equals(context.getString(R.string.long_religion).toUpperCase())) {
+            return "ETH/EV/K";
+        } else if (subject.equals(context.getString(R.string.long_french).toUpperCase())) {
+            return "F";
+        } else if (subject.equals(context.getString(R.string.long_spain).toUpperCase())) {
+            return "S";
+        } else if (subject.equals(context.getString(R.string.long_theatre).toUpperCase())) {
+            return "DRG";
+        } else if (subject.equals(context.getString(R.string.long_choir).toUpperCase())) {
+            return "CHOR";
+        } else if (subject.equals(context.getString(R.string.long_orchestra).toUpperCase())) {
+            return "ORCH";
+        } else if (subject.equals(context.getString(R.string.long_NT).toUpperCase())) {
+            return "NT";
+        } else if (subject.equals(context.getString(R.string.long_music).toUpperCase())) {
+            return "MU";
+        } else if (subject.equals(context.getString(R.string.long_arts).toUpperCase())) {
+            return "KU";
+        } else if (subject.equals(context.getString(R.string.long_psychology).toUpperCase())) {
+            return "PSY";
+        } else if (subject.equals(context.getString(R.string.long_bioChemPrak).toUpperCase())) {
+            return "BCP";
+        } else if (subject.equals(context.getString(R.string.long_robotic).toUpperCase())) {
+            return "ROB";
+        } else if (subject.equals(context.getString(R.string.long_intMaths).toUpperCase())) {
+            return "IM";
+        } else if (subject.equals(context.getString(R.string.long_intGerman).toUpperCase())) {
+            return "ID";
+        } else if (subject.equals(context.getString(R.string.long_intEnglish).toUpperCase())) {
+            return "IE";
+        } else if (subject.equals(context.getString(R.string.long_intFrench).toUpperCase())) {
+            return "IF";
+        } else if (subject.equals(context.getString(R.string.long_intLatin).toUpperCase())) {
+            return "IL";
+        } else if (subject.equals(context.getString(R.string.long_intPhysics).toUpperCase())) {
+            return "IPH";
+        } else if (subject.equals(context.getString(R.string.long_intChemistry).toUpperCase())) {
+            return "IC";
+        }
+        return "";
     }
 
     /**
@@ -502,14 +585,14 @@ public class Helper {
         editor.apply();
     }
 
-    public static int getColorForSubject(Context context, String subject) {
+    private static int getColorForSubject(Context context, String subject) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String subjectKey = getSubjectKey(subject);
         return sharedPref.getInt(subjectKey, 0);
     }
 
-    public static String getSubjectKey(String subject) {
+    private static String getSubjectKey(String subject) {
         return "color_" + subject.toUpperCase();
     }
 
@@ -555,6 +638,87 @@ public class Helper {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         return sharedPref.getBoolean(HASADS, false);
+    }
+
+    public static void setCustomTimetable(Context context, JSONArray timetable) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(CUSTOM_TIMETABLE, timetable.toString());
+        editor.apply();
+    }
+
+    public static JSONArray getCustomTimetable(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String customJSON = sharedPref.getString(CUSTOM_TIMETABLE, null);
+        if (customJSON == null) {
+            JSONArray timetable = new JSONArray();
+            try {
+                timetable.put(
+                        new JSONArray("[\"M\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]"));
+                timetable.put(
+                        new JSONArray("[\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]"));
+                timetable.put(
+                        new JSONArray("[\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]"));
+                timetable.put(
+                        new JSONArray("[\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]"));
+                timetable.put(
+                        new JSONArray("[\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]"));
+                return timetable;
+            } catch (JSONException e) {
+                Log.e(Helper.LOGTAG, "getCustonTimetable: ", e);
+            }
+        }
+        try {
+            return new JSONArray(customJSON);
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, "getCustonTimetable: ", e);
+        }
+        return null;
+    }
+
+    public static JSONObject getTimetableWithCustomVersion(Context context, JSONObject fetchedTimetable) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String customJSON = sharedPref.getString(CUSTOM_TIMETABLE, null);
+        if (customJSON == null)
+            return fetchedTimetable;
+        try {
+            JSONArray customTimetable = new JSONArray(customJSON);
+            for (int d = 0; d < fetchedTimetable.length(); d++) {
+                JSONArray customDay = customTimetable.getJSONArray(d);
+                JSONArray fetchedDay;
+                switch (d) {
+                    case 0:
+                        fetchedDay = fetchedTimetable.getJSONArray(API_RESULT_MONDAY);
+                        break;
+                    case 1:
+                        fetchedDay = fetchedTimetable.getJSONArray(API_RESULT_TUESDAY);
+                        break;
+                    case 2:
+                        fetchedDay = fetchedTimetable.getJSONArray(API_RESULT_WEDNESDAY);
+                        break;
+                    case 3:
+                        fetchedDay = fetchedTimetable.getJSONArray(API_RESULT_THURSDAY);
+                        break;
+                    case 4:
+                        fetchedDay = fetchedTimetable.getJSONArray(API_RESULT_FRIDAY);
+                        break;
+                    default:
+                        fetchedDay = fetchedTimetable.getJSONArray(API_RESULT_MONDAY);
+                }
+                for (int l = 0; l < fetchedDay.length(); l++) {
+                    String customSubject = customDay.getString(l);
+                    if (customSubject.length() > 0) {
+                        fetchedDay.put(l, customSubject);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, "getTimetableWithCustomVersion: ", e);
+        }
+        return fetchedTimetable;
     }
 
     public static void setApiResult(Context context, String result) {

@@ -1,8 +1,11 @@
 package onl.deepspace.wgs.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,9 @@ import org.json.JSONObject;
 
 import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
+import onl.deepspace.wgs.activities.CustomTimetableActivity;
+
+import static onl.deepspace.wgs.activities.PortalActivity.CUSTOM_TIMETABLE_REQUEST;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +43,20 @@ public class TimetableFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mInflater = inflater.inflate(R.layout.fragment_timetable, container, false);
-        setTimetable(timetable);
+
+        if (isTimetablePresent(timetable)) {
+            setTimetable(getContext(), timetable);
+        } else {
+            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.main_content), R.string.no_timetable, Snackbar.LENGTH_LONG);
+            snackbar.setAction(R.string.create_own_timetable, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), CustomTimetableActivity.class);
+                    startActivityForResult(intent, CUSTOM_TIMETABLE_REQUEST);
+                }
+            });
+            snackbar.show();
+        }
 
         if(Helper.getHasNoAds(getContext())){
             TextView timetable = (TextView) mInflater.findViewById(R.id.timetable_disclaimer);
@@ -56,7 +75,8 @@ public class TimetableFragment extends Fragment {
      * Provide the date like this: {"monday": ["D", "E", ...], "tuesday": [...], ...}
      * @param timetable The data of the timetable
      */
-    public static void setTimetable(JSONObject timetable) {
+    public static void setTimetable(Context context, JSONObject timetable) {
+        timetable = Helper.getTimetableWithCustomVersion(context, timetable);
         try {
             JSONArray monday = timetable.getJSONArray("monday");
             JSONArray tuesday = timetable.getJSONArray("tuesday");
@@ -73,6 +93,33 @@ public class TimetableFragment extends Fragment {
         } catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.toString());
         }
+    }
+
+    public static boolean isTimetablePresent(JSONObject timetable) {
+        try {
+            JSONArray monday = timetable.getJSONArray("monday");
+            JSONArray tuesday = timetable.getJSONArray("tuesday");
+            JSONArray wednesday = timetable.getJSONArray("wednesday");
+            JSONArray thursday = timetable.getJSONArray("thursday");
+            JSONArray friday = timetable.getJSONArray("friday");
+
+            for (int i = 0; i < monday.length(); i++) {
+                if (!monday.getString(i).equals(""))
+                    return true;
+                if (!tuesday.getString(i).equals(""))
+                    return true;
+                if (!wednesday.getString(i).equals(""))
+                    return true;
+                if (!thursday.getString(i).equals(""))
+                    return true;
+                if (!friday.getString(i).equals(""))
+                    return true;
+            }
+
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, e.toString());
+        }
+        return false;
     }
 
     /**

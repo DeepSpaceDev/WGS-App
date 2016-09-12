@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,11 +16,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
@@ -35,18 +32,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import onl.deepspace.wgs.Helper;
+import onl.deepspace.wgs.R;
 import onl.deepspace.wgs.bottomaction.BottomAction;
 import onl.deepspace.wgs.fragments.FoodMenuFragment;
 import onl.deepspace.wgs.fragments.RepresentationFragment;
 import onl.deepspace.wgs.fragments.TimetableFragment;
-import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.portalupdate.AlarmReceiver;
-import onl.deepspace.wgs.R;
 
-public class PortalActivity extends AppCompatActivity implements BottomAction.OnFragmentInteractionListener {
+public class PortalActivity extends AppCompatActivity
+        implements BottomAction.OnFragmentInteractionListener {
 
     public static final int PICK_CHILD_REQUEST = 1;
     private static final int CHANGE_COLOR_REQUEST = 2;
+    public static final int CUSTOM_TIMETABLE_REQUEST = 3;
     private static final String INAPP_PURCHASE_DATA = "INAPP_PURCHASE_DATA";
     private FoodMenuFragment foodMenuFragement;
     private RepresentationFragment representationFragment;
@@ -186,16 +185,22 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
                     if (sku.equalsIgnoreCase("wgs_app_remove_ads")) {
                         Helper.setHasNoAds(this, true);
                         mAdView.setVisibility(View.INVISIBLE);
-                        Snackbar.make(findViewById(R.id.main_content), "Werbung Entfernt! Danke für deinen Kauf.", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(R.id.main_content),
+                                "Werbung Entfernt! Danke für deinen Kauf.",
+                                Snackbar.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(PortalActivity.this, "Your request was not set. Please contact the developer!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PortalActivity.this,
+                                "Your request was not set. Please contact the developer!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PortalActivity.this,
+                            "Failed to parse purchase.", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(PortalActivity.this, "Failed to parse purchase.", Toast.LENGTH_LONG).show();
+                Toast.makeText(PortalActivity.this,
+                        "Failed to parse purchase.", Toast.LENGTH_LONG).show();
             }
         }
         if (requestCode == PICK_CHILD_REQUEST) {
@@ -209,6 +214,15 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
                 if (representationFragment != null) {
                     representationFragment.notifyColorChange();
                 }
+            }
+        }
+        if (requestCode == CUSTOM_TIMETABLE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                // Force reset
+                TimetableFragment.setTimetable(this, TimetableFragment.timetable);
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(
+                        this, R.string.timetable_changes_discarded, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -249,8 +263,9 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
 
             if (update.length > 0) { //Array out of bounds if launched via onCreate
                 if (update[0]) {
-                    TimetableFragment.setTimetable(TimetableFragment.timetable);
-                    RepresentationFragment.setRepresentations(RepresentationFragment.representation);
+                    TimetableFragment.setTimetable(this, TimetableFragment.timetable);
+                    RepresentationFragment
+                            .setRepresentations(RepresentationFragment.representation);
                 }
             }
 
@@ -362,7 +377,7 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

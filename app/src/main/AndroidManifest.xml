@@ -22,6 +22,7 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -35,16 +36,43 @@
             android:label="@string/title_activity_select_child"
             android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".activities.AboutActivity">
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/action_about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
+                android:value=".activities.PortalActivity"/>
+        </activity>
+
+        <activity
+            android:name=".activities.FeatureRequestActivity"
+            android:label="@string/action_feature_request">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.PortalActivity"/>
+        </activity>
+
+        <activity
+            android:name=".activities.ChangeColorActivity"
+            android:label="@string/action_change_subject_colors">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.PortalActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.CustomTimetableActivity"
+            android:label="@string/action_custom_timetable"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.PortalActivity" />
         </activity>
 
         <receiver android:name=".portalupdate.AlarmReceiver"/>
         <receiver
-            android:name=".portalupdate.AlarmBootReceiver"
-            android:enabled="true">
+        android:name=".portalupdate.AlarmBootReceiver"
+        android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
@@ -52,19 +80,9 @@
         </receiver>
 
         <service
-            android:name=".portalupdate.PortalPullService"
-            android:exported="false"/>
+        android:name=".portalupdate.PortalPullService"
+        android:exported="false"/>
 
-        <activity android:name=".activities.FeatureRequestActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
-        </activity>
-        <activity android:name=".activities.ChangeColorActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
-        </activity>
     </application>
 
 </manifest>

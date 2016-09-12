@@ -26,10 +26,12 @@
     <string name="keep_loggedin">Eingeloggt bleiben</string>
     <string name="logging_in_message">Logge ein</string>
 
-    <string name="action_settings">Settings</string>
     <string name="action_change_subject_colors">Fächerfarben anpassen</string>
+    <string name="action_custom_timetable">Eigener Stundenplan</string>
     <string name="action_about">About</string>
+    <string name="action_feature_request">Neue Funktion vorschlagen</string>
     <string name="action_logout">Abmelden</string>
+    <string name="action_settings">Settings</string>
 
 
     <string name="today">Heute, %1$s</string>
@@ -83,17 +85,17 @@
     <string name="intPhysics">IPh</string>
     <string name="intChemistry">IC</string>
 
-    <string name="long_time1">07:45–08:30</string>
-    <string name="long_time2">08:30–09:15</string>
-    <string name="long_time3">09:40–10:25</string>
-    <string name="long_time4">10:25–11:10</string>
-    <string name="long_time5">11:20–12:05</string>
-    <string name="long_time6">12:05–12:50</string>
-    <string name="long_time7">13:00–13:45</string>
-    <string name="long_time8">13:45–14:30</string>
-    <string name="long_time9">14:30–15:15</string>
-    <string name="long_time10">15:30–16:15</string>
-    <string name="long_time11">16:15–17:00</string>
+    <string name="long_time1">07:45 – 08:30</string>
+    <string name="long_time2">08:30 – 09:15</string>
+    <string name="long_time3">09:40 – 10:25</string>
+    <string name="long_time4">10:25 – 11:10</string>
+    <string name="long_time5">11:20 – 12:05</string>
+    <string name="long_time6">12:05 – 12:50</string>
+    <string name="long_time7">13:00 – 13:45</string>
+    <string name="long_time8">13:45 – 14:30</string>
+    <string name="long_time9">14:30 – 15:15</string>
+    <string name="long_time10">15:30 – 16:15</string>
+    <string name="long_time11">16:15 – 17:00</string>
 
     <string name="long_german">Deutsch</string>
     <string name="long_maths">Mathematik</string>
@@ -122,6 +124,36 @@
     <string name="long_bioChemPrak">Biol. - chem. Praktikum</string>
     <string name="long_robotic">Robotic</string>
 
+    <string-array name="all_subjects">
+        <item/>
+        <item>Deutsch</item>
+        <item>Mathematik</item>
+        <item>Englisch</item>
+        <item>Latein</item>
+        <item>Physik</item>
+        <item>Informatik</item>
+        <item>Wirtschaft und Recht</item>
+        <item>Geographie</item>
+        <item>Sport</item>
+        <item>Chemie</item>
+        <item>Biologie</item>
+        <item>Geschichte</item>
+        <item>Sozialkunde</item>
+        <item>Sozialpraktische Grundbildung</item>
+        <item>Religion</item>
+        <item>Französisch</item>
+        <item>Spanisch</item>
+        <item>Theater</item>
+        <item>Chor</item>
+        <item>Orchester</item>
+        <item>Natur und Technik</item>
+        <item>Musik</item>
+        <item>Kunst</item>
+        <item>Psychology</item>
+        <item>Biol. - chem. Praktikum</item>
+        <item>Robotic</item>
+    </string-array>
+
     <string name="long_intMaths">Intensivierung Mathe</string>
     <string name="long_intGerman">Intensivierung Deutsch</string>
     <string name="long_intEnglish">Intensivierung Englisch</string>
@@ -135,6 +167,13 @@
     <string name="wednesday">Mi</string>
     <string name="thursday">Do</string>
     <string name="friday">Fr</string>
+
+
+    <string name="long_monday">Montag</string>
+    <string name="long_tuesday">Dienstag</string>
+    <string name="long_wednesday">Mittwoch</string>
+    <string name="long_thursday">Donnerstag</string>
+    <string name="long_friday">Freitag</string>
 
     <string name="red">Rot</string>
     <string name="pink">Pink</string>
@@ -175,6 +214,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="try_again">Erneut Versuchen</string>
     <string name="portal_foodmenu_disclaimer">Wir übernehemen keinerlei Garantie für die Korrektheit der Daten. Alle Angaben ohne Gewähr.</string>
-    <string name="action_feature_request">Feature Request</string>
     <string name="tutorial_click_menu">Klick hier um, das Kind auszuwählen oder um die Farben für die Fächer anzupassen.</string>
+    <string name="action_save_timetable">Stundenplan speichern</string>
+    <string name="action_discard_timetable">Änderungen verwerfen</string>
+    <string name="create_own_timetable">Eigenen erstellen</string>
+    <string name="no_timetable">Kein Stundenplan</string>
+    <string name="timetable_changes_discarded">Veränderungen am Studenplan verworfen</string>
 </resources>
