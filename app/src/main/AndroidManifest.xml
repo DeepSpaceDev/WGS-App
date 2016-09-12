@@ -22,27 +22,26 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.PortalActivity"
             android:label="@string/title_activity_portal"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.SelectChildActivity"
             android:label="@string/title_activity_select_child"
             android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
         </activity>
         <activity android:name=".activities.AboutActivity">
-
-            <!-- TODO Make this parent activity without crahsing -->
-            <!--
-                <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="onl.deepspace.wgs.Activities.PortalActivity"/>
-            -->
+                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
         </activity>
 
         <receiver android:name=".portalupdate.AlarmReceiver"/>
@@ -60,8 +59,14 @@
             android:exported="false"/>
 
         <activity android:name=".activities.FeatureRequestActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
         </activity>
         <activity android:name=".activities.ChangeColorActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="onl.deepspace.wgs.activities.PortalActivity"/>
         </activity>
     </application>
 
