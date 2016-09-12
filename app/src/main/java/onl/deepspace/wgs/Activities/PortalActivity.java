@@ -21,7 +21,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
@@ -216,17 +216,20 @@ public class PortalActivity extends AppCompatActivity implements BottomAction.On
     private void showTutorial(boolean multipleChildren) {
         Log.d(Helper.LOGTAG, "Muliple Children: " + multipleChildren);
 
+        int pseudoId = multipleChildren ? R.id.pseudo_cover_icon_multiple : R.id.pseudo_cover_icon_single;
+
         TutoShowcase.from(this)
                 .setContentView(R.layout.tutorial_portal)
-                .on(R.id.pseudo_cover_icon)
+                .on(pseudoId)
                 .addRoundRect()
                 .withBorder()
 
                 .on(R.id.container)
                 .displaySwipableRight()
                 .animated(true)
-
-                .showOnce(Helper.PREF_PORTAL_TUTORIAL);
+                .show();
+                //.showOnce(Helper.PREF_PORTAL_TUTORIAL);
+        if(!multipleChildren) ((TextView) findViewById(R.id.tutorial_text_1)).setText(R.string.tutorial_click_menu_slinge);
     }
 
     @SuppressWarnings("SameParameterValue")

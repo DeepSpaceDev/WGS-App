@@ -9,15 +9,26 @@
     tools:context=".activities.PortalActivity">
 
     <View
-        android:id="@+id/pseudo_cover_icon"
+        android:id="@+id/pseudo_cover_icon_multiple"
+        android:layout_width="64dp"
         android:layout_height="24dp"
-        android:layout_width="56dp"
+        android:layout_gravity="top|end"
+        android:layout_marginRight="53dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:visibility="visible"
         android:background="@color/amber_100"
-        android:layout_gravity="top|end" />
+        android:visibility="visible"
+        tools:ignore="RtlHardcoded" />
+
+    <View
+        android:id="@+id/pseudo_cover_icon_single"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="top|end"
+        android:layout_marginRight="53dp"
+        android:layout_marginTop="48dp"
+        android:background="@color/amber_100"
+        android:visibility="visible"
+        tools:ignore="RtlHardcoded" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -40,7 +51,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -51,16 +62,14 @@
         android:layout_marginBottom="55dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/admob_id">
-    </com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/admob_id" />
 
 </android.support.design.widget.CoordinatorLayout>
