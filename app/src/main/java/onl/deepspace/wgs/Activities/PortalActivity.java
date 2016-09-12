@@ -41,6 +41,9 @@ import onl.deepspace.wgs.fragments.RepresentationFragment;
 import onl.deepspace.wgs.fragments.TimetableFragment;
 import onl.deepspace.wgs.portalupdate.AlarmReceiver;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 public class PortalActivity extends AppCompatActivity
         implements BottomAction.OnFragmentInteractionListener {
 
@@ -244,7 +247,7 @@ public class PortalActivity extends AppCompatActivity
                 .animated(true)
                 .showOnce(Helper.PREF_PORTAL_TUTORIAL);
 
-        if(!multipleChildren) ((TextView) findViewById(R.id.tutorial_text_1)).setText(R.string.tutorial_click_menu_slinge);
+        if(!multipleChildren) ((TextView) findViewById(R.id.tutorial_text_1)).setText(R.string.tutorial_click_menu_single);
     }
 
     @SuppressWarnings("SameParameterValue")

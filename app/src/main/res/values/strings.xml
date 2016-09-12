@@ -217,7 +217,6 @@
     <string name="create_own_timetable">Eigenen erstellen</string>
     <string name="no_timetable">Kein Stundenplan</string>
     <string name="timetable_changes_discarded">Veränderungen am Studenplan verworfen</string>
-    <string name="action_feature_request">Feature Request</string>
     <string name="tutorial_click_menu_multiple">Klick hier um das Kind auszuwählen oder um die Farben für die Fächer anzupassen.</string>
-    <string name="tutorial_click_menu_slinge">Klick hier um die Farben für die Fächer anzupassen.</string>
+    <string name="tutorial_click_menu_single">Klick hier um die Farben für die Fächer anzupassen.</string>
 </resources>
