@@ -8,8 +8,8 @@ android {
         applicationId "onl.deepspace.wgs"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 19
-        versionName "3.1.0"
+        versionCode 20
+        versionName "3.1.1"
     }
     buildTypes {
         defaultConfig {
@@ -45,3 +45,5 @@ dependencies {
     /** @link{https://github.com/florent37/TutoShowcase} */
     compile 'com.github.florent37:tutoshowcase:1.0.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

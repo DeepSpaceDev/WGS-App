@@ -64,7 +64,8 @@ public class RepresentationFragment extends Fragment {
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
 
-        } catch (JSONException e) {
+        } catch (JSONException | StringIndexOutOfBoundsException e) {
+            //Hotfix portal wrong json
             e.printStackTrace();
         }
     }
