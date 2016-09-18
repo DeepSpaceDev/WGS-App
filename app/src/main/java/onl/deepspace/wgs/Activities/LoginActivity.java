@@ -10,7 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.firebase.crash.FirebaseCrash;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,14 +82,15 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                 }
             }
         } catch (JSONException e) {
-
             if(response.contains("Connection timed out")){
+                FirebaseCrash.log("Connection timed out: Portal server is down");
                 setUpTryAgain();
                 Snackbar.make(findViewById(R.id.try_again_activity),
                         "Verbindung zum Elternportal fehlgeschlagen",
                         Snackbar.LENGTH_SHORT).show();
             }
             else if (Helper.isNetworkAvailable(this)) {
+                FirebaseCrash.log("Connection timed out: DeepSpace server is down");
                 setUpLogin();
                 findViewById(R.id.login_progress).setVisibility(View.GONE);
                 Snackbar.make(
@@ -97,8 +99,10 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
                         Snackbar.LENGTH_SHORT).show();
                 Log.e(Helper.LOGTAG, e.toString());
             } else {
+                FirebaseCrash.log("Invalid JSON");
                 setUpTryAgain();
             }
+            FirebaseCrash.report(e);
         }
     }
 
