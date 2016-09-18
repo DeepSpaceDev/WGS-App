@@ -49,13 +49,19 @@ public class ListViewRepresentation extends RecyclerView.Adapter<ListViewReprese
 
         RepresentationItem item = items.get(position);
 
-        holder.subject.setText(Helper.getLongSubjectId(item.subject));
+        //String or id
+        int subject = Helper.getLongSubjectId(item.subject);
+        if(subject != 0){
+            holder.subject.setText(subject);
+        } else {
+            holder.subject.setText(item.subject);
+        }
+
         holder.action.setText(item.action);
         holder.room.setText(item.room);
         holder.time.setText(Helper.getLongLessonId(item.time));
 
-        holder.card.setCardBackgroundColor(
-                ContextCompat.getColor(context, Helper.getColorId(context, item.subject)));
+        holder.card.setCardBackgroundColor(ContextCompat.getColor(context, Helper.getColorId(context, item.subject)));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
