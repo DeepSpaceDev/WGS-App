@@ -169,6 +169,27 @@ public class PortalActivity extends AppCompatActivity
             mFirebaseAnalytics.setUserProperty(
                     Helper.USER_PROPERTY_CHILDREN_COUNT, String.valueOf(mChildren.length()));
 
+            // Update Firebase topics
+            // Get grades the user is currently interested
+            ArrayList<String> grades = new ArrayList<>();
+            for (int i = 0; i < mChildren.length(); i++) {
+                JSONObject child = mChildren.getJSONObject(i);
+
+                String name = child.getString(Helper.API_RESULT_NAME);
+
+                String childClass = name.split(",")[1].trim();
+                String childGrade = childClass.split("[a-z]")[0];
+                String gradeTopic = Helper.getGradeTopic(childGrade);
+                if (gradeTopic != null) {
+                    grades.add(gradeTopic);
+                }
+            }
+            // Update subscriptions
+            Helper.unsubscribeFromAllGradeTopics(this, grades);
+            for (int i = 0; i < grades.size(); i++) {
+                Helper.subscribeToFirebaseTopic(this, grades.get(i));
+            }
+
             showTutorial(mChildren.length() > 1);
 
         } catch (JSONException e) {

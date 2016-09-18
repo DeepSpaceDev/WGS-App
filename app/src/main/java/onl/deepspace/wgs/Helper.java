@@ -21,6 +21,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -46,11 +48,7 @@ import onl.deepspace.wgs.bottomaction.BottomAction;
 @SuppressWarnings("SameParameterValue")
 public class Helper {
     public static final int MILLIS_TO_DAYS = 1 / (1000 * 60 * 60 * 24);
-
-    public static final String USER_PROPERTY_CLASS = "class";
-    public static final String USER_PROPERTY_GRADE = "grade";
-    public static final String USER_PROPERTY_CHILDREN_COUNT = "children_count";
-
+    
     public static final String EVENT_SHOW_REPRESENTATIONS = "show_representations";
     public static final String EVENT_SHOW_FOOD_MENU = "show_food_menu";
     public static final String EVENT_SHOW_TIMETABLE = "show_timetable";
@@ -60,6 +58,19 @@ public class Helper {
     public static final String EVENT_REMOVE_ADS = "remove_ads";
     public static final String EVENT_REMOVE_ADS_CANCELED = "remove_ads_canceled";
     public static final String EVENT_CHANGE_CHILD = "change_child";
+
+    public static final String USER_PROPERTY_CLASS = "class";
+    public static final String USER_PROPERTY_GRADE = "grade";
+    public static final String USER_PROPERTY_CHILDREN_COUNT = "children_count";
+
+    public static final String TOPIC_5TH_GRADE = "5th_grade";
+    public static final String TOPIC_6TH_GRADE = "6th_grade";
+    public static final String TOPIC_7TH_GRADE = "7th_grade";
+    public static final String TOPIC_8TH_GRADE = "8th_grade";
+    public static final String TOPIC_9TH_GRADE = "9th_grade";
+    public static final String TOPIC_10TH_GRADE = "10th_grade";
+    public static final String TOPIC_11TH_GRADE = "11th_grade";
+    public static final String TOPIC_12TH_GRADE = "12th_grade";
 
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
@@ -91,6 +102,7 @@ public class Helper {
     public static final String API_RESULT_DATE = "date";
     public static final String API_RESULT_DATA = "data";
     public static final String API_RESULT_LAST_REFRESH = "lastrefresh";
+    private static final String SUBSCRIBED_TOPICS = "subscribed_firebase_topics";
     public static String LOGTAG = "WGS-App";
     public static String PW = "password_v2";
     public static String EMAIL = "userEmail_v2";
@@ -832,6 +844,88 @@ public class Helper {
 
     private static String getSubjectKey(String subject) {
         return "color_" + subject.toUpperCase();
+    }
+
+    public static String getGradeTopic(String grade) {
+        switch (grade) {
+            case "5": return TOPIC_5TH_GRADE;
+            case "6": return TOPIC_6TH_GRADE;
+            case "7": return TOPIC_7TH_GRADE;
+            case "8": return TOPIC_8TH_GRADE;
+            case "9": return TOPIC_9TH_GRADE;
+            case "10": return TOPIC_10TH_GRADE;
+            case "11": return TOPIC_11TH_GRADE;
+            case "12": return TOPIC_12TH_GRADE;
+            default: return null;
+        }
+    }
+
+    public static void subscribeToFirebaseTopic(Context context, String topic) {
+        // Get Firebase Messaging Instance
+        FirebaseMessaging mFirebaseMessaging = FirebaseMessaging.getInstance();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        try {
+            // Lookup in shared preferences if user is already subscribed to given topic
+            JSONArray subscribedTopics =
+                    new JSONArray(sharedPref.getString(SUBSCRIBED_TOPICS, "[]"));
+            boolean isSubscribed = false;
+            for (int i = 0; i < subscribedTopics.length(); i++) {
+                String subscribedTopic = subscribedTopics.getString(i);
+                if (topic.equals(subscribedTopic)) isSubscribed = true;
+            }
+            // If not subscribe to topic
+            if (!isSubscribed) {
+                mFirebaseMessaging.subscribeToTopic(topic);
+            }
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, "subscribeToFirebaseTopic: ", e);
+        }
+    }
+
+    public static void unsubscribeFromFirebaseTopic(Context context, String topic) {
+        // Get Firebase Messaging Instance
+        FirebaseMessaging mFirebaseMessaging = FirebaseMessaging.getInstance();
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        try {
+            // Lookup in shared preferences if user is already subscribed to given topic
+            JSONArray subscribedTopics =
+                    new JSONArray(sharedPref.getString(SUBSCRIBED_TOPICS, "[]"));
+            boolean isSubscribed = false;
+            for (int i = 0; i < subscribedTopics.length(); i++) {
+                String subscribedTopic = subscribedTopics.getString(i);
+                if (topic.equals(subscribedTopic)) isSubscribed = true;
+            }
+            // If subscribed to topic unsubscribe
+            if (isSubscribed) {
+                mFirebaseMessaging.unsubscribeFromTopic(topic);
+            }
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, "subscribeToFirebaseTopic: ", e);
+        }
+    }
+
+    public static void unsubscribeFromAllGradeTopics(Context context) {
+        unsubscribeFromAllGradeTopics(context, new ArrayList<String>());
+    }
+
+    public static void unsubscribeFromAllGradeTopics(Context context, ArrayList<String> exceptions) {
+        ArrayList<String> topicsToUnsubscribe = new ArrayList<>();
+        topicsToUnsubscribe.add(TOPIC_5TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_6TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_7TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_8TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_9TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_10TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_11TH_GRADE);
+        topicsToUnsubscribe.add(TOPIC_12TH_GRADE);
+        for (int i = 0; i < exceptions.size(); i++) {
+            topicsToUnsubscribe.remove(exceptions.get(i));
+        }
+        for (int i = 0; i < topicsToUnsubscribe.size(); i++) {
+            unsubscribeFromFirebaseTopic(context, topicsToUnsubscribe.get(i));
+        }
     }
 
     public static void setPw(Context context, String pw) {
