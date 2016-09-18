@@ -1,7 +1,5 @@
 package onl.deepspace.wgs.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -29,38 +27,34 @@ import static onl.deepspace.wgs.activities.PortalActivity.CUSTOM_TIMETABLE_REQUE
  */
 public class TimetableFragment extends Fragment {
 
-    public static JSONObject timetable;
-    static Activity mActivity;
-    static View mInflater;
-
     Runnable showCrateTimetable;
+    private JSONObject timetable;
+
+    private View view;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mInflater = inflater.inflate(R.layout.fragment_timetable, container, false);
+        view = inflater.inflate(R.layout.fragment_timetable, container, false);
 
-        if(Helper.getHasNoAds(getContext())){
-            TextView timetable = (TextView) mInflater.findViewById(R.id.timetable_disclaimer);
+        if (Helper.getHasNoAds(getContext())) {
+            TextView timetable = (TextView) view.findViewById(R.id.timetable_disclaimer);
             timetable.setPadding(timetable.getPaddingLeft(), timetable.getPaddingTop(), timetable.getPaddingRight(), 8);
         }
 
         //Needed because setUserVisibleHint is called before onCreateView
-        if(showCrateTimetable != null){
+        if (showCrateTimetable != null) {
             showCrateTimetable.run();
         }
 
-        return mInflater;
+        return view;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.onHiddenChanged(isVisibleToUser);
-        if(isVisibleToUser){
-            if (isTimetablePresent(timetable)) {
-                setTimetable(getContext(), timetable);
-            } else {
+        if (isVisibleToUser) {
+            if (!isTimetablePresent(timetable)) {
                 //Needed because setUserVisibleHint is called before onCreateView
                 showCrateTimetable = new Runnable() {
                     @Override
@@ -83,17 +77,20 @@ public class TimetableFragment extends Fragment {
         }
     }
 
-    public static void setActivity(Activity activity) {
-        TimetableFragment.mActivity = activity;
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTimetable();
     }
 
     /**
      * Set the lessons of the whole timetable
      * Provide the date like this: {"monday": ["D", "E", ...], "tuesday": [...], ...}
+     *
      * @param timetable The data of the timetable
      */
-    public static void setTimetable(Context context, JSONObject timetable) {
-        timetable = Helper.getTimetableWithCustomVersion(context, timetable);
+    public void displayTimetable(JSONObject timetable) {
+        timetable = Helper.getTimetableWithCustomVersion(getActivity(), timetable);
         try {
             JSONArray monday = timetable.getJSONArray("monday");
             JSONArray tuesday = timetable.getJSONArray("tuesday");
@@ -110,6 +107,39 @@ public class TimetableFragment extends Fragment {
         } catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.toString());
         }
+    }
+
+    /**
+     * Set the values for the specified day
+     *
+     * @param day  The day to set the values for
+     * @param data The lessons on the specified day
+     */
+    public void setDay(String day, JSONArray data) {
+        try {
+            Resources res = view.getResources();
+            for (int i = 1; i <= 11; i++) {
+                String viewId = day.substring(0, 2) + i;
+
+                int identifier = res.getIdentifier(viewId, "id", getActivity().getPackageName());
+                int subjectId = Helper.getSubjectId(data.getString(i - 1));
+
+                TextView lesson = (TextView) view.findViewById(identifier);
+                String lessonIdentifier = subjectId == 0 ? data.getString(i - 1) : getActivity().getString(subjectId);
+                lesson.setText(lessonIdentifier);
+            }
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, e.getLocalizedMessage());
+        }
+    }
+
+    public void setTimetable(JSONObject timetable) {
+        this.timetable = timetable;
+        updateTimetable();
+    }
+
+    public void updateTimetable() {
+        displayTimetable(timetable);
     }
 
     public static boolean isTimetablePresent(JSONObject timetable) {
@@ -139,30 +169,9 @@ public class TimetableFragment extends Fragment {
         return false;
     }
 
-    /**
-     * Set the values for the specified day
-     * @param day The day to set the values for
-     * @param data The lessons on the specified day
-     */
-    public static void setDay(String day, JSONArray data) {
-        try {
-            Resources res = mInflater.getResources();
-            for (int i = 1; i <= 11; i++) {
-                String viewId = day.substring(0, 2) + i;
-
-                int identifier = res.getIdentifier(viewId, "id", mActivity.getPackageName());
-                int subjectId = Helper.getSubjectId(data.getString(i - 1));
-
-                View view = mInflater.findViewById(identifier);
-                TextView lesson = (TextView) view;
-
-                lesson.setText(subjectId == 0 ? data.getString(i - 1): mActivity.getString(subjectId));
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            Log.e(Helper.LOGTAG, e.getLocalizedMessage());
-        }
+    public static TimetableFragment newInstance(JSONObject timetable) {
+        TimetableFragment tf = new TimetableFragment();
+        tf.timetable = timetable;
+        return tf;
     }
-
-
 }

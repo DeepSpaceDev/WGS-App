@@ -65,6 +65,7 @@ public class SelectChildActivity extends AppCompatActivity {
             CardView card = new CardView(this);
             card.setLayoutParams(layoutParamsCard);
             card.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+            card.setOnClickListener(clickListener);
 
             TextView name = new TextView(this);
             name.setLayoutParams(layoutParamsTextView);
@@ -72,7 +73,6 @@ public class SelectChildActivity extends AppCompatActivity {
             name.setTextColor(getResources().getColor(R.color.white));
             name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             name.setPadding(Helper.dpToPixel(8, this), Helper.dpToPixel(8, this), Helper.dpToPixel(8, this), Helper.dpToPixel(8, this));
-            name.setOnClickListener(clickListener);
 
             card.addView(name);
             container.addView(card);

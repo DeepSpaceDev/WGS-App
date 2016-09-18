@@ -761,7 +761,7 @@ public class Helper {
             PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 
             if (pendingIntent != null) { //Item is not bought
-                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), 1001, new Intent(), 0, 0, 0);
+                activity.startIntentSenderForResult(pendingIntent.getIntentSender(), PortalActivity.REMOVE_ADS, new Intent(), 0, 0, 0);
             } else { //Item is bought by user
                 Bundle ownedItems = PortalActivity.mService.getPurchases(3, activity.getPackageName(), "inapp", "");
                 ArrayList myPurchases = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
@@ -903,9 +903,9 @@ public class Helper {
         return null;
     }
 
-    public static JSONObject getTimetableWithCustomVersion(Context context, JSONObject fetchedTimetable) {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    public static JSONObject getTimetableWithCustomVersion(Activity activity, JSONObject fetchedTimetable) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(
+                activity.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String customJSON = sharedPref.getString(CUSTOM_TIMETABLE, null);
         if (customJSON == null)
             return fetchedTimetable;

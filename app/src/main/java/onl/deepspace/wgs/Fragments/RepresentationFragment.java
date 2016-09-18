@@ -1,12 +1,12 @@
 package onl.deepspace.wgs.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +27,54 @@ import onl.deepspace.wgs.fragments.representation.RepresentationItem;
  */
 public class RepresentationFragment extends Fragment {
 
-    public static JSONObject representation;
-    static Activity mActivity;
-    static View mInflater;
-    static ListViewRepresentation listViewTodayAdapter, listViewTomorrowAdapter;
+    private JSONObject representation;
+
+    View view;
+    ListViewRepresentation listViewTodayAdapter, listViewTomorrowAdapter;
 
     public RepresentationFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_representation, container, false);
+
+        if (Helper.getHasNoAds(getContext())) {
+            TextView representations = (TextView) view.findViewById(R.id.representations_disclaimer);
+            representations.setPadding(representations.getPaddingLeft(), representations.getPaddingTop(), representations.getPaddingRight(), 8);
+        }
+
+        // Recyclers
+        // Today
+        RecyclerView representationToday = (RecyclerView) view.findViewById(R.id.recycler_today);
+        listViewTodayAdapter = new ListViewRepresentation(getContext());
+
+        representationToday.setLayoutManager(new LinearLayoutManager(getContext()));
+        representationToday.setItemAnimator(new DefaultItemAnimator());
+        representationToday.setAdapter(listViewTodayAdapter);
+
+        //Tomorrow
+        RecyclerView representationTomorrow = (RecyclerView) view.findViewById(R.id.recycler_tomorrow);
+        listViewTomorrowAdapter = new ListViewRepresentation(getContext());
+
+        representationTomorrow.setLayoutManager(new LinearLayoutManager(getContext()));
+        representationTomorrow.setItemAnimator(new DefaultItemAnimator());
+        representationTomorrow.setAdapter(listViewTomorrowAdapter);
+
+
+        //Execute
+        displayRepresentations(representation);
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateRepresentation();
     }
 
     /**
@@ -45,7 +86,7 @@ public class RepresentationFragment extends Fragment {
      *
      * @param representations The data of the representations
      */
-    public static void setRepresentations(JSONObject representations) {
+    public void displayRepresentations(JSONObject representations) {
         try {
             JSONObject today = representations.getJSONObject("today");
             JSONObject tomorrow = representations.getJSONObject("tomorrow");
@@ -56,16 +97,19 @@ public class RepresentationFragment extends Fragment {
 
             String refresh = representations.getString("lastrefresh");
             refresh = refresh.trim();
-            String hour = refresh.substring(34, 39);
-            String date = refresh.substring(22, 29);
-
-            ((TextView) mInflater.findViewById(R.id.updated)).setText(String.format("%s %s %s", mActivity.getString(R.string.updated_at), date, hour));
+            try{
+                String hour = refresh.substring(34, 39);
+                String date = refresh.substring(22, 29);
+                ((TextView) view.findViewById(R.id.updated)).setText(String.format("%s %s %s", getActivity().getString(R.string.updated_at), date, hour));
+            } catch (StringIndexOutOfBoundsException e){
+                //Hotfix portal wrong json
+                Log.e(Helper.LOGTAG, "Wrong lastrefresh JSON");
+            }
 
             addRepresentations("today", today.getJSONArray("data"));
             addRepresentations("tomorrow", tomorrow.getJSONArray("data"));
 
-        } catch (JSONException | StringIndexOutOfBoundsException e) {
-            //Hotfix portal wrong json
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -76,7 +120,7 @@ public class RepresentationFragment extends Fragment {
      * @param day  The day to set the values for
      * @param data The lessons on the specified day
      */
-    public static void addRepresentations(String day, JSONArray data) throws JSONException {
+    public void addRepresentations(String day, JSONArray data) throws JSONException {
 
         ListViewRepresentation adapter = (day.equals("today") ? listViewTodayAdapter : listViewTomorrowAdapter);
 
@@ -94,10 +138,10 @@ public class RepresentationFragment extends Fragment {
 
         if(data.length() > 0) {
             if(day.equals("today")) {
-                CardView noToday = (CardView) mInflater.findViewById(R.id.no_representation_today);
+                CardView noToday = (CardView) view.findViewById(R.id.no_representation_today);
                 noToday.setVisibility(View.GONE);
             } else {
-                CardView noTomorrow = (CardView) mInflater.findViewById(R.id.no_representation_tomorrow);
+                CardView noTomorrow = (CardView) view.findViewById(R.id.no_representation_tomorrow);
                 noTomorrow.setVisibility(View.GONE);
             }
         }
@@ -105,7 +149,7 @@ public class RepresentationFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-    public static void clearRepresentations() {
+    public void clearRepresentations() {
 
         listViewTodayAdapter.reset();
         listViewTodayAdapter.notifyDataSetChanged();
@@ -114,23 +158,23 @@ public class RepresentationFragment extends Fragment {
         listViewTomorrowAdapter.notifyDataSetChanged();
 
 
-        CardView noToday = (CardView) mInflater.findViewById(R.id.no_representation_today);
-        CardView noTomorrow = (CardView) mInflater.findViewById(R.id.no_representation_tomorrow);
+        CardView noToday = (CardView) view.findViewById(R.id.no_representation_today);
+        CardView noTomorrow = (CardView) view.findViewById(R.id.no_representation_tomorrow);
 
         noToday.setVisibility(View.VISIBLE);
         noTomorrow.setVisibility(View.VISIBLE);
     }
 
-    public static void setDates(String today, String tomorrow) {
-        TextView todayView = (TextView) mInflater.findViewById(R.id.dateToday);
-        TextView tomorrowView = (TextView) mInflater.findViewById(R.id.dateTomorrow);
+    public void setDates(String today, String tomorrow) {
+        TextView todayView = (TextView) view.findViewById(R.id.dateToday);
+        TextView tomorrowView = (TextView) view.findViewById(R.id.dateTomorrow);
 
         //Heute, dd. DD.MM.YYYY
-        String todayDate = mActivity.getString(
+        String todayDate = getActivity().getString(
                 R.string.today,
                 today.substring(0, today.length() - 20) +
                         today.substring(today.length() - 19, today.length() - 8));
-        String tomorrowDate = mActivity.getString(
+        String tomorrowDate = getActivity().getString(
                 R.string.tomorrow,
                 tomorrow.substring(0, tomorrow.length() - 20) +
                         tomorrow.substring(tomorrow.length() - 19, tomorrow.length() - 8));
@@ -139,51 +183,23 @@ public class RepresentationFragment extends Fragment {
         tomorrowView.setText(tomorrowDate);
     }
 
-    public static void setActivity(Activity mActivity) {
-        RepresentationFragment.mActivity = mActivity;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        mInflater = inflater.inflate(R.layout.fragment_representation, container, false);
-
-        if (Helper.getHasNoAds(getContext())) {
-            TextView representations = (TextView) mInflater.findViewById(R.id.representations_disclaimer);
-            representations.setPadding(representations.getPaddingLeft(), representations.getPaddingTop(), representations.getPaddingRight(), 8);
-        }
-
-        // Recyclers
-        // Today
-        RecyclerView representationToday = (RecyclerView) mInflater.findViewById(R.id.recycler_today);
-        listViewTodayAdapter = new ListViewRepresentation(getContext());
-
-        representationToday.setLayoutManager(new LinearLayoutManager(getContext()));
-        representationToday.setItemAnimator(new DefaultItemAnimator());
-        representationToday.setAdapter(listViewTodayAdapter);
-
-        //Tomorrow
-        RecyclerView representationTomorrow = (RecyclerView) mInflater.findViewById(R.id.recycler_tomorrow);
-        listViewTomorrowAdapter = new ListViewRepresentation(getContext());
-
-        representationTomorrow.setLayoutManager(new LinearLayoutManager(getContext()));
-        representationTomorrow.setItemAnimator(new DefaultItemAnimator());
-        representationTomorrow.setAdapter(listViewTomorrowAdapter);
-
-        /*listViewTodayAdapter.add(new RepresentationItem("Englisch", "entfällt", "7:45 - 8:30", "D105"));
-        listViewTodayAdapter.add(new RepresentationItem("Deutsch", "entfällt", "8:30 - 9:15", "A206"));
-        listViewTodayAdapter.notifyDataSetChanged();*/
-
-
-        //Execute
-        setRepresentations(representation);
-
-        return mInflater;
-    }
-
     public void notifyColorChange() {
         listViewTodayAdapter.notifyDataSetChanged();
         listViewTomorrowAdapter.notifyDataSetChanged();
+    }
+
+    public void setRepresentation(JSONObject representation) {
+        this.representation = representation;
+        updateRepresentation();
+    }
+
+    public void updateRepresentation(){
+        displayRepresentations(this.representation);
+    }
+
+    public static RepresentationFragment newInstance(JSONObject representation) {
+        RepresentationFragment rf = new RepresentationFragment();
+        rf.representation = representation;
+        return rf;
     }
 }

@@ -41,37 +41,34 @@ import onl.deepspace.wgs.fragments.RepresentationFragment;
 import onl.deepspace.wgs.fragments.TimetableFragment;
 import onl.deepspace.wgs.portalupdate.AlarmReceiver;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
 public class PortalActivity extends AppCompatActivity
         implements BottomAction.OnFragmentInteractionListener {
 
     public static final int PICK_CHILD_REQUEST = 1;
-    private static final int CHANGE_COLOR_REQUEST = 2;
     public static final int CUSTOM_TIMETABLE_REQUEST = 3;
+    private static final int CHANGE_COLOR_REQUEST = 2;
     private static final String INAPP_PURCHASE_DATA = "INAPP_PURCHASE_DATA";
-    private FoodMenuFragment foodMenuFragement;
-    private RepresentationFragment representationFragment;
-    private TimetableFragment timetableFragment;
-    //private static final String INAPP_DATA_SIGNATURE = "INAPP_DATA_SIGNATURE";
-    //private static final String RESPONSE_CODE = "RESPONSE_CODE";
+    public static final int REMOVE_ADS = 1001;
+
+    public static IInAppBillingService mService;
+    static ServiceConnection mServiceConn;
+
+    private Runnable updateData;
 
     AlarmReceiver mAlarm = new AlarmReceiver();
     JSONArray mChildren;
     AdView mAdView;
 
-    static ServiceConnection mServiceConn;
-    public static IInAppBillingService mService;
+    private RepresentationFragment representationFragment;
+    private TimetableFragment timetableFragment;
+
+    private static JSONObject timetable, representation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //EXTRAS verarbeitung
-        TimetableFragment.setActivity(this);
-        RepresentationFragment.setActivity(this);
         setContentView(R.layout.activity_portal);
-
 
         // AdMob
         if (!Helper.getHasNoAds(getBaseContext())) {
@@ -156,11 +153,6 @@ public class PortalActivity extends AppCompatActivity
         if (Helper.getEmail(this) != null & Helper.getPw(this) != null)
             mAlarm.setAlarm(this);
 
-        //EXTRAS verarbeitung
-        TimetableFragment.setActivity(this);
-        RepresentationFragment.setActivity(this);
-
-
         //Handle multiple childs
         Bundle extras = getIntent().getExtras();
         try {
@@ -170,6 +162,7 @@ public class PortalActivity extends AppCompatActivity
             selectChild(childIndex);
 
             showTutorial(mChildren.length() > 1);
+
         } catch (JSONException e) {
             Log.e(Helper.LOGTAG, e.toString());
         }
@@ -177,7 +170,7 @@ public class PortalActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1001) {
+        if (requestCode == REMOVE_ADS) {
             //int responseCode = data.getIntExtra(RESPONSE_CODE, 0);
             String purchaseData = data.getStringExtra(INAPP_PURCHASE_DATA);
             //String dataSignature = data.getStringExtra(INAPP_DATA_SIGNATURE);
@@ -211,7 +204,7 @@ public class PortalActivity extends AppCompatActivity
             int childIndex = data.getIntExtra(Helper.CHILD_INDEX, 0);
 
             Helper.setChildIndex(this, childIndex);
-            selectChild(childIndex, true);
+            selectChild(childIndex);
         }
         if (requestCode == CHANGE_COLOR_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -223,61 +216,11 @@ public class PortalActivity extends AppCompatActivity
         if (requestCode == CUSTOM_TIMETABLE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 // Force reset
-                TimetableFragment.setTimetable(this, TimetableFragment.timetable);
+                timetableFragment.updateTimetable();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(
                         this, R.string.timetable_changes_discarded, Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private void showTutorial(boolean multipleChildren) {
-        Log.d(Helper.LOGTAG, "Muliple Children: " + multipleChildren);
-
-        int pseudoId = multipleChildren ? R.id.pseudo_cover_icon_multiple : R.id.pseudo_cover_icon_single;
-
-        TutoShowcase.from(this)
-                .setContentView(R.layout.tutorial_portal)
-                .on(pseudoId)
-                .addRoundRect()
-                .withBorder()
-
-                .on(R.id.container)
-                .displaySwipableRight()
-                .animated(true)
-                .showOnce(Helper.PREF_PORTAL_TUTORIAL);
-
-        if(!multipleChildren) ((TextView) findViewById(R.id.tutorial_text_1)).setText(R.string.tutorial_click_menu_single);
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private void selectChild(int index, boolean... update) {
-        try {
-            if (index + 1 > mChildren.length()) {
-                index = 0;
-            }
-            JSONObject child = mChildren.getJSONObject(index);
-            Log.d(Helper.LOGTAG, child.toString());
-
-            String name = child.getString(Helper.API_RESULT_NAME);
-            ActionBar bar = getSupportActionBar();
-            if (bar != null) bar.setTitle(name);
-            JSONObject timetable = child.getJSONObject(Helper.API_RESULT_TIMETABLE);
-            JSONObject representations = child.getJSONObject(Helper.API_RESULT_REPRESENTATION);
-
-            TimetableFragment.timetable = timetable;
-            RepresentationFragment.representation = representations;
-
-            if (update.length > 0) { //Array out of bounds if launched via onCreate
-                if (update[0]) {
-                    TimetableFragment.setTimetable(this, TimetableFragment.timetable);
-                    RepresentationFragment
-                            .setRepresentations(RepresentationFragment.representation);
-                }
-            }
-
-        } catch (JSONException e) {
-            Log.e(Helper.LOGTAG, e.getMessage());
         }
     }
 
@@ -378,6 +321,62 @@ public class PortalActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(updateData != null) updateData.run();
+    }
+
+    private void showTutorial(boolean multipleChildren) {
+        Log.d(Helper.LOGTAG, "Muliple Children: " + multipleChildren);
+
+        int pseudoId = multipleChildren ? R.id.pseudo_cover_icon_multiple : R.id.pseudo_cover_icon_single;
+
+        TutoShowcase.from(this)
+                .setContentView(R.layout.tutorial_portal)
+                .on(pseudoId)
+                .addRoundRect()
+                .withBorder()
+
+                .on(R.id.container)
+                .displaySwipableRight()
+                .animated(true)
+                .showOnce(Helper.PREF_PORTAL_TUTORIAL);
+
+        if (!multipleChildren)
+            ((TextView) findViewById(R.id.tutorial_text_1)).setText(R.string.tutorial_click_menu_single);
+    }
+
+    private void selectChild(int index) {
+        try {
+            if (index + 1 > mChildren.length()) {
+                index = 0;
+            }
+            JSONObject child = mChildren.getJSONObject(index);
+            Log.d(Helper.LOGTAG, child.toString());
+
+            String name = child.getString(Helper.API_RESULT_NAME);
+            ActionBar bar = getSupportActionBar();
+            if (bar != null) bar.setTitle(name);
+
+            timetable = child.getJSONObject(Helper.API_RESULT_TIMETABLE);
+            representation = child.getJSONObject(Helper.API_RESULT_REPRESENTATION);
+
+            updateData = new Runnable() {
+                @Override
+                public void run() {
+                    if (timetableFragment != null && representationFragment != null) {
+                        timetableFragment.setTimetable(timetable);
+                        representationFragment.setRepresentation(representation);
+                    }
+                }
+            };
+
+        } catch (JSONException e) {
+            Log.e(Helper.LOGTAG, e.getMessage());
+        }
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -392,11 +391,11 @@ public class PortalActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return representationFragment = new RepresentationFragment();
+                    return representationFragment = RepresentationFragment.newInstance(representation);
                 case 1:
-                    return foodMenuFragement = new FoodMenuFragment();
+                    return new FoodMenuFragment();
                 case 2:
-                    return timetableFragment = new TimetableFragment();
+                    return timetableFragment = TimetableFragment.newInstance(timetable);
             }
             return null;
         }
