@@ -10,33 +10,60 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import onl.deepspace.wgs.BuildConfig;
 import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
 import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
 
 public class LoginActivity extends AppCompatActivity implements OnTaskCompletedInterface<String> {
 
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Firebase Remote Config
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        // [START enable_dev_mode]
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        // [END enable_dev_mode]
 
-        String savedPw = Helper.getPw(this);
-        String savedEmail = Helper.getEmail(this);
+        // [START set_default_values]
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        // [END set_default_values]
 
-        // Helper.fixLayout(this);
+        boolean portalFailure = mFirebaseRemoteConfig.getBoolean("current_portal_failure");
 
-        if (!(savedPw.equals("") && savedEmail.equals(""))) {
-            new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
-            setContentView(R.layout.activity_loading);
+        if (!portalFailure) {
+            String savedPw = Helper.getPw(this);
+            String savedEmail = Helper.getEmail(this);
+
+            // Helper.fixLayout(this);
+
+            if (!(savedPw.equals("") && savedEmail.equals(""))) {
+                new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
+                setContentView(R.layout.activity_loading);
+            } else {
+                setUpLogin();
+            }
         } else {
-            setUpLogin();
+            Toast.makeText(this, "Das Eltern Portal hat zurzeit eine internen Fehler",
+                    Toast.LENGTH_SHORT).show();
+            setUpTryAgain();
         }
+
     }
 
     public void login(String email, String pw) {
@@ -109,23 +136,29 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
     private void setUpTryAgain() {
         setContentView(R.layout.activity_try_again);
         final Activity activity = this;
+        boolean portalFailure = mFirebaseRemoteConfig.getBoolean("current_portal_failure");
 
-        findViewById(R.id.try_again_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String savedPw = Helper.getPw(activity);
-                String savedEmail = Helper.getEmail(activity);
-                new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
-                setContentView(R.layout.activity_loading);
-            }
-        });
+        if (!portalFailure) {
+            findViewById(R.id.try_again_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String savedPw = Helper.getPw(activity);
+                    String savedEmail = Helper.getEmail(activity);
+                    new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
+                    setContentView(R.layout.activity_loading);
+                }
+            });
+        } else {
+            Toast.makeText(this, "Das Eltern Portal hat zurzeit eine internen Fehler",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUpLogin() {
         setContentView(R.layout.activity_login);
 
-        TextView loginhint = (TextView) findViewById(R.id.loginhint);
-        loginhint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+        TextView loginHint = (TextView) findViewById(R.id.loginhint);
+        loginHint.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
 
         findViewById(R.id.email_sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override

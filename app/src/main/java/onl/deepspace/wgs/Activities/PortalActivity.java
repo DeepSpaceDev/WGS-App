@@ -366,7 +366,7 @@ public class PortalActivity extends AppCompatActivity
     }
 
     private void showTutorial(boolean multipleChildren) {
-        Log.d(Helper.LOGTAG, "Muliple Children: " + multipleChildren);
+        Log.d(Helper.LOGTAG, "Multiple Children: " + multipleChildren);
 
         int pseudoId = multipleChildren ? R.id.pseudo_cover_icon_multiple : R.id.pseudo_cover_icon_single;
 

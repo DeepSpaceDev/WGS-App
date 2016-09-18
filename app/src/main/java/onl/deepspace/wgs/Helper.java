@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
@@ -21,7 +22,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -58,6 +63,8 @@ public class Helper {
     public static final String EVENT_REMOVE_ADS = "remove_ads";
     public static final String EVENT_REMOVE_ADS_CANCELED = "remove_ads_canceled";
     public static final String EVENT_CHANGE_CHILD = "change_child";
+    public static final String EVENT_BACKGROUND_SYNC = "background_sync";
+    public static final String EVENT_BACKGROUND_SYNC_NOTIFICATION = "background_sync_notification";
 
     public static final String USER_PROPERTY_CLASS = "class";
     public static final String USER_PROPERTY_GRADE = "grade";
@@ -927,6 +934,23 @@ public class Helper {
         for (int i = 0; i < topicsToUnsubscribe.size(); i++) {
             unsubscribeFromFirebaseTopic(context, topicsToUnsubscribe.get(i));
         }
+    }
+
+    public static void fetchRemoteConfig(final FirebaseRemoteConfig remoteConfig) {
+        int cacheExpiration = 3600; // 1 hour in seconds
+        if (remoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
+        }
+        remoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    remoteConfig.activateFetched();
+                } else {
+                    FirebaseCrash.log("Remote config fetch failed.");
+                }
+            }
+        });
     }
 
     public static void setPw(Context context, String pw) {

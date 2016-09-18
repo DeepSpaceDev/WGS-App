@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>current_portal_failure</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>update_interval</key>
+        <value>240</value>
+    </entry>
+    <entry>
+        <key>portal_api</key>
+        <value>http://api.deepspace.onl/wgs/v3</value>
+    </entry>
+    <entry>
+        <key>portal_feedback_api</key>
+        <value>http://api.deepspace.onl/wgs/feedback</value>
+    </entry>
+</defaultsMap>
+    <!-- END xml_defaults -->

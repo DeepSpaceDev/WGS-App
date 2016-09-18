@@ -2,7 +2,10 @@ package onl.deepspace.wgs.portalupdate;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,8 +62,13 @@ public class PortalPullService extends IntentService {
 
                     if(checkForChanges(fRepresentations, cRepresentations)) updatedNames.add(name);
                 }
-
-                if (updatedNames.size() > 0) showNewRepresentation(updatedNames);
+                boolean updatedRepresentations = updatedNames.size() > 0;
+                if (updatedRepresentations) showNewRepresentation(updatedNames);
+                // Firebase Analytics Event
+                FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(Helper.EVENT_BACKGROUND_SYNC_NOTIFICATION, updatedRepresentations);
+                analytics.logEvent(Helper.EVENT_BACKGROUND_SYNC, bundle);
 
             } catch (JSONException e) {
                 Log.e(Helper.LOGTAG, e.getMessage());
