@@ -41,7 +41,6 @@ public class PortalPullService extends IntentService {
         String fetchedResult = Helper.loginToPortal(email, pw, true);
         String cachedResult = Helper.getApiResult(this);
 
-        //TODO rewrite for new API version
         if(!fetchedResult.equals(cachedResult)) {
             try {
                 JSONObject fetched = new JSONObject(fetchedResult);
@@ -53,6 +52,7 @@ public class PortalPullService extends IntentService {
                 ArrayList<String> updatedNames = new ArrayList<>();
 
                 for(int i=0; i<cChildren.length(); i++) {
+                    // Get name with class
                     String name = fChildren.getJSONObject(i).getString(Helper.API_RESULT_NAME);
                     JSONObject fRepresentations = fChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);
                     JSONObject cRepresentations = cChildren.getJSONObject(i).getJSONObject(REPRESENTATIONS);

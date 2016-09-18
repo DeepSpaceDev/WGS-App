@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +54,7 @@ public class TimetableFragment extends Fragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.onHiddenChanged(isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             if (!isTimetablePresent(timetable)) {
                 //Needed because setUserVisibleHint is called before onCreateView
@@ -81,6 +83,9 @@ public class TimetableFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateTimetable();
+
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        firebaseAnalytics.logEvent(Helper.EVENT_SHOW_TIMETABLE, new Bundle());
     }
 
     /**

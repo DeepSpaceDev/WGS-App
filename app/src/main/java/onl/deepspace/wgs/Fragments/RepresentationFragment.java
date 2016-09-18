@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +77,9 @@ public class RepresentationFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateRepresentation();
+
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        firebaseAnalytics.logEvent(Helper.EVENT_SHOW_REPRESENTATIONS, new Bundle());
     }
 
     /**

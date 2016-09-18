@@ -26,6 +26,7 @@ import com.android.vending.billing.IInAppBillingService;
 import com.github.florent37.tutoshowcase.TutoShowcase;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +60,7 @@ public class PortalActivity extends AppCompatActivity
     JSONArray mChildren;
     AdView mAdView;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private RepresentationFragment representationFragment;
     private TimetableFragment timetableFragment;
 
@@ -69,6 +71,9 @@ public class PortalActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         //EXTRAS verarbeitung
         setContentView(R.layout.activity_portal);
+
+        // Get Firebase Analytics Instance
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         // AdMob
         if (!Helper.getHasNoAds(getBaseContext())) {
@@ -161,6 +166,9 @@ public class PortalActivity extends AppCompatActivity
             int childIndex = Helper.getChildIndex(this);
             selectChild(childIndex);
 
+            mFirebaseAnalytics.setUserProperty(
+                    Helper.USER_PROPERTY_CHILDREN_COUNT, String.valueOf(mChildren.length()));
+
             showTutorial(mChildren.length() > 1);
 
         } catch (JSONException e) {
@@ -196,12 +204,15 @@ public class PortalActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
             } else {
+                mFirebaseAnalytics.logEvent(Helper.EVENT_REMOVE_ADS_CANCELED, new Bundle());
                 Toast.makeText(PortalActivity.this,
                         "Failed to parse purchase.", Toast.LENGTH_LONG).show();
             }
         }
         if (requestCode == PICK_CHILD_REQUEST) {
             int childIndex = data.getIntExtra(Helper.CHILD_INDEX, 0);
+
+            mFirebaseAnalytics.logEvent(Helper.EVENT_CHANGE_CHILD, new Bundle());
 
             Helper.setChildIndex(this, childIndex);
             selectChild(childIndex);
@@ -210,6 +221,8 @@ public class PortalActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 if (representationFragment != null) {
                     representationFragment.notifyColorChange();
+
+                    mFirebaseAnalytics.logEvent(Helper.EVENT_CHANGE_SUBJECT_COLORS, new Bundle());
                 }
             }
         }
@@ -217,6 +230,8 @@ public class PortalActivity extends AppCompatActivity
             if (resultCode == RESULT_OK) {
                 // Force reset
                 timetableFragment.updateTimetable();
+
+                mFirebaseAnalytics.logEvent(Helper.EVENT_CHANGE_TIMETABLE, new Bundle());
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(
                         this, R.string.timetable_changes_discarded, Toast.LENGTH_SHORT).show();
@@ -299,6 +314,8 @@ public class PortalActivity extends AppCompatActivity
                 break;
             }
             case R.id.action_remads:
+                mFirebaseAnalytics.logEvent(Helper.EVENT_REMOVE_ADS, new Bundle());
+
                 Helper.purchaseNoAd(this);
                 break;
             case R.id.action_feature_request: {
@@ -356,6 +373,13 @@ public class PortalActivity extends AppCompatActivity
             Log.d(Helper.LOGTAG, child.toString());
 
             String name = child.getString(Helper.API_RESULT_NAME);
+
+            // Set Firebase Analytics user properties
+            String childClass = name.split(",")[1].trim();
+            String childGrade = childClass.split("[a-z]")[0];
+            mFirebaseAnalytics.setUserProperty(Helper.USER_PROPERTY_CLASS, childClass);
+            mFirebaseAnalytics.setUserProperty(Helper.USER_PROPERTY_GRADE, childGrade);
+
             ActionBar bar = getSupportActionBar();
             if (bar != null) bar.setTitle(name);
 

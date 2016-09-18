@@ -11,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.io.IOException;
 import java.net.URL;
 
-import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
+import onl.deepspace.wgs.Helper;
 import onl.deepspace.wgs.R;
+import onl.deepspace.wgs.interfaces.OnTaskCompletedInterface;
 
 public class FoodMenuFragment extends Fragment implements OnTaskCompletedInterface<Bitmap> {
 
@@ -32,6 +35,14 @@ public class FoodMenuFragment extends Fragment implements OnTaskCompletedInterfa
         LoadImageFromWebOperations("https://welfen.eltern-portal.org/files/ep_speisenplan_img-0.jpg");
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+        firebaseAnalytics.logEvent(Helper.EVENT_SHOW_FOOD_MENU, new Bundle());
     }
 
     @SuppressWarnings("SameParameterValue")

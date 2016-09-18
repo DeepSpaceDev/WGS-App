@@ -47,6 +47,19 @@ import onl.deepspace.wgs.bottomaction.BottomAction;
 public class Helper {
     public static final int MILLIS_TO_DAYS = 1 / (1000 * 60 * 60 * 24);
 
+    public static final String USER_PROPERTY_CLASS = "class";
+    public static final String USER_PROPERTY_GRADE = "grade";
+    public static final String USER_PROPERTY_CHILDREN_COUNT = "children_count";
+
+    public static final String EVENT_SHOW_REPRESENTATIONS = "show_representations";
+    public static final String EVENT_SHOW_FOOD_MENU = "show_food_menu";
+    public static final String EVENT_SHOW_TIMETABLE = "show_timetable";
+    public static final String EVENT_SHOW_ABOUT = "show_about";
+    public static final String EVENT_CHANGE_TIMETABLE = "change_timetable";
+    public static final String EVENT_CHANGE_SUBJECT_COLORS = "change_subject_colors";
+    public static final String EVENT_REMOVE_ADS = "remove_ads";
+    public static final String EVENT_REMOVE_ADS_CANCELED = "remove_ads_canceled";
+    public static final String EVENT_CHANGE_CHILD = "change_child";
 
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
