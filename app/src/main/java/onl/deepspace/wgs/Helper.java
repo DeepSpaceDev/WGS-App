@@ -576,7 +576,7 @@ public class Helper {
     }
 
     public static int getColorId(Context context, String subject) {
-        int id = 0;
+        int id;
         subject = subject.replaceAll("[0-9]", "");
         subject = subject.toUpperCase();
         // Try to get user preferred color
@@ -683,6 +683,7 @@ public class Helper {
                 case "IC":
                     id = R.color.purple_500;
                     break;
+                default: id = R.color.red_500;
             }
         }
         return id;
