@@ -82,7 +82,7 @@ public class Helper {
     public static final String CHILD_INDEX = "childIndex";
     public static final String CHILDREN = "children";
     public static final String PREF_PORTAL_TUTORIAL = "prefPortalTutorial";
-    public static final String WGSPortalAPI = "http://api.deepspace.onl/wgs/v3";
+    public static final String WGSPortalAPI = "https://api.deepspace.onl/wgs/v3";
     public static final String WGSPortalAPI_USERNAME = "username";
     public static final String WGSPortalAPI_PASSWORD = "password";
     public static final String WGSPortalAPI_TOKEN = "token";
@@ -121,7 +121,7 @@ public class Helper {
     public static String BOTTOM_ACTION_HINT = "hint";
     public static String BOTTOM_ACTION_ADDITIONAL = "additional";
     public static String BOTTOM_ACTION_DAYS_AFTER = "daysAfter";
-    public static String API_RESULT = "onl.deepspace.wgs.api_result";
+    static String API_RESULT = "onl.deepspace.wgs.api_result";
     public static String CUSTOM_TIMETABLE = "customTimetable";
 
     public static boolean isNetworkAvailable(Activity activity) {
@@ -708,35 +708,56 @@ public class Helper {
         return id;
     }
 
+    /**
+     * Diese Methode gibt nach dem Einloggen auf der Portals-Webseite Informationen als JSON Datei
+     * zurück. Informationen enthalten über Erfolg des Logins, so wie specifische Informationen
+     * bezüglich der in diesem Account registrierten Kinder. Diese sind: Name, Stundenplan,
+     * heutigen und morgigen Vertetungen des Kindes,
+     * sowie die letzte Aktualisierung der Vertretungen.
+     * @param username Der Nutzername mit dem der Nutzer der App sich im Portal einloggen würde
+     * @param password Das Passwort zu dem Nutzer
+     * @param autorefresh Ob der Request auf einen automatischen Zugriff zurück zu führen ist
+     * @return Der JSON Text des Requests
+     */
     public static String loginToPortal(String username, String password, boolean autorefresh) {
-        String url = WGSPortalAPI;
         String result = "";
         BufferedReader inStream = null;
         try {
+            // HTTP Client für HTTP Request
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpRequest = new HttpPost(url);
-            List<NameValuePair> nameValuePairList = new ArrayList<>(3);
+            // Definiere HTTP Request Methode als POST wegen des versteckten Inhalts
+            HttpPost httpRequest = new HttpPost(WGSPortalAPI);
+            // Vorbereiten des HTTP POST Inhalts als Liste
+            List<NameValuePair> nameValuePairList = new ArrayList<>();
+            // Setzen des Nutzernamens
             nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_USERNAME, username));
+            // Setzen des Passwortes
             nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_PASSWORD, password));
+            // Setzen des API Token für Identifizierung der App
             nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_TOKEN, API_TOKEN));
+            // Setzen eines Werts für statistische Überprüfung,
+            // ob die Anfrage direkt zurück auf eine Nutzerinteraktion zu führen ist
             if (autorefresh)
                 nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_AUTOREFRESH, "1"));
-            nameValuePairList.add(new BasicNameValuePair(WGSPortalAPI_VERSION, BuildConfig.VERSION_CODE + ""));
-
+            // Setzen der App version zur statistischen Analyse
+            nameValuePairList.add(
+                    new BasicNameValuePair(WGSPortalAPI_VERSION, BuildConfig.VERSION_CODE + ""));
+            // Setzen des HTTP POST Inhalts
             httpRequest.setEntity(new UrlEncodedFormEntity(nameValuePairList));
+            // Ausführen des HTTP Requests
             HttpResponse response = httpClient.execute(httpRequest);
-            inStream = new BufferedReader(
-                    new InputStreamReader(
-                            response.getEntity().getContent()));
-
+            // Datenfluss der Antwort
+            inStream = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            // Konstruktion der HTTP Antwort
             StringBuilder buffer = new StringBuilder("");
             String line;
             String NL = System.getProperty("line.separator");
             while ((line = inStream.readLine()) != null) {
                 buffer.append(line).append(NL);
             }
+            // Schließen des Datenflusses
             inStream.close();
-
+            // Konvertierung der Antwort zu einem Text
             result = buffer.toString();
         } catch (Exception e) {
             Log.e(Helper.LOGTAG, e.toString());

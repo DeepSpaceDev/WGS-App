@@ -50,8 +50,6 @@ public class LoginActivity extends AppCompatActivity implements OnTaskCompletedI
             String savedPw = Helper.getPw(this);
             String savedEmail = Helper.getEmail(this);
 
-            // Helper.fixLayout(this);
-
             if (!(savedPw.equals("") && savedEmail.equals(""))) {
                 new GetUserData(LoginActivity.this).execute(savedEmail, savedPw);
                 setContentView(R.layout.activity_loading);
